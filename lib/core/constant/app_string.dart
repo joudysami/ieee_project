@@ -1,6 +1,7 @@
 abstract class AppString {
 // ======== Splash =======
- static const String splash =" static const String rememberMe";
+ static const String branch ="ET5 Student Branch";
+ static const String splash ="LEARN. BUILD. GROW.";
    // ==================== Login ====================
   static const String rememberMe = 'Remember me';
   static const String dontHaveAccount = "Don't have an account?";
