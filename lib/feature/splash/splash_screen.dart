@@ -37,7 +37,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 context.go('/loginScreen');
               },
             ),
-           // SizedBox(height: 100),
             FadeInLeft(
               duration: Duration(seconds: 3),
               child: Text(
@@ -45,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primaryColor,
+                  color: context.colors.primary,
                 ),
               ),
             ),
@@ -57,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color:AppColors.primaryColor,
+                  color:context.colors.primary,
                 ),
               ),
             ),
