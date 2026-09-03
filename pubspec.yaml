@@ -37,12 +37,12 @@ dependencies:
   go_router: ^18.0.0
   animate_do: ^5.1.0
   flutter_screenutil: ^5.9.3
-  flutter_native_splash: ^2.4.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  flutter_native_splash:
+  
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -90,3 +90,13 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/ieee_badge_1C4D8D_transparent.png
+  color_dark: "#121212"
+  image_dark: assets/ieee_badge_1C4D8D_transparent.png
+
+  android_12:
+    image: assets/ieee_badge_1C4D8D_transparent.png
+    color: "#FFFFFF"
+    color_dark: "#121212"
