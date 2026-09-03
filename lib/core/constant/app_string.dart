@@ -2,14 +2,20 @@ abstract class AppString {
   // ======== Splash =======
   static const String branch = "ET5 Student Branch";
   static const String splash = "LEARN. BUILD. GROW.";
+
   // ==================== Login ====================
+  static const String welcome = 'Welcome Back';
+  static const String continueToDashboard = 'Log in to continue to your dashboard.';
+  static const String email = 'Email Address';
+  static const String password = 'Password';
   static const String rememberMe = 'Remember me';
   static const String dontHaveAccount = "Don't have an account?";
   static const String enterYourEmail = 'Enter your email';
   static const String enterYourPassword = 'Enter your password';
   static const String forgetPassword = 'Forget password?';
-  // ==================== Validation ====================
+  static const String login = 'Login';
 
+  // ==================== Validation ====================
   static const String pleaseEnterYourEmail = 'Please enter your email';
   static const String pleaseEnterValidEmail = 'This Email is not valid';
   static const String passwordIsRequired = 'Password is required';

@@ -19,23 +19,17 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.colors.primary,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ZoomIn(
-              duration: Duration(seconds: 5),
-              child: Center(
-                child: Image.asset(
-                  AppIcons.appLogo_white,
-                  width: 200.w,
-                  height: 200.h,
-                ),
+            Center(
+              child: Image.asset(
+                AppIcons.appLogo_white,
+                width: 200.w,
+                height: 200.h,
               ),
-              onFinish: (dirction){
-                context.go('/loginScreen');
-              },
             ),
             FadeInLeft(
               duration: Duration(seconds: 3),
@@ -44,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: context.colors.primary,
+                  color: context.colors.white,
                 ),
               ),
             ),
@@ -56,9 +50,12 @@ class _SplashScreenState extends State<SplashScreen> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color:context.colors.primary,
+                  color:context.colors.white,
                 ),
               ),
+               onFinish: (dirction){
+                context.go('/loginScreen');
+              },
             ),
           
           ],

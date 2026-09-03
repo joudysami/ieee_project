@@ -37,6 +37,7 @@ dependencies:
   go_router: ^18.0.0
   animate_do: ^5.1.0
   flutter_screenutil: ^5.9.3
+  flutter_native_splash: ^2.4.8
 
 dev_dependencies:
   flutter_test:
