@@ -94,12 +94,12 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
 flutter_native_splash:
-  color: "#FFFFFF"
+  color: "#1C4D8D"
   image: assets/ieee_badge_1C4D8D_transparent.png
-  color_dark: "#121212"
+  color_dark: "#1C4D8D"
   image_dark: assets/ieee_badge_1C4D8D_transparent.png
 
   android_12:
     image: assets/ieee_badge_1C4D8D_transparent.png
-    color: "#FFFFFF"
-    color_dark: "#121212"
+    color: "#1C4D8D"
+    color_dark: "#1C4D8D"
