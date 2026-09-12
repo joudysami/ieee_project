@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ieee/core/constant/app_string.dart';
+import 'package:ieee/core/helpers/cache_help.dart';
 
 class AdminScreen extends StatelessWidget {
   const AdminScreen({super.key});
@@ -7,11 +10,20 @@ class AdminScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-      ),
-      body: const Center(
-        child: Text('Welcome to the Admin Screen!'),
+      appBar: AppBar(title: const Text('Home')),
+      body: Column(
+        children: [
+          TextButton(
+            onPressed: () async {
+              await CacheHelp.clearSession();
+              if (context.mounted) {
+                context.go('/loginScreen');
+              }
+            },
+            child: Text(AppString.signOut),
+          ),
+          const Center(child: Text('Welcome to the Admin Screen!')),
+        ],
       ),
     );
   }

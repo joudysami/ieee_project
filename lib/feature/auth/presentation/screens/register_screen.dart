@@ -21,6 +21,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final TextEditingController _nameController;
   late final TextEditingController _emailController;
   late final TextEditingController _phoneController;
@@ -43,6 +44,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   @override
+  void dispose() {
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
@@ -56,223 +64,230 @@ class _RegisterScreenState extends State<RegisterScreen> {
               borderRadius: BorderRadius.circular(16.r),
               border: Border(
                 top: BorderSide(color: context.colors.sky.shade500, width: 5),
-                // left: BorderSide(color: context.colors.sky.shade500, width: 1),
-                // right: BorderSide(color: context.colors.sky.shade500, width: 1),
-                // bottom: BorderSide(color: context.colors.sky.shade500, width: 1),
               ),
             ),
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 15.h),
-              child: BlocListener<AuthCubit, AppStates>(
-                listener: (context, state) {
-                  if (state == AppStates.success) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Successfully Registered'),
-                        backgroundColor: context.colors.green,
-                      ),
-                    );
-                    final role = context.read<AuthCubit>().userRole;
-                    if (role == 'Admin') {
-                      context.go('/adminScreen');
-                    } else if (role == 'Student') {
-                      context.go('/studentScreen');
+              child: Form(
+                key: _formKey,
+                child: BlocListener<AuthCubit, AppStates>(
+                  listener: (context, state) {
+                    if (state == AppStates.success) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Successfully Registered'),
+                          backgroundColor: context.colors.green,
+                        ),
+                      );
+                      final role = context.read<AuthCubit>().userRole;
+                      if (role == 'Admin') {
+                        context.go('/adminScreen');
+                      } else if (role == 'Student') {
+                        context.go('/studentScreen');
+                      }
+                    } else if (state.isNeededCompleteProfile) {
+                      _authCubit.completeProfile(
+                        phone: _phoneController.text,
+                        institute: _selectedInstitute!,
+                        enrollment: _selectedRole!,
+                      );
+                    } else if (state == AppStates.error) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'failed to Register: ${_authCubit.errorMessage}',
+                          ),
+                          backgroundColor: context.colors.error,
+                        ),
+                      );
                     }
-                  } else if (state.isNeededCompleteProfile) {
-                    _authCubit.completeProfile(
-                      phone: _phoneController.text,
-                      institute: _selectedInstitute!,
-                      enrollment: _selectedRole!,
-                    );
-                  } else if (state == AppStates.error) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'failed to Register: ${_authCubit.errorMessage}',
+                  },
+                  child: Column(
+                    children: [
+                      Text(
+                        AppString.createAccount,
+                        style: TextStyle(
+                          color: context.colors.blue.shade500,
+                          fontSize: 22.sp,
+                          fontWeight: FontWeight.bold,
                         ),
-                        backgroundColor: context.colors.error,
                       ),
-                    );
-                  }
-                },
-                child: Column(
-                  children: [
-                    Text(
-                      AppString.createAccount,
-                      style: TextStyle(
-                        color: context.colors.blue.shade500,
-                        fontSize: 22.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      AppString.joinAcadimic,
-                      style: TextStyle(
-                        color: context.colors.blue.shade500,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                    SizedBox(height: 16.h),
-                    CustomeTextformfield(
-                      text: AppString.name,
-                      hintText: AppString.enterName,
-                      icon: Icon(Icons.person),
-                      controller: _nameController,
-                      validator: (value) {
-                        return value != null && value.isNotEmpty
-                            ? null
-                            : AppString.pleaseEnterName;
-                      },
-                    ),
-                    SizedBox(height: 16.h),
-                    CustomeTextformfield(
-                      text: AppString.email,
-                      hintText: AppString.enterYourEmail,
-                      icon: Icon(Icons.email),
-                      controller: _emailController,
-                      validator: (value) {
-                        return Validations.validateEmail(value ?? '')
-                            ? null
-                            : AppString.pleaseEnterValidEmail;
-                      },
-                    ),
-                    SizedBox(height: 16.h),
-                    CustomeTextformfield(
-                      text: AppString.password,
-                      hintText: AppString.enterYourPassword,
-                      icon: Icon(Icons.lock),
-                      controller: _passwordController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return AppString.passwordIsRequired;
-                        }
-                        if (!Validations.validatePassword(value)) {
-                          return AppString.registrationPasswordRequirement;
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 16.h),
-                    CustomeTextformfield(
-                      text: AppString.confirmPassword,
-                      hintText: AppString.enterYourPassword,
-                      icon: Icon(Icons.lock),
-                      controller: _confirmPasswordController,
-                      validator: (value) =>
-                          AppValidators.confirmPasswordValidator(
-                            value,
-                            _passwordController.text,
-                          ),
-                    ),
-                    SizedBox(height: 16.h),
-                    CustomeTextformfield(
-                      text: AppString.phoneNumber,
-
-                      icon: Icon(Icons.phone),
-                      controller: _phoneController,
-                      validator: (value) {
-                        return Validations.validatePhone(value ?? '')
-                            ? null
-                            : AppString.validEgyptianPhone;
-                      },
-                    ),
-                    SizedBox(height: 20.h),
-                    CustomDropDownField(
-                      value: _selectedInstitute,
-                      hint: AppString.selectInstitute,
-                      label: AppString.institue,
-                      items: ['CIS(CS)','CIS(IS)', 'MTF', 'ET5','AAI'],
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedInstitute = value;
-                        });
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return AppString.selectInstitute;
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 20.h),
-                    CustomDropDownField(
-                      value: _selectedRole,
-                      hint: AppString.selectRole,
-                      label: AppString.enrollment,
-                      items: ['Student', 'Admin'],
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedRole = value;
-                        });
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return AppString.selectRole;
-                        }
-                        return null;
-                      },
-                    ),
-
-                    SizedBox(height: 14.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          AppString.alreadyHaveAccount,
-                          style: TextStyle(color: context.colors.blue.shade500),
+                      Text(
+                        AppString.joinAcadimic,
+                        style: TextStyle(
+                          color: context.colors.blue.shade500,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.normal,
                         ),
-                        TextButton(
-                          onPressed: () => context.go('/loginScreen'),
+                      ),
+                      SizedBox(height: 16.h),
+                      CustomeTextformfield(
+                        text: AppString.name,
+                        hintText: AppString.enterName,
+                        icon: Icon(Icons.person),
+                        controller: _nameController,
+                        validator: (value) {
+                          return value != null && value.isNotEmpty
+                              ? null
+                              : AppString.pleaseEnterName;
+                        },
+                      ),
+                      SizedBox(height: 16.h),
+                      CustomeTextformfield(
+                        text: AppString.email,
+                        hintText: AppString.enterYourEmail,
+                        icon: Icon(Icons.email),
+                        controller: _emailController,
+                        validator: (value) {
+                          return Validations.validateEmail(value ?? '')
+                              ? null
+                              : AppString.pleaseEnterValidEmail;
+                        },
+                      ),
+                      SizedBox(height: 16.h),
+                      CustomeTextformfield(
+                        text: AppString.password,
+                        hintText: AppString.enterYourPassword,
+                        icon: Icon(Icons.lock),
+                        controller: _passwordController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return AppString.passwordIsRequired;
+                          }
+                          if (!Validations.validatePassword(value)) {
+                            return AppString.registrationPasswordRequirement;
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 16.h),
+                      CustomeTextformfield(
+                        text: AppString.confirmPassword,
+                        hintText: AppString.enterYourPassword,
+                        icon: Icon(Icons.lock),
+                        controller: _confirmPasswordController,
+                        validator: (value) =>
+                            AppValidators.confirmPasswordValidator(
+                              value,
+                              _passwordController.text,
+                            ),
+                      ),
+                      SizedBox(height: 16.h),
+                      CustomeTextformfield(
+                        text: AppString.phoneNumber,
 
-                          child: Text(
-                            AppString.login,
+                        icon: Icon(Icons.phone),
+                        controller: _phoneController,
+                        validator: (value) {
+                          return Validations.validatePhone(value ?? '')
+                              ? null
+                              : AppString.validEgyptianPhone;
+                        },
+                      ),
+                      SizedBox(height: 20.h),
+                      CustomDropDownField(
+                        value: _selectedInstitute,
+                        hint: AppString.selectInstitute,
+                        label: AppString.institue,
+                        items: ['CIS(CS)', 'CIS(IS)', 'MTF', 'ET5', 'AAI'],
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedInstitute = value;
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return AppString.selectInstitute;
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 20.h),
+                      CustomDropDownField(
+                        value: _selectedRole,
+                        hint: AppString.selectRole,
+                        label: AppString.enrollment,
+                        items: ['Student', 'Admin'],
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedRole = value;
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return AppString.selectRole;
+                          }
+                          return null;
+                        },
+                      ),
+
+                      SizedBox(height: 14.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppString.alreadyHaveAccount,
                             style: TextStyle(
-                              color: context.colors.sky.shade700,
+                              color: context.colors.blue.shade500,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 14.h),
-                    CustomeElevatebotton(
-                      text: AppString.createAccount,
-                      // icon: Icon(Icons.person_add, color: context.colors.white),
-                      loadingState: AppStates.registerLoading,
-                      onTap: () async {
-                        await _authCubit.register(
-                          _emailController.text,
-                          _passwordController.text,
-                          _nameController.text,
-                          _phoneController.text,
-                          _selectedInstitute ?? '',
-                          _selectedRole ?? '',
-                        );
-                      },
-                    ),
-                    SizedBox(height: 14.h),
-                    CustomeElevatebotton(
-                      text: AppString.createAccount,
-                      icon: FaIcon(
-                        FontAwesomeIcons.google,
-                        color: context.colors.white,
-                      ),
-                      loadingState: AppStates.googleLoading,
-                      onTap: () async {
-                        if (_selectedInstitute == null ||
-                            _selectedInstitute!.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(AppString.selectRollAndInstitute),
-                              backgroundColor: context.colors.error,
+                          TextButton(
+                            onPressed: () => context.go('/loginScreen'),
+
+                            child: Text(
+                              AppString.login,
+                              style: TextStyle(
+                                color: context.colors.sky.shade700,
+                              ),
                             ),
-                          );
-                          return;
-                        }
-                        await _authCubit.signInWithGoogle();
-                      },
-                    ),
-                  ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 14.h),
+                      CustomeElevatebotton(
+                        text: AppString.createAccount,
+                        // icon: Icon(Icons.person_add, color: context.colors.white),
+                        loadingState: AppStates.registerLoading,
+                        onTap: () {
+                          if (_formKey.currentState!.validate()) {
+                            _authCubit.register(
+                              _emailController.text.trim(),
+                              _passwordController.text.trim(),
+                              _nameController.text.trim(),
+                              _phoneController.text.trim(),
+                              _selectedInstitute ?? '',
+                              _selectedRole ?? '',
+                            );
+                          }
+                        },
+                      ),
+                      SizedBox(height: 14.h),
+                      CustomeElevatebotton(
+                        text: AppString.createAccount,
+                        icon: FaIcon(
+                          FontAwesomeIcons.google,
+                          color: context.colors.white,
+                        ),
+                        loadingState: AppStates.googleLoading,
+                        onTap: () async {
+                          if (_selectedInstitute == null ||
+                              _selectedInstitute!.isEmpty ||
+                              _selectedRole == null ||
+                              _selectedRole!.isEmpty ||
+                              _phoneController.text.trim().isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(AppString.selectRollAndInstitute),
+                                backgroundColor: context.colors.error,
+                              ),
+                            );
+                            return;
+                          }
+                          await _authCubit.signInWithGoogle();
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

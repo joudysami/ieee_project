@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:ieee/core/constant/app_string.dart';
 import 'package:ieee/feature/auth/repo/auth_repo.dart';
 
 class AuthRepoImp implements AuthRepo {
@@ -9,11 +10,13 @@ class AuthRepoImp implements AuthRepo {
 
   Future<String> login(String email, String password) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      final cleanEmail = email.trim();
+      final cleanPassword = password.trim();
 
+      await _firebaseAuth.signInWithEmailAndPassword(
+        email: cleanEmail,
+        password: cleanPassword,
+      );
       final userDod = await _firestore
           .collection('users')
           .doc(_firebaseAuth.currentUser!.uid)
@@ -34,15 +37,17 @@ class AuthRepoImp implements AuthRepo {
     String enrollment,
   ) async {
     try {
+      final cleanEmail = email.trim();
+      final cleanPassword = password.trim();
       final newUser = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: cleanEmail,
+        password: cleanPassword,
       );
 
       final userId = newUser.user!.uid;
       await _firestore.collection('users').doc(userId).set({
-        'name': name,
-        'email': email,
+        'name': name.trim(),
+        'email': cleanEmail,
         'phone': phone,
         'institute': institute,
         'enrollment': enrollment,
@@ -55,9 +60,44 @@ class AuthRepoImp implements AuthRepo {
 
   Future<void> forgetPassword(String email) async {
     try {
-      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      final cleanEmail = email.trim();
+      final userQuery = await _firestore
+          .collection('users')
+          .where('email', isEqualTo: cleanEmail)
+          .get();
+
+      if (userQuery.docs.isEmpty) {
+        throw Exception(AppString.emailNotRegisted);
+      }
+      await _firebaseAuth.sendPasswordResetEmail(
+        email: cleanEmail,
+        actionCodeSettings: ActionCodeSettings(
+          url: 'https://ieee-project-561ee.firebaseapp.com/resetPasswordScreen',
+          handleCodeInApp: true,
+          androidInstallApp: true,
+          androidMinimumVersion: '12',
+          androidPackageName: 'com.example.ieee',
+        ),
+      );
     } catch (e) {
       //throw Exception(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<void> confirmPasswordReset({
+    required String code,
+    required String newPassword,
+  }) async {
+    try {
+      final cleanPassword = newPassword.trim();
+      final cleanCode = code.trim();
+      await _firebaseAuth.confirmPasswordReset(
+        code: cleanCode,
+        newPassword: cleanPassword,
+      );
+      await _firebaseAuth.signOut();
+    } catch (e) {
       rethrow;
     }
   }
@@ -118,7 +158,7 @@ class AuthRepoImp implements AuthRepo {
           'uid': user.uid,
           'name': user.displayName ?? '',
           'email': user.email ?? '',
-          'phone': phone,
+          'phone': phone.trim(),
           'institute': institute,
           'enrollment': enrollment,
         });

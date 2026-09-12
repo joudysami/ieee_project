@@ -12,7 +12,6 @@ abstract class AppString {
   static const String dontHaveAccount = "Don't have an account?";
   static const String enterYourEmail = 'Enter your email';
   static const String enterYourPassword = 'Enter your password';
-  static const String forgetPassword = 'Forget password?';
   static const String login = 'Login';
   static const String loginWithGoogle = 'Login with Google';
   static const String save='Save';
@@ -34,12 +33,25 @@ abstract class AppString {
   static const String selectInstitute = 'Please select your institute';
   static const String continueGoogle = 'Continue with Google';
   static const String selectRollAndInstitute = 'Please select your Phone, Role and Institute';
+
+  // ====================forget password=================
+static const String forgetPassword ='Forgot Password';
+static const String  enterYourEmailToRecieve ='Enter your email to receive a reset link.';
+static const String backToLogin ='Back To Login';
+static const String sendResetLink ='Send Reset Link';
+static const String resetPassword='Reset Password';
+static const String plaseEnterNewPassword='Please enter your new password below to secure your account.';
+static const String newPassword='New Password';
+static const String returnToLogin ='Return To Login';
+static const String resetedSucces='Password Reset Successfully!';
+static const String signOut='Sign Out';
+static const String emailNotRegisted='This email is not registered with us!';
   // ==================== Validation ====================
   static const String pleaseEnterValidEmail = 'Please enter a valid email address';
   static const String pleaseEnterYourEmail = 'Please enter your email';
   static const String notValidEmail = 'This Email is not valid';
   static const String passwordIsRequired = 'Password is required';
-  
+  static const String  checkYourEmail ='Password reset link sent! Check your email.';
   static const String passwordRequirement =
       'Password must be 8+ chars and 1 uppercase letter';
   static const String registrationPasswordRequirement =

@@ -11,7 +11,6 @@ class AuthCubit extends Cubit<AppStates> {
 
   Future<void> login(String email, String password) async {
     emit(AppStates.loading);
-    
     try {
       userRole = await _repo.login(email, password);
       errorMessage = null;
@@ -46,6 +45,22 @@ class AuthCubit extends Cubit<AppStates> {
     emit(AppStates.loading);
     try {
       await _repo.forgetPassword(email);
+      errorMessage = null;
+      emit(AppStates.success);
+    }
+     catch (e) {
+      errorMessage = e.toString().replaceAll('Exception:', '');
+      emit(AppStates.error);
+    }
+  }
+
+  Future<void> confirmPasswordReset({
+    required String code,
+    required String newPassword,
+  }) async {
+    emit(AppStates.loading);
+    try {
+      await _repo.confirmPasswordReset(code: code, newPassword: newPassword);
       errorMessage = null;
       emit(AppStates.success);
     } catch (e) {
@@ -92,4 +107,5 @@ class AuthCubit extends Cubit<AppStates> {
       emit(AppStates.error);
     }
   }
+  
 }

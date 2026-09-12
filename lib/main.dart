@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ieee/app/routes/app_routes.dart';
+import 'package:ieee/core/helpers/cache_help.dart';
 import 'package:ieee/firebase_options.dart';
 
 void main() async{
@@ -9,6 +10,7 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await CacheHelp.init();
   runApp(
     ScreenUtilInit(
       designSize: const Size(360, 690),

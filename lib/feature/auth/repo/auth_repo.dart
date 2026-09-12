@@ -9,6 +9,8 @@ abstract class AuthRepo {
     String enrollment,
   );
   Future<void> forgetPassword(String email);
+  Future<void> confirmPasswordReset({required String code ,required String newPassword});
+  
   Future<String?> signInWithGoogle();
   Future<void> completeProfile({
     required String enrollment,

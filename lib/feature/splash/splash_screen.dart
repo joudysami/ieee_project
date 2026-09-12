@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ieee/core/constant/app_icons.dart';
 import 'package:ieee/core/constant/app_string.dart';
+import 'package:ieee/core/helpers/cache_help.dart';
 import 'package:ieee/core/theme/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,13 +15,33 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  void _handleNavigation() {
+    if (!mounted) return;
+    
+    final bool isRemembered = CacheHelp.getIsRemembered();
+    final String? role = CacheHelp.getUserRole();
+print("=== DEBUG CACHE ===");
+  print("isRemembered: $isRemembered");
+  print("role: $role");
+  print("===================");
+    if (isRemembered && role != null) {
+      if (role == 'Admin') {
+        context.go('/adminScreen');
+      } else if (role == 'Student') {
+        context.go('/studentScreen');
+      } else {
+        context.go('/loginScreen');
+      }
+    } else {
+      context.go('/loginScreen');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          color: context.colors.primary,
-        ),
+        decoration: BoxDecoration(color: context.colors.primary),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -50,14 +71,13 @@ class _SplashScreenState extends State<SplashScreen> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color:context.colors.white,
+                  color: context.colors.white,
                 ),
               ),
-               onFinish: (dirction){
-                context.go('/loginScreen');
+              onFinish: (dirction) {
+                _handleNavigation();
               },
             ),
-          
           ],
         ),
       ),
