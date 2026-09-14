@@ -245,10 +245,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         ),
 
-                        TextButton(
-                          onPressed: () => context.go('/completeProfileScreen'),
-                          child: Text('Complate data'),
-                        ),
                       ],
                     ),
                   ),
