@@ -83,11 +83,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         );
 
-                        if (role == 'Admin') {
-                          context.go('/adminScreen');
-                        } else if (role == 'Student') {
-                          context.go('/studentScreen');
+                        if (role == 'Admin' || role == 'Student') {
+                          context.go('/layoutScreen', extra: role);
                         }
+
                       } else if (state == AppStates.neededCompleteProfile) {
                         context.go('/completeProfileScreen');
                       } else if (state == AppStates.error) {
@@ -243,11 +242,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ],
-                        ),
-
-                        TextButton(
-                          onPressed: () => context.go('/completeProfileScreen'),
-                          child: Text('Complate data'),
                         ),
                       ],
                     ),

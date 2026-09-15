@@ -4,12 +4,14 @@ import 'package:ieee/app/routes/app_routes_name.dart';
 import 'package:ieee/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:ieee/feature/auth/presentation/screens/complete_profile_screen.dart';
 import 'package:ieee/feature/auth/presentation/screens/forget_password_screen.dart';
-import 'package:ieee/feature/auth/presentation/screens/admin_screen.dart';
 import 'package:ieee/feature/auth/presentation/screens/login_screen.dart';
 import 'package:ieee/feature/auth/presentation/screens/register_screen.dart';
 import 'package:ieee/feature/auth/presentation/screens/reset_password_screen.dart';
-import 'package:ieee/feature/auth/presentation/screens/student_screen.dart';
 import 'package:ieee/feature/splash/splash_screen.dart';
+
+import '../../feature/admin/presentation/screens/home_screen.dart';
+import '../../feature/layout/layout_screen.dart';
+import '../../feature/student/presentation/screens/home_screen.dart';
 
 class AppRoutes {
   final GoRouter goRouter = GoRouter(
@@ -51,13 +53,22 @@ class AppRoutes {
       GoRoute(
         path: '/adminScreen',
         name: AppRoutesName.adminScreen,
-        builder: (context, state) => const AdminScreen(),
+        builder: (context, state) => const HomeScreen(),
       ),
       GoRoute(
         path: '/studentScreen',
         name: AppRoutesName.studentScreen,
-        builder: (context, state) => const StudentScreen(),
+        builder: (context, state) => const HomeScreenStu(),
       ),
+      GoRoute(
+        path: '/layoutScreen',
+        name: AppRoutesName.layoutScreen,
+        builder: (context, state) {
+          final role = state.extra as String?;
+          return LayoutScreen(role: role);
+        },
+      ),
+
       GoRoute(
         path: '/completeProfileScreen',
         name: AppRoutesName.completeProfileScreen,
