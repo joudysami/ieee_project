@@ -25,13 +25,7 @@ print("=== DEBUG CACHE ===");
   print("role: $role");
   print("===================");
     if (isRemembered && role != null) {
-      if (role == 'Admin') {
-        context.go('/adminScreen');
-      } else if (role == 'Student') {
-        context.go('/studentScreen');
-      } else {
-        context.go('/loginScreen');
-      }
+      context.go('/layoutScreen', extra: role);
     } else {
       context.go('/loginScreen');
     }
