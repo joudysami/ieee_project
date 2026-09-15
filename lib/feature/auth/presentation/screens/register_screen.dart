@@ -79,12 +79,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           backgroundColor: context.colors.green,
                         ),
                       );
-                      final role = context.read<AuthCubit>().userRole;
-                      if (role == 'Admin') {
-                        context.go('/adminScreen');
-                      } else if (role == 'Student') {
-                        context.go('/studentScreen');
-                      }
+                    final role = context.read<AuthCubit>().currentUser?.role ?? _selectedRole;
+                      if (role == 'Admin' || role == 'Student') {
+                          context.go('/layoutScreen', extra: role);
+                        }
                     } else if (state.isNeededCompleteProfile) {
                       _authCubit.completeProfile(
                         phone: _phoneController.text,

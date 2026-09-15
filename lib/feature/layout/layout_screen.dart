@@ -29,11 +29,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
   }
 
   Future<void> _resolveRole() async {
-    if (widget.role != null) {
-      _role = widget.role;
-    } else {
-      _role = CacheHelp.getUserRole() ?? 'Student';
-    }
+    _role = widget.role ?? CacheHelp.getUser()?.role ?? 'Student';
     setState(() => _loading = false);
   }
 

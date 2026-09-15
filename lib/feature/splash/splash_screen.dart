@@ -1,11 +1,14 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ieee/core/constant/app_icons.dart';
 import 'package:ieee/core/constant/app_string.dart';
 import 'package:ieee/core/helpers/cache_help.dart';
 import 'package:ieee/core/theme/app_colors.dart';
+import 'package:ieee/feature/auth/data/model/user_model.dart';
+import 'package:ieee/feature/auth/presentation/cubit/auth_cubit.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,15 +20,16 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   void _handleNavigation() {
     if (!mounted) return;
-    
+
     final bool isRemembered = CacheHelp.getIsRemembered();
-    final String? role = CacheHelp.getUserRole();
-print("=== DEBUG CACHE ===");
-  print("isRemembered: $isRemembered");
-  print("role: $role");
-  print("===================");
-    if (isRemembered && role != null) {
-      context.go('/layoutScreen', extra: role);
+   final UserModel? user =CacheHelp.getUser();
+    print("=== DEBUG CACHE ===");
+    print("isRemembered: $isRemembered");
+   
+    print("===================");
+    if (isRemembered && user != null) {
+      context.read<AuthCubit>().currentUser = user;
+      context.go('/layoutScreen',extra: user.role);
     } else {
       context.go('/loginScreen');
     }

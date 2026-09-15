@@ -64,16 +64,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: BlocListener<AuthCubit, AppStates>(
                     listener: (context, state) async {
                       if (state == AppStates.success) {
-                        final role = context.read<AuthCubit>().userRole;
-
-                        if (isRememberMe) {
+                       final currentUser = context.read<AuthCubit>().currentUser ?? CacheHelp.getUser();
+                        final role = currentUser?.role;
                           await CacheHelp.saveUserSession(
-                            isRemembered: true,
-                            role: role ?? 'Student',
+                            user: currentUser!,
+                            isRemembered: isRememberMe,
+                          
                           );
-                        } else {
-                          await CacheHelp.clearSession();
-                        }
+                       
                         if (!context.mounted) return;
 
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -86,7 +84,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (role == 'Admin' || role == 'Student') {
                           context.go('/layoutScreen', extra: role);
                         }
-
                       } else if (state == AppStates.neededCompleteProfile) {
                         context.go('/completeProfileScreen');
                       } else if (state == AppStates.error) {
@@ -217,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           icon: Icon(Icons.login, color: context.colors.white),
                           loadingState: AppStates.googleLoading,
                           onTap: () {
-                            _authCubit.signInWithGoogle();
+                            _authCubit.signInWithGoogle(isRemembered: isRememberMe);
                           },
                         ),
 

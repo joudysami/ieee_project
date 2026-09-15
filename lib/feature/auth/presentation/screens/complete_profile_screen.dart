@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ieee/core/constant/app_string.dart';
 import 'package:ieee/core/extensions/validations.dart';
+import 'package:ieee/core/helpers/cache_help.dart';
 import 'package:ieee/core/states/app_states.dart';
 import 'package:ieee/core/theme/app_colors.dart';
 import 'package:ieee/core/widgets/custome_dropDownField.dart';
@@ -59,20 +60,28 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
               child: Form(
                 key: _formKey,
                 child: BlocListener<AuthCubit, AppStates>(
-                  listener: (context, state) {
+                  listener: (context, state) async {
                     if (state.isSuccess) {
+                      final updatedUser = context.read<AuthCubit>().currentUser;
+
+                      if (updatedUser != null) {
+                        await CacheHelp.saveUserSession(
+                          isRemembered: CacheHelp.getIsRemembered(),
+                          user: updatedUser,
+                        );
+                      }
+
+                      if (!context.mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Save successful'),
                           backgroundColor: context.colors.green,
                         ),
                       );
-                      final role = context.read<AuthCubit>().userRole;
-                      if (role == 'Admin') {
-                        context.go('/adminScreen');
-                      } else {
-                        context.go('/studentScreen');
-                      }
+                      final role =
+                          context.read<AuthCubit>().currentUser?.role ??
+                          CacheHelp.getUser()?.role;
+                      context.go('/layoutScreen', extra: role);
                     } else if (state.isError) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -145,7 +154,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                       SizedBox(height: 20.h),
                       CustomeElevatebotton(
                         text: AppString.save,
-                        loadingState: AppStates.neededCompleteProfile,
+                        loadingState: AppStates.loading,
                         onTap: () {
                           if (_formKey.currentState!.validate()) {
                             _authCubit.completeProfile(
@@ -158,7 +167,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                       ),
                       SizedBox(height: 16.h),
                       TextButton(
-                        onPressed: () => context.go('loginScreen'),
+                        onPressed: () => context.go('/loginScreen'),
                         child: Row(
                           children: [
                             Icon(

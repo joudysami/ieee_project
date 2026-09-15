@@ -2,13 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ieee/core/constant/app_string.dart';
+import 'package:ieee/feature/auth/data/model/user_model.dart';
 import 'package:ieee/feature/auth/repo/auth_repo.dart';
 
 class AuthRepoImp implements AuthRepo {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<String> login(String email, String password) async {
+  Future<UserModel> login(String email, String password) async {
     try {
       final cleanEmail = email.trim();
       final cleanPassword = password.trim();
@@ -17,18 +18,21 @@ class AuthRepoImp implements AuthRepo {
         email: cleanEmail,
         password: cleanPassword,
       );
-      final userDod = await _firestore
+      final userDoc = await _firestore
           .collection('users')
           .doc(_firebaseAuth.currentUser!.uid)
           .get();
-      return userDod.data()?['enrollment'] ?? 'Student';
+
+      final data = userDoc.data() ?? {};
+      data['uid'] = _firebaseAuth.currentUser!.uid;
+      return UserModel.fromMap(data);
     } catch (e) {
       //throw Exception(e.toString());
       rethrow;
     }
   }
 
-  Future<void> register(
+  Future<UserModel> register(
     String email,
     String password,
     String name,
@@ -39,21 +43,26 @@ class AuthRepoImp implements AuthRepo {
     try {
       final cleanEmail = email.trim();
       final cleanPassword = password.trim();
+
       final newUser = await _firebaseAuth.createUserWithEmailAndPassword(
         email: cleanEmail,
         password: cleanPassword,
       );
 
       final userId = newUser.user!.uid;
-      await _firestore.collection('users').doc(userId).set({
+      final userData = {
+        'uid': userId,
         'name': name.trim(),
         'email': cleanEmail,
         'phone': phone,
         'institute': institute,
         'enrollment': enrollment,
-      });
+      };
+
+      await _firestore.collection('users').doc(userId).set(userData);
+
+      return UserModel.fromMap(userData);
     } catch (e) {
-      // throw Exception(e.toString());
       rethrow;
     }
   }
@@ -103,7 +112,7 @@ class AuthRepoImp implements AuthRepo {
   }
 
   @override
-  Future<String?> signInWithGoogle() async {
+  Future<UserModel?> signInWithGoogle() async {
     final googleSignIn = GoogleSignIn.instance;
 
     await googleSignIn.initialize();
@@ -133,9 +142,10 @@ class AuthRepoImp implements AuthRepo {
             .doc(user.uid)
             .get();
 
-        if (userDoc.exists) {
-          final data = userDoc.data() as Map<String, dynamic>?;
-          return data?['enrollment'] ?? 'Student';
+        if (userDoc.exists && userDoc.data() != null) {
+          final data = userDoc.data() as Map<String, dynamic>;
+          data['uid'] = user.uid;
+          return UserModel.fromMap(data);
         } else {
           return null;
         }
@@ -146,23 +156,30 @@ class AuthRepoImp implements AuthRepo {
     }
   }
 
-  Future<void> completeProfile({
+  Future<UserModel> completeProfile({
     required String phone,
     required String institute,
     required String enrollment,
   }) async {
     try {
       final user = _firebaseAuth.currentUser;
-      if (user != null) {
-        await _firestore.collection('users').doc(user.uid).set({
-          'uid': user.uid,
-          'name': user.displayName ?? '',
-          'email': user.email ?? '',
-          'phone': phone.trim(),
-          'institute': institute,
-          'enrollment': enrollment,
-        });
+
+      if (user == null) {
+        throw Exception('User is not logged in');
       }
+
+      final userData = {
+        'uid': user.uid,
+        'name': user.displayName ?? '',
+        'email': user.email ?? '',
+        'phone': phone.trim(),
+        'institute': institute,
+        'enrollment': enrollment,
+      };
+
+      await _firestore.collection('users').doc(user.uid).set(userData);
+
+      return UserModel.fromMap(userData);
     } catch (e) {
       rethrow;
     }

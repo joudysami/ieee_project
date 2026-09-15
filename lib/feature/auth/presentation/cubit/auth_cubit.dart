@@ -1,18 +1,26 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ieee/core/helpers/cache_help.dart';
 import 'package:ieee/core/states/app_states.dart';
+import 'package:ieee/feature/auth/data/model/user_model.dart';
 import 'package:ieee/feature/auth/repo/auth_repo.dart';
 import 'package:ieee/feature/auth/repo/auth_repo_imp.dart';
 
 class AuthCubit extends Cubit<AppStates> {
   final AuthRepo _repo = AuthRepoImp();
-  String? userRole;
+ UserModel? currentUser;
   String? errorMessage;
+
   AuthCubit() : super(AppStates.initial);
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(String email, String password,{bool isRemembered =false}) async {
     emit(AppStates.loading);
     try {
-      userRole = await _repo.login(email, password);
+final UserModel user =await _repo.login(email, password);
+      currentUser = user;
+     await CacheHelp.saveUserSession(
+        user: user,
+        isRemembered: isRemembered,
+      );
       errorMessage = null;
       emit(AppStates.success);
     } catch (e) {
@@ -31,8 +39,16 @@ class AuthCubit extends Cubit<AppStates> {
   ) async {
     emit(AppStates.registerLoading);
     try {
-      await _repo.register(email, password, name, phone, institute, enrollment);
-      userRole = enrollment;
+     final UserModel user = await _repo.register(
+        email, password, name, phone, institute, enrollment,
+      );
+      currentUser = user;
+
+   
+      await CacheHelp.saveUserSession(
+        user: user,
+        isRemembered: true,
+      );
       errorMessage = null;
       emit(AppStates.success);
     } catch (e) {
@@ -69,12 +85,20 @@ class AuthCubit extends Cubit<AppStates> {
     }
   }
 
-  Future<void> signInWithGoogle() async {
+
+  Future<void> signInWithGoogle({bool isRemembered = false}) async {
     emit(AppStates.googleLoading);
     try {
-      final role = await _repo.signInWithGoogle();
-      if (role != null) {
-        userRole = role;
+      final UserModel? user = await _repo.signInWithGoogle();
+      if (user != null) {
+        currentUser = user;
+        
+    
+        await CacheHelp.saveUserSession(
+          user: user,
+          isRemembered: isRemembered,
+        );
+
         errorMessage = null;
         emit(AppStates.success);
       } else {
@@ -94,12 +118,18 @@ class AuthCubit extends Cubit<AppStates> {
   }) async {
     emit(AppStates.loading);
     try {
-      await _repo.completeProfile(
-        enrollment: enrollment,
-        phone: phone,
-        institute: institute,
-      );
-      userRole = enrollment;
+     final UserModel user = await _repo.completeProfile(
+      enrollment: enrollment,
+      phone: phone,
+      institute: institute,
+    );
+
+    currentUser = user; 
+   
+    await CacheHelp.saveUserSession(
+      user: user,
+      isRemembered: true,
+    );
       errorMessage = null;
       emit(AppStates.success);
     } catch (e) {

@@ -1,6 +1,8 @@
+import 'package:ieee/feature/auth/data/model/user_model.dart';
+
 abstract class AuthRepo {
-  Future<String> login(String email, String password);
-  Future<void> register(
+  Future<UserModel> login(String email, String password);
+  Future<UserModel> register(
     String email,
     String password,
     String name,
@@ -11,8 +13,8 @@ abstract class AuthRepo {
   Future<void> forgetPassword(String email);
   Future<void> confirmPasswordReset({required String code ,required String newPassword});
   
-  Future<String?> signInWithGoogle();
-  Future<void> completeProfile({
+  Future<UserModel?> signInWithGoogle();
+  Future<UserModel> completeProfile({
     required String enrollment,
     required String phone,
     required String institute,

@@ -11,7 +11,7 @@ class AssignmentsScreenStu extends StatelessWidget {
 
       body: Center(
         child: Text(
-          "im studenttttt",
+          "im studenttttt Ass",
           style: TextStyle(
               fontSize: 24,
               color: context.colors.primary

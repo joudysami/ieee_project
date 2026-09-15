@@ -11,7 +11,7 @@ class TracksScreenStu extends StatelessWidget {
 
       body: Center(
         child: Text(
-          "im studenttttt",
+          "im studenttttt Track",
           style: TextStyle(
               fontSize: 24,
               color: context.colors.primary

@@ -14,30 +14,29 @@ import '../../feature/layout/layout_screen.dart';
 import '../../feature/student/presentation/screens/home_screen.dart';
 
 class AppRoutes {
+  static final AuthCubit _authCubit = AuthCubit();
   final GoRouter goRouter = GoRouter(
     initialLocation: AppRoutesName.splashScreen,
     routes: [
       GoRoute(
         path: '/splashScreen',
         name: AppRoutesName.splashScreen,
-        builder: (context, state) => const SplashScreen(),
+        builder: (context, state) =>
+            BlocProvider.value(value: _authCubit, child: const SplashScreen()),
       ),
       GoRoute(
         path: '/loginScreen',
         name: AppRoutesName.loginScreen,
-        builder: (context, state) => BlocProvider(
-          create: (context) => AuthCubit(),
-          child: const LoginScreen(),
-        ),
+        builder: (context, state) =>
+            BlocProvider.value(value: _authCubit, child: const LoginScreen()),
       ),
 
       GoRoute(
         path: '/registerScreen',
         name: AppRoutesName.registerScreen,
         builder: (context, state) {
-         
-          return BlocProvider(
-            create: (context) => AuthCubit(),
+          return BlocProvider.value(
+            value: _authCubit,
             child: const RegisterScreen(),
           );
         },
@@ -45,15 +44,16 @@ class AppRoutes {
       GoRoute(
         path: '/forgotPasswordScreen',
         name: AppRoutesName.forgotPasswordScreen,
-        builder: (context, state) => BlocProvider(
-          create: (context) => AuthCubit(),
+        builder: (context, state) => BlocProvider.value(
+          value: _authCubit,
           child: const ForgotPasswordScreen(),
         ),
       ),
       GoRoute(
         path: '/adminScreen',
         name: AppRoutesName.adminScreen,
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) =>
+            BlocProvider.value(value: _authCubit, child: const HomeScreen()),
       ),
       GoRoute(
         path: '/studentScreen',
@@ -65,15 +65,18 @@ class AppRoutes {
         name: AppRoutesName.layoutScreen,
         builder: (context, state) {
           final role = state.extra as String?;
-          return LayoutScreen(role: role);
+          return BlocProvider.value(
+            value: _authCubit,
+            child: LayoutScreen(role: role),
+          );
         },
       ),
 
       GoRoute(
         path: '/completeProfileScreen',
         name: AppRoutesName.completeProfileScreen,
-        builder: (context, state) => BlocProvider(
-          create: (context) => AuthCubit(),
+        builder: (context, state) => BlocProvider.value(
+          value: _authCubit,
           child: const CompleteProfileScreen(),
         ),
       ),
@@ -83,15 +86,15 @@ class AppRoutes {
         name: AppRoutesName.resetPasswordScreen,
         builder: (context, state) {
           String oobCode = state.uri.queryParameters['oobCode'] ?? '';
-        if (oobCode.isEmpty) {
-      final nestedLink = state.uri.queryParameters['link'];
-      if (nestedLink != null) {
-        final innerUri = Uri.parse(nestedLink);
-        oobCode = innerUri.queryParameters['oobCode'] ?? '';
-      }
-    }
-          return BlocProvider(
-            create: (context) => AuthCubit(),
+          if (oobCode.isEmpty) {
+            final nestedLink = state.uri.queryParameters['link'];
+            if (nestedLink != null) {
+              final innerUri = Uri.parse(nestedLink);
+              oobCode = innerUri.queryParameters['oobCode'] ?? '';
+            }
+          }
+          return BlocProvider.value(
+            value: _authCubit,
             child: ResetPasswordScreen(oobCode: oobCode),
           );
         },

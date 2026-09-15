@@ -70,4 +70,6 @@ static const String emailNotRegisted='This email is not registered with us!';
   static String fieldMinLength(String field, int length) =>
       '$field must be at least $length characters';
   static String fieldNoSpaces(String field) => '$field cannot contain spaces';
+  // ============================ Admin ============================
+  static const String goodMorning='Good Morning ,';
 }
