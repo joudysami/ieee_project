@@ -141,10 +141,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ),
                       ),
 
-                      TextButton(
-                        onPressed: () => context.go('resetPasswordScreen'),
-                        child: Text('Reset Password'),
-                      ),
                     ],
                   ),
                 ),

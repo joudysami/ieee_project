@@ -262,30 +262,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                       ),
                       SizedBox(height: 14.h),
-                      CustomeElevatebotton(
-                        text: AppString.createAccount,
-                        icon: FaIcon(
-                          FontAwesomeIcons.google,
-                          color: context.colors.white,
-                        ),
-                        loadingState: AppStates.googleLoading,
-                        onTap: () async {
-                          if (_selectedInstitute == null ||
-                              _selectedInstitute!.isEmpty ||
-                              _selectedRole == null ||
-                              _selectedRole!.isEmpty ||
-                              _phoneController.text.trim().isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(AppString.selectRollAndInstitute),
-                                backgroundColor: context.colors.error,
-                              ),
-                            );
-                            return;
-                          }
-                          await _authCubit.signInWithGoogle();
-                        },
-                      ),
                     ],
                   ),
                 ),
