@@ -83,11 +83,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         );
 
-                        if (role == 'Admin') {
-                          context.go('/layoutScreen');
-                        } else if (role == 'Student') {
-                          context.go('/layoutScreen');
+                        if (role == 'Admin' || role == 'Student') {
+                          context.go('/layoutScreen', extra: role);
                         }
+
                       } else if (state == AppStates.neededCompleteProfile) {
                         context.go('/completeProfileScreen');
                       } else if (state == AppStates.error) {
@@ -244,7 +243,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
-
                       ],
                     ),
                   ),

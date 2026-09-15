@@ -63,8 +63,10 @@ class AppRoutes {
       GoRoute(
         path: '/layoutScreen',
         name: AppRoutesName.layoutScreen,
-        builder: (context, state) => const LayoutScreen(),
-
+        builder: (context, state) {
+          final role = state.extra as String?;
+          return LayoutScreen(role: role);
+        },
       ),
 
       GoRoute(
