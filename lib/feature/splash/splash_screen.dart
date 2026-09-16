@@ -15,15 +15,38 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _navigate();
+  }
+
+  Future<void> _navigate() async {
+    final hasSeenSplash = CacheHelp.getSplashSeen();
+
+    if (hasSeenSplash) {
+      await Future.delayed(Duration.zero);
+      if (!mounted) return;
+      _handleNavigation();
+      return;
+    }
+
+    await CacheHelp.setSplashSeen();
+    await Future.delayed(const Duration(seconds: 3));
+    if (!mounted) return;
+    _handleNavigation();
+  }
+
   void _handleNavigation() {
     if (!mounted) return;
-    
+
     final bool isRemembered = CacheHelp.getIsRemembered();
     final String? role = CacheHelp.getUserRole();
-print("=== DEBUG CACHE ===");
-  print("isRemembered: $isRemembered");
-  print("role: $role");
-  print("===================");
+    print("=== DEBUG CACHE ===");
+    print("isRemembered: $isRemembered");
+    print("hasSeenSplash: ${CacheHelp.getSplashSeen()}" );
+    print("role: $role");
+    print("===================");
     if (isRemembered && role != null) {
       context.go('/layoutScreen', extra: role);
     } else {
