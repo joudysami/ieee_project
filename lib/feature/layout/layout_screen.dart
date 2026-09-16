@@ -40,8 +40,8 @@ class _LayoutScreenState extends State<LayoutScreen> {
   List<Widget> get _screens => isAdmin
       ? const [
           HomeScreen(),
-          ManageStudentsScreen(),
-          TrackScreen(),
+           TrackScreen(),
+          ManageStudentsScreen(),         
           ProfileScreen(),
         ]
       : const [
@@ -55,12 +55,12 @@ class _LayoutScreenState extends State<LayoutScreen> {
       ? const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Manage Students',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.track_changes),
             label: 'Track',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: 'Manage Students',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ]
@@ -84,8 +84,8 @@ class _LayoutScreenState extends State<LayoutScreen> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: context.colors.white,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: context.colors.primary,
-        unselectedItemColor: context.colors.sky.shade400,
+        selectedItemColor: context.colors.blue.shade600,
+        unselectedItemColor: context.colors.sky.shade500,
         currentIndex: currentIndex,
         onTap: (i) => setState(() => currentIndex = i),
         items: _navItems,

@@ -65,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Center(
               child: Image.asset(
-                AppIcons.appLogo_white,
+                AppIcons.appLogoWhite,
                 width: 200.w,
                 height: 200.h,
               ),

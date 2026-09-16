@@ -72,4 +72,19 @@ static const String emailNotRegisted='This email is not registered with us!';
   static String fieldNoSpaces(String field) => '$field cannot contain spaces';
   // ============================ Admin ============================
   static const String goodMorning='Good Morning ,';
+  static const String happingInYourBransh="Here's what's happening in your IEEE Student Activity today.";
+  static const String totalStudent='TOTAL STUDENTS';
+  static const String totalSission='TOTAL SESSIONS';
+  static const String pendingReview ='Pending Reviews';
+  static const String veiwAll='View All';
+  static const String recentActivity ='Recent Activity';
+  static const String session='Sessions';
+  static const String assignment='Assignment';
+  static const String review ='Review';
+  static const String newAssignment='New Assignment';
+   static const String newSession='New Session';
+   static const String viewAndMangeSession='View and manage Sessions .';
+   static const String viewAndMangeAss=' View and manage Assignment .';
+   static const String addNewSession='Add New Session';
+   static const String addNewAss='Add New Assignment';
 }

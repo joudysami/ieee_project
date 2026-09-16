@@ -193,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
 
                         SizedBox(height: 20.h),
-                        CustomeElevatebotton(
+                        CustomElevatedButton(
                           text: AppString.login,
                           icon: Icon(Icons.login, color: context.colors.white),
                           loadingState: AppStates.loading,
@@ -209,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         SizedBox(height: 20.h),
 
-                        CustomeElevatebotton(
+                        CustomElevatedButton(
                           text: AppString.loginWithGoogle,
                           icon: Icon(Icons.login, color: context.colors.white),
                           loadingState: AppStates.googleLoading,

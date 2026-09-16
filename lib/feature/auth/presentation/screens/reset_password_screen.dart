@@ -128,7 +128,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           ),
                     ),
                     SizedBox(height: 18.h),
-                    CustomeElevatebotton(
+                    CustomElevatedButton(
                       text: AppString.resetPassword,
                       icon: Icon(
                         Icons.arrow_forward,
