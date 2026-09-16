@@ -13,49 +13,53 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-
-    body: BlocBuilder<AuthCubit,AppStates>(
-     builder: (context,state){
-      final cubit = context.read<AuthCubit>();
-          final userName = cubit.currentUser?.name??"";
+    return Scaffold(
+      body: BlocBuilder<AuthCubit, AppStates>(
+        builder: (context, state) {
+          final cubit = context.read<AuthCubit>();
+          final userName = cubit.currentUser?.name ?? "";
           return SafeArea(
             child: Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 10.w,vertical: 20.h),
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
               child: Column(
                 children: [
                   Row(
                     children: [
-                      Text (AppString.goodMorning,style: TextStyle(fontSize: 24.sp,fontWeight: FontWeight.bold),),
-                      Text(userName)
+                      Text(
+                        AppString.goodMorning,
+                        style: TextStyle(
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(userName),
                     ],
                   ),
 
                   IconButton(
-  icon: Icon(Icons.logout, color: context.colors.error),
-  tooltip: 'Sign Out',
-  onPressed: () async {
-    // 1. مسح البيانات المحفوظة في SharedPreferences
-    await CacheHelp.clearSession();
+                    icon: Icon(Icons.logout, color: context.colors.error),
+                    tooltip: 'Sign Out',
+                    onPressed: () async {
+                      // 1. مسح البيانات المحفوظة في SharedPreferences
+                      await CacheHelp.clearSession();
 
-    // 2. استدعاء دالة الخروج من AuthCubit
-    if (context.mounted) {
-     // await context.read<AuthCubit>().signOut(); // أو اسم دالة SignOut لديكِ
-      
-      if (!context.mounted) return;
+                      // 2. استدعاء دالة الخروج من AuthCubit
+                      if (context.mounted) {
+                        // await context.read<AuthCubit>().signOut(); // أو اسم دالة SignOut لديكِ
 
-      // 3. التوجيه لشاشة اللوجين ومسح جميع الشاشات الـ Stack
-      context.go('/loginScreen');
-    }
-  },
-)
+                        if (!context.mounted) return;
+
+                        // 3. التوجيه لشاشة اللوجين ومسح جميع الشاشات الـ Stack
+                        context.go('/loginScreen');
+                      }
+                    },
+                  ),
                 ],
               ),
             ),
           );
-     },
-    )
-
+        },
+      ),
     );
   }
 }

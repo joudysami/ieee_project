@@ -6,6 +6,7 @@ import 'package:ieee/core/constant/app_icons.dart';
 import 'package:ieee/core/constant/app_string.dart';
 import 'package:ieee/core/helpers/cache_help.dart';
 import 'package:ieee/core/theme/app_colors.dart';
+import 'package:ieee/feature/auth/data/model/user_model.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -41,14 +42,14 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!mounted) return;
 
     final bool isRemembered = CacheHelp.getIsRemembered();
-    final String? role = CacheHelp.getUserRole();
+    final UserModel? userData = CacheHelp.getUser();
     print("=== DEBUG CACHE ===");
     print("isRemembered: $isRemembered");
-    print("hasSeenSplash: ${CacheHelp.getSplashSeen()}" );
-    print("role: $role");
+    print("hasSeenSplash: ${CacheHelp.getSplashSeen()}");
+    print("role: $userData");
     print("===================");
-    if (isRemembered && role != null) {
-      context.go('/layoutScreen', extra: role);
+    if (isRemembered) {
+      context.go('/layoutScreen');
     } else {
       context.go('/loginScreen');
     }
