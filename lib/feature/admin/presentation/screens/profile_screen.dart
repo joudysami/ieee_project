@@ -144,6 +144,7 @@ class ProfileScreen extends StatelessWidget {
 
             // Log Out Button
           ),
+          SizedBox(height: 48),
           CustomElevatedButton(
             width: 310.w,
             title: 'Log Out',

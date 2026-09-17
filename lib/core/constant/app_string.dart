@@ -71,7 +71,7 @@ static const String emailNotRegisted='This email is not registered with us!';
       '$field must be at least $length characters';
   static String fieldNoSpaces(String field) => '$field cannot contain spaces';
   // ============================ Admin ============================
-  static const String goodMorning='Good Morning ,';
+  static const String goodMorning='Good Morning , ';
   static const String happingInYourBransh="Here's what's happening in your IEEE Student Activity today.";
   static const String totalStudent='TOTAL STUDENTS';
   static const String totalSission='TOTAL SESSIONS';

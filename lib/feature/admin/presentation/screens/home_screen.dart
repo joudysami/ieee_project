@@ -21,6 +21,7 @@ class HomeScreen extends StatelessWidget {
       body: BlocBuilder<AuthCubit, AppStates>(
         builder: (context, state) {
           final UserModel? userData = CacheHelp.getUser();
+
           return SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
@@ -37,32 +38,20 @@ class HomeScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-
-                      Text(userData?.name ?? ''),)
-                    ],
-                  ),
-
-                  IconButton(
-                    icon: Icon(Icons.logout, color: context.colors.error),
-                    tooltip: 'Sign Out',
-                    onPressed: () async {
-                      // 1. مسح البيانات المحفوظة في SharedPreferences
-                      await CacheHelp.clearSession();
-
-                            // 2. استدعاء دالة الخروج من AuthCubit
-                            if (context.mounted) {
-                              // await context.read<AuthCubit>().signOut(); // أو اسم دالة SignOut لديكِ
-
-                              if (!context.mounted) return;
-
-                              // 3. التوجيه لشاشة اللوجين ومسح جميع الشاشات الـ Stack
-                              context.go('/loginScreen');
-                            }
-                          },
+                        Expanded(
+                          child: Text(
+                            userData?.name ?? '',
+                            style: TextStyle(
+                              color: context.colors.blue.shade500,
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         ),
                       ],
                     ),
-
                     Text(
                       AppString.happingInYourBransh,
                       style: TextStyle(color: context.colors.primary),
@@ -73,13 +62,11 @@ class HomeScreen extends StatelessWidget {
                       icon: AppIcons.totalStudent,
                       num: '??',
                     ),
-                    // SizedBox(height: ),
                     HomeContiner(
                       title: AppString.totalSission,
                       icon: AppIcons.totalSession,
                       num: '??',
                     ),
-
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -100,7 +87,7 @@ class HomeScreen extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(vertical: 8.h),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       AppString.pendingReview,
@@ -140,7 +127,6 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
