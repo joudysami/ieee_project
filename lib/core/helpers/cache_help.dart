@@ -13,10 +13,10 @@ class CacheHelp {
 
   static Future<void> saveUserSession({
     required bool isRemembered,
-    required UserModel user,
+    required UserModel? user,
   }) async {
     await _preferences!.setBool(_keyIsRemembered, isRemembered);
-    if (isRemembered) {
+    if (user != null) {
       await _preferences!.setString(_KeyUserModel, user.toJson());
     } else {
       await _preferences!.remove(_KeyUserModel);

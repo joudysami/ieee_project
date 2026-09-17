@@ -7,6 +7,7 @@ import 'package:ieee/core/helpers/cache_help.dart';
 import 'package:ieee/core/states/app_states.dart';
 import 'package:ieee/core/theme/app_colors.dart';
 import 'package:ieee/feature/auth/presentation/cubit/auth_cubit.dart';
+import '../../../auth/data/model/user_model.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -16,8 +17,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<AuthCubit, AppStates>(
         builder: (context, state) {
-          final cubit = context.read<AuthCubit>();
-          final userName = cubit.currentUser?.name ?? "";
+          final UserModel? userData = CacheHelp.getUser();
           return SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(userName),
+                      Text(userData?.name ?? ''),
                     ],
                   ),
 

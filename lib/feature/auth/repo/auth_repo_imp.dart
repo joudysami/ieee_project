@@ -9,6 +9,7 @@ class AuthRepoImp implements AuthRepo {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  @override
   Future<UserModel> login(String email, String password) async {
     try {
       final cleanEmail = email.trim();
@@ -32,14 +33,16 @@ class AuthRepoImp implements AuthRepo {
     }
   }
 
+  @override
   Future<UserModel> register(
     String email,
     String password,
     String name,
     String phone,
     String institute,
-    String enrollment,
-  ) async {
+    String enrollment, {
+    bool isRemembered = false,
+  }) async {
     try {
       final cleanEmail = email.trim();
       final cleanPassword = password.trim();
@@ -67,6 +70,7 @@ class AuthRepoImp implements AuthRepo {
     }
   }
 
+  @override
   Future<void> forgetPassword(String email) async {
     try {
       final cleanEmail = email.trim();
@@ -94,6 +98,7 @@ class AuthRepoImp implements AuthRepo {
     }
   }
 
+  @override
   Future<void> confirmPasswordReset({
     required String code,
     required String newPassword,
@@ -156,6 +161,7 @@ class AuthRepoImp implements AuthRepo {
     }
   }
 
+  @override
   Future<UserModel> completeProfile({
     required String phone,
     required String institute,

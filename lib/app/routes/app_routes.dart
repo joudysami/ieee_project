@@ -8,13 +8,13 @@ import 'package:ieee/feature/auth/presentation/screens/login_screen.dart';
 import 'package:ieee/feature/auth/presentation/screens/register_screen.dart';
 import 'package:ieee/feature/auth/presentation/screens/reset_password_screen.dart';
 import 'package:ieee/feature/splash/splash_screen.dart';
-
 import '../../feature/admin/presentation/screens/home_screen.dart';
 import '../../feature/layout/layout_screen.dart';
 import '../../feature/student/presentation/screens/home_screen_stu.dart';
 
 class AppRoutes {
   static final AuthCubit _authCubit = AuthCubit();
+
   final GoRouter goRouter = GoRouter(
     initialLocation: AppRoutesName.splashScreen,
     routes: [

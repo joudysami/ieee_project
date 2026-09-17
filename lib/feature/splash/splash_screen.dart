@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,25 +32,27 @@ class _SplashScreenState extends State<SplashScreen> {
       _handleNavigation();
       return;
     }
-
     await CacheHelp.setSplashSeen();
     await Future.delayed(const Duration(seconds: 3));
     if (!mounted) return;
     _handleNavigation();
   }
 
-  void _handleNavigation() {
-    if (!mounted) return;
+  bool _hasNavigated = false;
+
+  Future<void> _handleNavigation() async {
+    if (!mounted || _hasNavigated) return;
+    _hasNavigated = true;
 
     final bool isRemembered = CacheHelp.getIsRemembered();
     final UserModel? userData = CacheHelp.getUser();
-    print("=== DEBUG CACHE ===");
-    print("isRemembered: $isRemembered");
-    print("hasSeenSplash: ${CacheHelp.getSplashSeen()}");
-    print("role: $userData");
-    print("===================");
-    if (isRemembered) {
-      context.go('/layoutScreen');
+
+    log("=== DEBUG CACHE ===");
+    log("isRemembered: $isRemembered");
+    log("userData null?: ${userData == null}");
+
+    if (isRemembered && userData != null) {
+      context.go('/layoutScreen', extra: userData.role);
     } else {
       context.go('/loginScreen');
     }
@@ -92,9 +95,6 @@ class _SplashScreenState extends State<SplashScreen> {
                   color: context.colors.white,
                 ),
               ),
-              onFinish: (dirction) {
-                _handleNavigation();
-              },
             ),
           ],
         ),

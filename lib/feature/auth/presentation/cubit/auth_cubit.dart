@@ -7,20 +7,21 @@ import 'package:ieee/feature/auth/repo/auth_repo_imp.dart';
 
 class AuthCubit extends Cubit<AppStates> {
   final AuthRepo _repo = AuthRepoImp();
- UserModel? currentUser;
+  UserModel? currentUser;
   String? errorMessage;
 
   AuthCubit() : super(AppStates.initial);
 
-  Future<void> login(String email, String password,{bool isRemembered =false}) async {
+  Future<void> login(
+    String email,
+    String password, {
+    bool isRemembered = false,
+  }) async {
     emit(AppStates.loading);
     try {
-final UserModel user =await _repo.login(email, password);
+      final UserModel user = await _repo.login(email, password);
       currentUser = user;
-     await CacheHelp.saveUserSession(
-        user: user,
-        isRemembered: isRemembered,
-      );
+      await CacheHelp.saveUserSession(user: user, isRemembered: isRemembered);
       errorMessage = null;
       emit(AppStates.success);
     } catch (e) {
@@ -39,16 +40,17 @@ final UserModel user =await _repo.login(email, password);
   ) async {
     emit(AppStates.registerLoading);
     try {
-     final UserModel user = await _repo.register(
-        email, password, name, phone, institute, enrollment,
+      final UserModel user = await _repo.register(
+        email,
+        password,
+        name,
+        phone,
+        institute,
+        enrollment,
       );
       currentUser = user;
 
-   
-      await CacheHelp.saveUserSession(
-        user: user,
-        isRemembered: true,
-      );
+      await CacheHelp.saveUserSession(user: user, isRemembered: true);
       errorMessage = null;
       emit(AppStates.success);
     } catch (e) {
@@ -63,8 +65,7 @@ final UserModel user =await _repo.login(email, password);
       await _repo.forgetPassword(email);
       errorMessage = null;
       emit(AppStates.success);
-    }
-     catch (e) {
+    } catch (e) {
       errorMessage = e.toString().replaceAll('Exception:', '');
       emit(AppStates.error);
     }
@@ -85,19 +86,14 @@ final UserModel user =await _repo.login(email, password);
     }
   }
 
-
   Future<void> signInWithGoogle({bool isRemembered = false}) async {
     emit(AppStates.googleLoading);
     try {
       final UserModel? user = await _repo.signInWithGoogle();
       if (user != null) {
         currentUser = user;
-        
-    
-        await CacheHelp.saveUserSession(
-          user: user,
-          isRemembered: isRemembered,
-        );
+
+        await CacheHelp.saveUserSession(user: user, isRemembered: isRemembered);
 
         errorMessage = null;
         emit(AppStates.success);
@@ -118,18 +114,15 @@ final UserModel user =await _repo.login(email, password);
   }) async {
     emit(AppStates.loading);
     try {
-     final UserModel user = await _repo.completeProfile(
-      enrollment: enrollment,
-      phone: phone,
-      institute: institute,
-    );
+      final UserModel user = await _repo.completeProfile(
+        enrollment: enrollment,
+        phone: phone,
+        institute: institute,
+      );
 
-    currentUser = user; 
-   
-    await CacheHelp.saveUserSession(
-      user: user,
-      isRemembered: true,
-    );
+      currentUser = user;
+
+      await CacheHelp.saveUserSession(user: user, isRemembered: true);
       errorMessage = null;
       emit(AppStates.success);
     } catch (e) {
@@ -137,8 +130,4 @@ final UserModel user =await _repo.login(email, password);
       emit(AppStates.error);
     }
   }
-  
-
-
-
 }

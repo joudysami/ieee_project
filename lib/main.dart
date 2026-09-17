@@ -5,22 +5,20 @@ import 'package:ieee/app/routes/app_routes.dart';
 import 'package:ieee/core/helpers/cache_help.dart';
 import 'package:ieee/firebase_options.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await CacheHelp.init();
   runApp(
     ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) { 
+      builder: (context, child) {
         return const MyApp();
       },
     ),
-    );
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -41,7 +39,6 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.black,
       ),
       debugShowCheckedModeBanner: false,
-      
     );
   }
 }
