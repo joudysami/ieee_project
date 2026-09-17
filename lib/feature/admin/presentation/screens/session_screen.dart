@@ -35,7 +35,7 @@ class SessionScreen extends StatelessWidget {
             SizedBox(height: 15.h),
             CustomElevatedButton(
               text: AppString.addNewSession,
-              onTap: () => context.go('/addSession'),
+              onTap: () => context.push('/addSession'),
               borderRadius: 20,
             ),
           ],

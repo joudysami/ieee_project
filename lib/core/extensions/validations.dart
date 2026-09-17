@@ -18,4 +18,16 @@ abstract class Validations {
     final RegExp phoneRegExp = RegExp(r'^[0-9]{10,15}$');
     return phoneRegExp.hasMatch(phone);
   }
+
+  static bool isEmpty(String? value) {
+    return value == null || value.trim().isEmpty;
+  }
+
+  
+  static String? validateRequired(String? value, String fieldName) {
+    if (isEmpty(value)) {
+      return 'Please enter $fieldName';
+    }
+    return null;
+  }
 }

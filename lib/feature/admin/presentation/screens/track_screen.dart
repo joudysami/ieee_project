@@ -50,7 +50,7 @@ class TrackScreen extends StatelessWidget {
                     SizedBox(height: 10.h),
                     CustomElevatedButton(
                       text: AppString.newAssignment,
-                      onTap: () => context.go('/addAssignment'),
+                      onTap: () => context.push('/addAssignment'),
                       height: 36.h,
                       width: 180.w,
                       icon: Icon(Icons.add, color: context.colors.white),
@@ -117,7 +117,7 @@ class TrackScreen extends StatelessWidget {
                       children: [
                         CustomElevatedButton(
                           text: AppString.newSession,
-                          onTap: () => context.go('/addSession'),
+                          onTap: () => context.push('/addSession'),
                           height: 36.h,
                           width: 170.w,
                           icon: Icon(Icons.add, color: context.colors.white),

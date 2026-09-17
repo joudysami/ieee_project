@@ -36,7 +36,7 @@ class CustomElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    final effectiveBgColor = backgroundColor ?? context.colors.primary;
+    final effectiveBgColor = backgroundColor ?? context.colors.sky.shade500;
     final effectiveTextColor = textColor ?? context.colors.white;
 
     return SizedBox(
