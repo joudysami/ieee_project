@@ -8,4 +8,10 @@ abstract final class AppRoutesName {
   static const String completeProfileScreen = '/completeProfileScreen';
   static const String resetPasswordScreen = '/resetPasswordScreen';
   static const String layoutScreen = '/layoutScreen';
+  static const String reviewAss='/reviewAssignment';
+  static const String session='/session';
+  static const String addSession='/addSession';
+  static const String assignment='/assignment';
+  static const String addAssignment='/addAssignment';
+ 
 }

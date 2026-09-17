@@ -242,7 +242,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ],
                       ),
                       SizedBox(height: 14.h),
-                      CustomeElevatebotton(
+                      CustomElevatedButton(
                         text: AppString.createAccount,
                         // icon: Icon(Icons.person_add, color: context.colors.white),
                         loadingState: AppStates.registerLoading,

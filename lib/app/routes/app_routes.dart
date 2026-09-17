@@ -1,6 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ieee/app/routes/app_routes_name.dart';
+import 'package:ieee/feature/admin/presentation/screens/add_assignment_screen.dart';
+import 'package:ieee/feature/admin/presentation/screens/add_session_screen.dart';
+import 'package:ieee/feature/admin/presentation/screens/assignment_screen.dart';
+import 'package:ieee/feature/admin/presentation/screens/review_assignment_screen.dart';
+import 'package:ieee/feature/admin/presentation/screens/session_screen.dart';
 import 'package:ieee/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:ieee/feature/auth/presentation/screens/complete_profile_screen.dart';
 import 'package:ieee/feature/auth/presentation/screens/forget_password_screen.dart';
@@ -99,6 +104,47 @@ class AppRoutes {
           );
         },
       ),
+
+      GoRoute(
+        path: '/reviewAssignment',
+        name: AppRoutesName.reviewAss,
+        builder: (context, state)  => BlocProvider.value(
+          value: _authCubit,
+          child:  const ReviewAssignmentScreen(),
+      ),
+      ),
+      GoRoute(
+        path: '/session',
+        name: AppRoutesName.session,
+        builder: (context, state)  => BlocProvider.value(
+          value: _authCubit,
+          child:  const SessionScreen(),
+      ),
+      ),
+      GoRoute(
+        path: '/addSession',
+        name: AppRoutesName.addSession,
+        builder: (context, state)  => BlocProvider.value(
+          value: _authCubit,
+          child:  const AddSessionScreen(),
+      ),
+      ),
+      GoRoute(
+        path: '/assignment',
+        name: AppRoutesName.assignment,
+        builder: (context, state)  => BlocProvider.value(
+          value: _authCubit,
+          child:  const AssignmentScreen(),
+      ),
+      ),
+      GoRoute(
+        path: '/addAssignment',
+        name: AppRoutesName.addAssignment,
+        builder: (context, state)  => BlocProvider.value(
+          value: _authCubit,
+          child: const AddAssignmentScreen(),
+      ),
+      )
     ],
   );
 }

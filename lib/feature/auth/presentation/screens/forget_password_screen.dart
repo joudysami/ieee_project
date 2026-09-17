@@ -106,7 +106,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         },
                       ),
                       SizedBox(height: 24.h),
-                      CustomeElevatebotton(
+                      CustomElevatedButton(
                         text: AppString.sendResetLink,
                         icon: Icon(
                           Icons.arrow_forward,

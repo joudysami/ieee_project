@@ -152,7 +152,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                         },
                       ),
                       SizedBox(height: 20.h),
-                      CustomeElevatebotton(
+                      CustomElevatedButton(
                         text: AppString.save,
                         loadingState: AppStates.loading,
                         onTap: () {
