@@ -17,14 +17,24 @@ class SessionScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              AppString.session,
-              style: TextStyle(
-                color: context.colors.primary,
-                fontSize: 26.sp,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () => context.pop(),
+                  icon: Icon(Icons.arrow_back),
+                ),
+                SizedBox(width: 25.w),
+                Text(
+                  AppString.session,
+                  style: TextStyle(
+                    color: context.colors.primary,
+                    fontSize: 26.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
+
             Text(
               AppString.viewAndMangeSession,
               style: TextStyle(

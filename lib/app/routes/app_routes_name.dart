@@ -9,6 +9,7 @@ abstract final class AppRoutesName {
   static const String resetPasswordScreen = '/resetPasswordScreen';
   static const String layoutScreen = '/layoutScreen';
   static const String reviewAss='/reviewAssignment';
+  static const String reviewDetails ='/reviewDetails';
   static const String session='/session';
   static const String addSession='/addSession';
   static const String assignment='/assignment';

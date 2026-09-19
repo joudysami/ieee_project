@@ -10,21 +10,31 @@ class AssignmentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 25.h),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              AppString.assignment,
-              style: TextStyle(
-                color: context.colors.primary,
-                fontSize: 26.sp,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () => context.pop(),
+                  icon: Icon(Icons.arrow_back),
+                ),
+                SizedBox(width: 25.w),
+                Text(
+                  AppString.assignment,
+                  style: TextStyle(
+                    color: context.colors.primary,
+                    fontSize: 26.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
+
             Text(
               AppString.viewAndMangeAss,
               style: TextStyle(

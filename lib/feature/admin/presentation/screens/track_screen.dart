@@ -20,7 +20,7 @@ class TrackScreen extends StatelessWidget {
               children: [
                 Container(
                   width: 350.w,
-                  height: 290.h,
+                  height: 260.h,
                   decoration: BoxDecoration(
                     color: context.colors.grey.shade500,
                     borderRadius: BorderRadius.circular(16.r),
@@ -50,20 +50,11 @@ class TrackScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 10.h),
-                        CustomElevatedButton(
-                          text: AppString.newAssignment,
-                          onTap: () => context.push('/addAssignment'),
-                          height: 32.h,
-                          width: 180.w,
-                          icon: Icon(Icons.add, color: context.colors.white),
-                          fontSize: 14,
-                        ),
-                        SizedBox(height: 10.h),
                         Row(
                           children: [
                             CustomElevatedButton(
                               text: AppString.veiwAll,
-                              onTap: () => context.go('/assignment'),
+                              onTap: () => context.push('/assignment'),
                               height: 32.h,
                               width: 90.w,
                               fontSize: 14,
@@ -73,7 +64,7 @@ class TrackScreen extends StatelessWidget {
                               text: AppString.review,
                               height: 32.h,
                               width: 90.w,
-                              onTap: () => context.go('/reviewAssignment'),
+                              onTap: () => context.push('/reviewAssignment'),
                               fontSize: 14,
                             ),
                           ],
@@ -128,7 +119,7 @@ class TrackScreen extends StatelessWidget {
                             SizedBox(width: 10.w),
                             CustomElevatedButton(
                               text: AppString.veiwAll,
-                              onTap: () => context.go('/session'),
+                              onTap: () => context.push('/session'),
                               height: 32.h,
                               width: 90.w,
                               fontSize: 14,
