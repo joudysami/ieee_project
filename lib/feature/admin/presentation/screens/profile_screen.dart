@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 22.sp,
               fontWeight: FontWeight.bold,
-              color: context.colors.black,
+              color: context.colors.blue.shade500,
             ),
           ),
           SizedBox(height: 4.h),
@@ -40,7 +40,7 @@ class ProfileScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.bold,
-              color: context.colors.black,
+              color: context.colors.primary,
             ),
           ),
           SizedBox(height: 12.h),
@@ -49,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14.sp,
-              color: context.colors.black,
+              color: context.colors.sky.shade600,
               height: 1.4.h,
             ),
           ),
@@ -60,7 +60,7 @@ class ProfileScreen extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: context.colors.sky.shade300,
+                  backgroundColor: context.colors.sky.shade500,
                   elevation: 0,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -72,13 +72,13 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 icon: Icon(
                   Icons.edit_outlined,
-                  color: context.colors.black,
+                  color: context.colors.white,
                   size: 18.sp,
                 ),
                 label: Text(
                   'Edit Profile',
                   style: TextStyle(
-                    color: context.colors.black,
+                    color: context.colors.white,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -86,14 +86,14 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(width: 12),
               Container(
                 decoration: BoxDecoration(
-                  color: context.colors.sky.shade300,
+                  color: context.colors.sky.shade500,
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(
                   icon: Icon(
                     Icons.ios_share,
                     size: 20,
-                    color: context.colors.primary,
+                    color: context.colors.white,
                   ),
                   onPressed: () {},
                 ),
@@ -148,8 +148,8 @@ class ProfileScreen extends StatelessWidget {
           CustomElevatedButton(
             width: 310.w,
             title: 'Log Out',
-            bgColor: context.colors.sky.shade300,
-            titleColor: context.colors.black,
+            bgColor:Color(0xFFFEE2E2),
+            titleColor: Color(0xFFEF4444),
             onTab: () async {
               // 1. مسح البيانات المحفوظة في SharedPreferences
               await CacheHelp.clearSession();

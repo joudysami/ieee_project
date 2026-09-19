@@ -23,8 +23,8 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
   late final TextEditingController _dateController;
   late final TextEditingController _durationController;
   late final TextEditingController _urlController;
- 
- @override
+
+  @override
   void initState() {
     super.initState();
     _titleController = TextEditingController();
@@ -52,19 +52,20 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
     _urlController.clear();
   }
 
- Future<void> _handleDiscard() async {
+  Future<void> _handleDiscard() async {
     final shouldDiscard = await showDiscardDialog(context);
 
     if (shouldDiscard == true) {
       _clearFields();
       if (mounted) {
-        context.pop();  
+        context.pop();
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 25.h),
         child: SingleChildScrollView(
@@ -74,73 +75,94 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  AppString.addAss,
-                  style: TextStyle(
-                    color: context.colors.primary,
-                    fontSize: 26.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () => context.pop(),
+                      icon: Icon(Icons.arrow_back),
+                    ),
+                    SizedBox(width: 25.w),
+                    Text(
+                      AppString.addAss,
+                      style: TextStyle(
+                        color: context.colors.primary,
+                        fontSize: 26.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
+
                 Text(
                   AppString.mangeAllAss,
                   style: TextStyle(color: context.colors.primary, fontSize: 16),
                 ),
-                SizedBox(height: 12.h,),
+                SizedBox(height: 12.h),
                 CustomeTextformfield(
                   text: AppString.assTitle,
                   hintText: AppString.introToReact,
                   controller: _titleController,
-                  validator: (value) => Validations.validateRequired(value,AppString.assTitle)
+                  validator: (value) =>
+                      Validations.validateRequired(value, AppString.assTitle),
                 ),
-                SizedBox(height: 12.h,),
+                SizedBox(height: 12.h),
                 CustomeTextformfield(
                   text: AppString.description,
                   hintText: AppString.brieflyDescribe,
                   minLines: 4,
                   maxLines: 4,
                   controller: _descriptionController,
-                  validator: (value) => Validations.validateRequired(value,AppString.description)
+                  validator: (value) => Validations.validateRequired(
+                    value,
+                    AppString.description,
+                  ),
                 ),
-                SizedBox(height: 12.h,),
+                SizedBox(height: 12.h),
                 CustomeTextformfield(
                   text: AppString.scheduledDate,
                   hintText: AppString.mdy,
                   suffixIcon: Icon(Icons.date_range_outlined),
                   controller: _dateController,
-                  validator: (value) => Validations.validateRequired(value,AppString.scheduledDate)
+                  validator: (value) => Validations.validateRequired(
+                    value,
+                    AppString.scheduledDate,
+                  ),
                 ),
-                SizedBox(height: 12.h,),
+                SizedBox(height: 12.h),
                 CustomeTextformfield(
                   text: AppString.deadLine,
                   hintText: AppString.mdy,
                   suffixIcon: Icon(Icons.access_time),
                   controller: _durationController,
-                  validator: (value) => Validations.validateRequired(value,AppString.deadLine)
+                  validator: (value) =>
+                      Validations.validateRequired(value, AppString.deadLine),
                 ),
-                SizedBox(height: 12.h,),
+                SizedBox(height: 12.h),
                 CustomeTextformfield(
                   text: AppString.externalResourse,
                   hintText: AppString.http,
                   controller: _urlController,
-                  validator: (value) => Validations.validateRequired(value,AppString.externalResourse)
+                  validator: (value) => Validations.validateRequired(
+                    value,
+                    AppString.externalResourse,
+                  ),
                 ),
                 Text(
                   AppString.linkToPresentation,
                   style: TextStyle(color: context.colors.primary, fontSize: 16),
                 ),
-                SizedBox(height: 12.h,),
+                SizedBox(height: 12.h),
                 Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 10.w),
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
                   child: Divider(),
                 ),
-                SizedBox(height: 12.h,),
+                SizedBox(height: 12.h),
                 CustomElevatedButton(
                   text: AppString.saveAss,
                   onTap: () {},
                   borderRadius: 20,
                 ),
-                SizedBox(height: 12.h,),
+                SizedBox(height: 12.h),
                 CustomElevatedButton(
                   text: AppString.discardChange,
                   onTap: _handleDiscard,

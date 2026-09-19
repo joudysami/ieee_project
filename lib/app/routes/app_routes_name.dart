@@ -13,6 +13,7 @@ abstract final class AppRoutesName {
   static const String trackScreen = '/trackScreen';
   static const String manageStudentsScreen = '/manageStudentsScreen';
   static const String reviewAss='/reviewAssignment';
+  static const String reviewDetails ='/reviewDetails';
   static const String session='/session';
   static const String addSession='/addSession';
   static const String assignment='/assignment';

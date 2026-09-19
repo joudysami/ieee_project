@@ -108,7 +108,7 @@ class HomeScreen extends StatelessWidget {
                                           // tapTargetSize:
                                           //     MaterialTapTargetSize.shrinkWrap,
                                         ),
-                                        onPressed:()=>context.go('/reviewAssignment'),
+                                        onPressed:()=>context.push('/reviewAssignment'),
                                         child: Text(
                                           AppString.veiwAll,
                                           style: TextStyle(

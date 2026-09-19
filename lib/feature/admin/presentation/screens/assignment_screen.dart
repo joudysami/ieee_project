@@ -14,7 +14,7 @@ class AssignmentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 25.h),
         child: Column(
@@ -35,6 +35,7 @@ class AssignmentScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+
             Text(
               AppString.viewAndMangeAss,
               style: TextStyle(

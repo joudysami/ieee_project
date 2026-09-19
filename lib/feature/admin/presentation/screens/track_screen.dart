@@ -20,7 +20,7 @@ class TrackScreen extends StatelessWidget {
               children: [
                 Container(
                   width: 350.w,
-                  height: 250.h,
+                  height: 260.h,
                   decoration: BoxDecoration(
                     color: context.colors.grey.shade500,
                     borderRadius: BorderRadius.circular(16.r),

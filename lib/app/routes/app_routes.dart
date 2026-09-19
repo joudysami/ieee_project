@@ -5,6 +5,7 @@ import 'package:ieee/feature/admin/presentation/screens/add_assignment_screen.da
 import 'package:ieee/feature/admin/presentation/screens/add_session_screen.dart';
 import 'package:ieee/feature/admin/presentation/screens/assignment_screen.dart';
 import 'package:ieee/feature/admin/presentation/screens/review_assignment_screen.dart';
+import 'package:ieee/feature/admin/presentation/screens/review_details_screen.dart';
 import 'package:ieee/feature/admin/presentation/screens/session_screen.dart';
 import 'package:ieee/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:ieee/feature/auth/presentation/screens/complete_profile_screen.dart';
@@ -152,6 +153,14 @@ class AppRoutes {
           child: const AddAssignmentScreen(),
         ),
       ),
+      GoRoute(
+        path: '/reviewDetails',
+        name: AppRoutesName.reviewDetails,
+        builder: (context, state) => BlocProvider.value(
+          value: _authCubit,
+          child: const ReviewDetailsScreen(),
+        ),
+      )
     ],
   );
 }
