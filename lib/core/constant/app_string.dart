@@ -107,4 +107,6 @@ static const String emailNotRegisted='This email is not registered with us!';
   static const String saveAss='Save Assignment';
    static const String saveSession ='Save Session';
   static const String discardChange= 'Discard Changes';
+  static const String manageStudents='Manage Students';
+  static const String viewAndManageStudents='View and manage enrolled students across all tracks.';
 }

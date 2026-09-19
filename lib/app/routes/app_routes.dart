@@ -14,6 +14,7 @@ import 'package:ieee/feature/auth/presentation/screens/register_screen.dart';
 import 'package:ieee/feature/auth/presentation/screens/reset_password_screen.dart';
 import 'package:ieee/feature/splash/splash_screen.dart';
 import '../../feature/admin/presentation/screens/home_screen.dart';
+import '../../feature/admin/presentation/screens/track_screen.dart';
 import '../../feature/layout/layout_screen.dart';
 import '../../feature/student/presentation/screens/home_screen_stu.dart';
 
@@ -54,28 +55,6 @@ class AppRoutes {
           child: const ForgotPasswordScreen(),
         ),
       ),
-      GoRoute(
-        path: '/adminScreen',
-        name: AppRoutesName.adminScreen,
-        builder: (context, state) =>
-            BlocProvider.value(value: _authCubit, child: const HomeScreen()),
-      ),
-      GoRoute(
-        path: '/studentScreen',
-        name: AppRoutesName.studentScreen,
-        builder: (context, state) => const HomeScreenStu(),
-      ),
-      GoRoute(
-        path: '/layoutScreen',
-        name: AppRoutesName.layoutScreen,
-        builder: (context, state) {
-          final role = state.extra as String?;
-          return BlocProvider.value(
-            value: _authCubit,
-            child: LayoutScreen(role: role),
-          );
-        },
-      ),
 
       GoRoute(
         path: '/completeProfileScreen',
@@ -104,47 +83,75 @@ class AppRoutes {
           );
         },
       ),
+      GoRoute(
+        path: '/layoutScreen',
+        name: AppRoutesName.layoutScreen,
+        builder: (context, state) {
+          final role = state.extra as String?;
+          return BlocProvider.value(
+            value: _authCubit,
+            child: LayoutScreen(role: role),
+          );
+        },
+      ),
 
+      GoRoute(
+        path: '/adminScreen',
+        name: AppRoutesName.adminScreen,
+        builder: (context, state) =>
+            BlocProvider.value(value: _authCubit, child: const HomeScreen()),
+      ),
+
+      GoRoute(
+        path: '/trackScreen',
+        name: AppRoutesName.trackScreen,
+        builder: (context, state) =>
+            BlocProvider.value(value: _authCubit, child: const TrackScreen()),
+      ),
+
+      GoRoute(
+        path: '/studentScreen',
+        name: AppRoutesName.studentScreen,
+        builder: (context, state) => const HomeScreenStu(),
+      ),
       GoRoute(
         path: '/reviewAssignment',
         name: AppRoutesName.reviewAss,
-        builder: (context, state)  => BlocProvider.value(
+        builder: (context, state) => BlocProvider.value(
           value: _authCubit,
-          child:  const ReviewAssignmentScreen(),
-      ),
+          child: const ReviewAssignmentScreen(),
+        ),
       ),
       GoRoute(
         path: '/session',
         name: AppRoutesName.session,
-        builder: (context, state)  => BlocProvider.value(
-          value: _authCubit,
-          child:  const SessionScreen(),
-      ),
+        builder: (context, state) =>
+            BlocProvider.value(value: _authCubit, child: const SessionScreen()),
       ),
       GoRoute(
         path: '/addSession',
         name: AppRoutesName.addSession,
-        builder: (context, state)  => BlocProvider.value(
+        builder: (context, state) => BlocProvider.value(
           value: _authCubit,
-          child:  const AddSessionScreen(),
-      ),
+          child: const AddSessionScreen(),
+        ),
       ),
       GoRoute(
         path: '/assignment',
         name: AppRoutesName.assignment,
-        builder: (context, state)  => BlocProvider.value(
+        builder: (context, state) => BlocProvider.value(
           value: _authCubit,
-          child:  const AssignmentScreen(),
-      ),
+          child: const AssignmentScreen(),
+        ),
       ),
       GoRoute(
         path: '/addAssignment',
         name: AppRoutesName.addAssignment,
-        builder: (context, state)  => BlocProvider.value(
+        builder: (context, state) => BlocProvider.value(
           value: _authCubit,
           child: const AddAssignmentScreen(),
+        ),
       ),
-      )
     ],
   );
 }
