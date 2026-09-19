@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ieee/core/constant/app_string.dart';
 import 'package:ieee/core/extensions/padding_ext.dart';
 import 'package:ieee/core/theme/app_colors.dart';
@@ -18,8 +19,14 @@ class ReviewDetailsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            IconButton(
+              onPressed: () {
+                context.pop();
+              },
+              icon: Icon(Icons.arrow_back_ios_outlined),
+            ),
             Text(
-              AppString.session,
+              AppString.reviewdetails,
               style: TextStyle(
                 color: context.colors.primary,
                 fontSize: 26.sp,
@@ -82,7 +89,7 @@ class ReviewDetailsScreen extends StatelessWidget {
                             ),
                           ),
                         ],
-                      ).setHorizontalPadding(context,0.01.w),
+                      ).setHorizontalPadding(context, 0.01.w),
                     ),
                   ],
                 ).setHorizontalAndVerticalPadding(context, 0.04.h, 0.02.w),
@@ -111,7 +118,8 @@ class ReviewDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),const Divider(height: 15, thickness: 0.5),
+                  ),
+                  const Divider(height: 15, thickness: 0.5),
                   SizedBox(height: 16.h),
                   Text(
                     AppString.adminName,
@@ -135,7 +143,7 @@ class ReviewDetailsScreen extends StatelessWidget {
                     text: AppString.finalScore,
                     hintText: 'e.g. 95',
                     suffixText: '/100',
-                    borderColor: context.colors.grey.shade500,
+                    borderColor: context.colors.grey.shade600,
                   ),
                   SizedBox(height: 12.h),
                   CustomeTextformfield(
@@ -143,13 +151,17 @@ class ReviewDetailsScreen extends StatelessWidget {
                     maxLines: 4,
                     minLines: 4,
                     hintText: AppString.provideDetails,
-                    borderColor: context.colors.grey.shade500,
+                    borderColor: context.colors.grey.shade600,
                   ),
                 ],
               ).setHorizontalAndVerticalPadding(context, 0.04.h, 0.02.w),
             ),
             SizedBox(height: 15.h),
-            CustomElevatedButton(onTap: () {}, text: AppString.submitReview,height: 40.h,).setHorizontalPadding(context,0.01.w),
+            CustomElevatedButton(
+              onTap: () {},
+              text: AppString.submitReview,
+              height: 40.h,
+            ).setHorizontalPadding(context, 0.01.w),
           ],
         ).setHorizontalAndVerticalPadding(context, 0.03.h, 0.03.w),
       ),

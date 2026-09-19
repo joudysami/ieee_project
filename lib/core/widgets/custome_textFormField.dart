@@ -64,7 +64,7 @@ class CustomeTextformfield extends StatelessWidget {
               suffixText: suffixText,
               prefixIconColor: context.colors.sky.shade500,
               suffixIconColor: context.colors.sky.shade500,
-              hintStyle: TextStyle(color: context.colors.grey.shade600),
+              hintStyle: TextStyle(color: context.colors.grey.shade800),
           
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.r),

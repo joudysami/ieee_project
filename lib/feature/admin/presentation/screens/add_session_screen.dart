@@ -75,22 +75,17 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () => context.pop(),
-                      icon: Icon(Icons.arrow_back),
-                    ),
-                    SizedBox(width: 25.w),
-                    Text(
-                      AppString.addSession,
-                      style: TextStyle(
-                        color: context.colors.primary,
-                        fontSize: 26.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                IconButton(
+                  onPressed: () => context.pop(),
+                  icon: Icon(Icons.arrow_back_ios_outlined),
+                ),
+                Text(
+                  AppString.addSession,
+                  style: TextStyle(
+                    color: context.colors.primary,
+                    fontSize: 26.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
 
                 Text(

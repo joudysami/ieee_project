@@ -87,7 +87,7 @@ class HomeScreen extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(vertical: 8.h),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       AppString.pendingReview,
@@ -108,7 +108,8 @@ class HomeScreen extends StatelessWidget {
                                           // tapTargetSize:
                                           //     MaterialTapTargetSize.shrinkWrap,
                                         ),
-                                        onPressed:()=>context.push('/reviewAssignment'),
+                                        onPressed: () =>
+                                            context.push('/reviewAssignment'),
                                         child: Text(
                                           AppString.veiwAll,
                                           style: TextStyle(

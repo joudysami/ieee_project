@@ -17,21 +17,18 @@ class ReviewAssignmentScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-               IconButton(onPressed:()=>context.pop(), icon: Icon(Icons.arrow_back)),
-               SizedBox(width: 25.w,),
-               Text(
+          IconButton(
+            onPressed: () => context.pop(),
+            icon: Icon(Icons.arrow_back_ios_outlined),
+          ),
+          SizedBox(width: 25.w),
+          Text(
             AppString.reviewAss,
             style: TextStyle(
               color: context.colors.primary,
               fontSize: 26.sp,
               fontWeight: FontWeight.bold,
             ),
-          ),
-
-         
-            ],
           ),
           CustomeTextformfield(
             text: '',
@@ -48,7 +45,7 @@ class ReviewAssignmentScreen extends StatelessWidget {
                 return ReviewContainer(
                   studentName: 'Ali',
                   assignmentTitle: 'Data Structure',
-                  onReviewPressed: ()=> context.push('/reviewDetails'),
+                  onReviewPressed: () => context.push('/reviewDetails'),
                 );
               },
             ),
