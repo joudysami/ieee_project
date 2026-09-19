@@ -22,4 +22,7 @@ abstract class AuthRepo {
     required String phone,
     required String institute,
   });
+
+  Future<String?> getValidIdToken();
+
 }

@@ -52,6 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
     log("userData null?: ${userData == null}");
 
     if (isRemembered && userData != null) {
+      log('uid : ${userData.uId}');
       context.go('/layoutScreen', extra: userData.role);
     } else {
       context.go('/loginScreen');

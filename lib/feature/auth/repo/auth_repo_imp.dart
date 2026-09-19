@@ -19,6 +19,8 @@ class AuthRepoImp implements AuthRepo {
         email: cleanEmail,
         password: cleanPassword,
       );
+      final idToken = await _firebaseAuth.currentUser!.getIdToken();
+
       final userDoc = await _firestore
           .collection('users')
           .doc(_firebaseAuth.currentUser!.uid)
@@ -26,6 +28,8 @@ class AuthRepoImp implements AuthRepo {
 
       final data = userDoc.data() ?? {};
       data['uid'] = _firebaseAuth.currentUser!.uid;
+      data['idToken'] = idToken;
+
       return UserModel.fromMap(data);
     } catch (e) {
       //throw Exception(e.toString());
@@ -53,6 +57,8 @@ class AuthRepoImp implements AuthRepo {
       );
 
       final userId = newUser.user!.uid;
+      final idToken = await newUser.user!.getIdToken();
+
       final userData = {
         'uid': userId,
         'name': name.trim(),
@@ -60,6 +66,7 @@ class AuthRepoImp implements AuthRepo {
         'phone': phone,
         'institute': institute,
         'enrollment': enrollment,
+        'idToken': idToken,
       };
 
       await _firestore.collection('users').doc(userId).set(userData);
@@ -142,6 +149,8 @@ class AuthRepoImp implements AuthRepo {
       final User? user = userCredential.user;
 
       if (user != null) {
+        final idToken = await user.getIdToken();
+
         final DocumentSnapshot userDoc = await _firestore
             .collection('users')
             .doc(user.uid)
@@ -150,6 +159,7 @@ class AuthRepoImp implements AuthRepo {
         if (userDoc.exists && userDoc.data() != null) {
           final data = userDoc.data() as Map<String, dynamic>;
           data['uid'] = user.uid;
+          data['idToken'] = idToken;
           return UserModel.fromMap(data);
         } else {
           return null;
@@ -173,7 +183,7 @@ class AuthRepoImp implements AuthRepo {
       if (user == null) {
         throw Exception('User is not logged in');
       }
-
+      final idToken = await user.getIdToken();
       final userData = {
         'uid': user.uid,
         'name': user.displayName ?? '',
@@ -181,11 +191,24 @@ class AuthRepoImp implements AuthRepo {
         'phone': phone.trim(),
         'institute': institute,
         'enrollment': enrollment,
+        'idToken': idToken,
       };
 
       await _firestore.collection('users').doc(user.uid).set(userData);
 
       return UserModel.fromMap(userData);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String?> getValidIdToken() async {
+    final user = _firebaseAuth.currentUser;
+    if (user == null) return null;
+
+    try {
+      return await user.getIdToken(true); // force refresh
     } catch (e) {
       rethrow;
     }
