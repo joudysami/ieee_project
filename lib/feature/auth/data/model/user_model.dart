@@ -6,6 +6,7 @@ class UserModel {
   final String email;
   final String role;
   final String? phone;
+  final String? institute;
   final String? idToken;
 
   UserModel({
@@ -14,6 +15,7 @@ class UserModel {
     required this.email,
     required this.role,
     this.phone,
+    this.institute,
     this.idToken,
   });
 
@@ -24,6 +26,7 @@ class UserModel {
       'email': email,
       'role': role,
       'phone': phone,
+      'institute': institute,
       'idToken': idToken,
     };
   }
@@ -35,6 +38,7 @@ class UserModel {
       email: map['email'] ?? '',
       role: map['role'] ?? map['enrollment'] ?? 'Student',
       phone: map['phone'],
+      institute: map['institute'],
       idToken: map['idToken'],
     );
   }

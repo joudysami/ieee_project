@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ieee/core/theme/app_colors.dart';
 
 class MainSamCard extends StatelessWidget {
   final String head;
@@ -38,10 +39,10 @@ class MainSamCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   head,
-                  style: const TextStyle(
-                    fontSize: 30,
+                  style:  TextStyle(
+                    fontSize: 26,
                     fontWeight: FontWeight.w500,
-                    color: Color(0xFF0B101B),
+                    color:context.colors.blue.shade500 ,
                   ),
                 ),
               ),

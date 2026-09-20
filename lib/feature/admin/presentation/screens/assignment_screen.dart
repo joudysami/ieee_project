@@ -54,7 +54,7 @@ class AssignmentScreen extends StatelessWidget {
                         statistics: [
                           StatisticItem(
                             title: 'deadline',
-                            content: statText("25 sep"),
+                            content: statDate('25 oct' ,color:Color.fromARGB(255, 190, 37, 26)),
                           ),
                           StatisticItem(
                             title: 'link',
@@ -67,111 +67,111 @@ class AssignmentScreen extends StatelessWidget {
                           ),
                           StatisticItem(
                             title: 'date',
-                            content: statText("19 sep"),
+                            content: statDate('19 oct' ,color: context.colors.sky.shade500),
                           ),
                         ],
                       ),
                     ),
-                    MainSamCard(
-                      head: 'Assignment 1',
-                      onMenuTap: () {},
-                      child: SubSamCard(
-                        statistics: [
-                          StatisticItem(
-                            title: 'deadline',
-                            content: statText("25 sep"),
-                          ),
-                          StatisticItem(
-                            title: 'link',
-                            content: statIcon(
-                              icon: Icons.open_in_new,
-                              onTap: () {
-                                // Open session link
-                              },
-                            ),
-                          ),
-                          StatisticItem(
-                            title: 'date',
-                            content: statText("19 sep"),
-                          ),
-                        ],
-                      ),
-                    ),
-                    MainSamCard(
-                      head: 'Assignment 1',
-                      onMenuTap: () {},
-                      child: SubSamCard(
-                        statistics: [
-                          StatisticItem(
-                            title: 'deadline',
-                            content: statText("25 sep"),
-                          ),
-                          StatisticItem(
-                            title: 'link',
-                            content: statIcon(
-                              icon: Icons.open_in_new,
-                              onTap: () {
-                                // Open session link
-                              },
-                            ),
-                          ),
-                          StatisticItem(
-                            title: 'date',
-                            content: statText("19 sep"),
-                          ),
-                        ],
-                      ),
-                    ),
-                    MainSamCard(
-                      head: 'Assignment 1',
-                      onMenuTap: () {},
-                      child: SubSamCard(
-                        statistics: [
-                          StatisticItem(
-                            title: 'deadline',
-                            content: statText("25 sep"),
-                          ),
-                          StatisticItem(
-                            title: 'link',
-                            content: statIcon(
-                              icon: Icons.open_in_new,
-                              onTap: () {
-                                // Open session link
-                              },
-                            ),
-                          ),
-                          StatisticItem(
-                            title: 'date',
-                            content: statText("19 sep"),
-                          ),
-                        ],
-                      ),
-                    ),
-                    MainSamCard(
-                      head: 'Assignment 1',
-                      onMenuTap: () {},
-                      child: SubSamCard(
-                        statistics: [
-                          StatisticItem(
-                            title: 'deadline',
-                            content: statText("25 sep"),
-                          ),
-                          StatisticItem(
-                            title: 'link',
-                            content: statIcon(
-                              icon: Icons.open_in_new,
-                              onTap: () {
-                                // Open session link
-                              },
-                            ),
-                          ),
-                          StatisticItem(
-                            title: 'date',
-                            content: statText("19 sep"),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // MainSamCard(
+                    //   head: 'Assignment 1',
+                    //   onMenuTap: () {},
+                    //   child: SubSamCard(
+                    //     statistics: [
+                    //       StatisticItem(
+                    //         title: 'deadline',
+                    //         content: statText("25 sep"),
+                    //       ),
+                    //       StatisticItem(
+                    //         title: 'link',
+                    //         content: statIcon(
+                    //           icon: Icons.open_in_new,
+                    //           onTap: () {
+                    //             // Open session link
+                    //           },
+                    //         ),
+                    //       ),
+                    //       StatisticItem(
+                    //         title: 'date',
+                    //         content: statText("19 sep"),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // MainSamCard(
+                    //   head: 'Assignment 1',
+                    //   onMenuTap: () {},
+                    //   child: SubSamCard(
+                    //     statistics: [
+                    //       StatisticItem(
+                    //         title: 'deadline',
+                    //         content: statText("25 sep"),
+                    //       ),
+                    //       StatisticItem(
+                    //         title: 'link',
+                    //         content: statIcon(
+                    //           icon: Icons.open_in_new,
+                    //           onTap: () {
+                    //             // Open session link
+                    //           },
+                    //         ),
+                    //       ),
+                    //       StatisticItem(
+                    //         title: 'date',
+                    //         content: statText("19 sep"),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // MainSamCard(
+                    //   head: 'Assignment 1',
+                    //   onMenuTap: () {},
+                    //   child: SubSamCard(
+                    //     statistics: [
+                    //       StatisticItem(
+                    //         title: 'deadline',
+                    //         content: statText("25 sep"),
+                    //       ),
+                    //       StatisticItem(
+                    //         title: 'link',
+                    //         content: statIcon(
+                    //           icon: Icons.open_in_new,
+                    //           onTap: () {
+                    //             // Open session link
+                    //           },
+                    //         ),
+                    //       ),
+                    //       StatisticItem(
+                    //         title: 'date',
+                    //         content: statText("19 sep"),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // MainSamCard(
+                    //   head: 'Assignment 1',
+                    //   onMenuTap: () {},
+                    //   child: SubSamCard(
+                    //     statistics: [
+                    //       StatisticItem(
+                    //         title: 'deadline',
+                    //         content: statText("25 sep"),
+                    //       ),
+                    //       StatisticItem(
+                    //         title: 'link',
+                    //         content: statIcon(
+                    //           icon: Icons.open_in_new,
+                    //           onTap: () {
+                    //             // Open session link
+                    //           },
+                    //         ),
+                    //       ),
+                    //       StatisticItem(
+                    //         title: 'date',
+                    //         content: statText("19 sep"),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

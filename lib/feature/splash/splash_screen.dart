@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:animate_do/animate_do.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -46,14 +47,37 @@ class _SplashScreenState extends State<SplashScreen> {
 
     final bool isRemembered = CacheHelp.getIsRemembered();
     final UserModel? userData = CacheHelp.getUser();
+    final firebaseUser = FirebaseAuth.instance.currentUser;
 
     log("=== DEBUG CACHE ===");
     log("isRemembered: $isRemembered");
     log("userData null?: ${userData == null}");
 
-    if (isRemembered && userData != null) {
-      log('uid : ${userData.uId}');
-      context.go('/layoutScreen', extra: userData.role);
+    if (isRemembered && userData != null && firebaseUser != null) {
+      try {
+        final freshToken = await firebaseUser.getIdToken(true);
+
+        final updatedUser = UserModel(
+          uId: userData.uId,
+          name: userData.name,
+          email: userData.email,
+          role: userData.role,
+          phone: userData.phone,
+          institute: userData.institute,
+          idToken: freshToken,
+        );
+        await CacheHelp.saveUserSession(
+          user: updatedUser,
+          isRemembered: isRemembered,
+        );
+
+        if (!mounted) return;
+        context.go('/layoutScreen', extra: updatedUser.role);
+      } catch (e) {
+        log("Error refreshing token on splash: $e");
+        if (!mounted) return;
+        context.go('/loginScreen');
+      }
     } else {
       context.go('/loginScreen');
     }

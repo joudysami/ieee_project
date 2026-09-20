@@ -41,164 +41,47 @@ class SessionScreen extends StatelessWidget {
                 fontSize: 16,
               ),
             ),
+
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    MainSamCard(
-                      head: 'Session 1',
-                      onMenuTap: () {},
-                      child: SubSamCard(
-                        statistics: [
-                          StatisticItem(
-                            title: 'duration',
-                            content: statText('90 min'),
+              child: ListView.builder(
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return MainSamCard(
+                    head: 'Session 1',
+                    onMenuTap: () {},
+                    child: SubSamCard(
+                      statistics: [
+                        StatisticItem(
+                          title: 'duration',
+                          content: statText(
+                            90,
+                            title: 'Min',
+                            color: context.colors.sky.shade900,
                           ),
-                          StatisticItem(
-                            title: 'link',
-                            content: statIcon(
-                              icon: Icons.open_in_new,
-                              onTap: () {
-                                // Open session link
-                              },
-                            ),
+                        ),
+                        StatisticItem(
+                          title: 'link',
+                          content: statIcon(
+                            icon: Icons.open_in_new,
+                            onTap: () {
+                              // Open session link
+                            },
                           ),
-                          StatisticItem(
-                            title: 'date',
-                            content: statText('25 oct'),
+                        ),
+                        StatisticItem(
+                          title: 'date',
+                          content: statDate(
+                            '25 oct',
+                            color: context.colors.sky.shade500,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    MainSamCard(
-                      head: 'Session 1',
-                      onMenuTap: () {},
-                      child: SubSamCard(
-                        statistics: [
-                          StatisticItem(
-                            title: 'duration',
-                            content: statText('90 min'),
-                          ),
-                          StatisticItem(
-                            title: 'link',
-                            content: statIcon(
-                              icon: Icons.open_in_new,
-                              onTap: () {
-                                // Open session link
-                              },
-                            ),
-                          ),
-                          StatisticItem(
-                            title: 'date',
-                            content: statText('25 oct'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    MainSamCard(
-                      head: 'Session 1',
-                      onMenuTap: () {},
-                      child: SubSamCard(
-                        statistics: [
-                          StatisticItem(
-                            title: 'duration',
-                            content: statText('90 min'),
-                          ),
-                          StatisticItem(
-                            title: 'link',
-                            content: statIcon(
-                              icon: Icons.open_in_new,
-                              onTap: () {
-                                // Open session link
-                              },
-                            ),
-                          ),
-                          StatisticItem(
-                            title: 'date',
-                            content: statText('25 oct'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    MainSamCard(
-                      head: 'Session 1',
-                      onMenuTap: () {},
-                      child: SubSamCard(
-                        statistics: [
-                          StatisticItem(
-                            title: 'duration',
-                            content: statText('90 min'),
-                          ),
-                          StatisticItem(
-                            title: 'link',
-                            content: statIcon(
-                              icon: Icons.open_in_new,
-                              onTap: () {
-                                // Open session link
-                              },
-                            ),
-                          ),
-                          StatisticItem(
-                            title: 'date',
-                            content: statText('25 oct'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    MainSamCard(
-                      head: 'Session 1',
-                      onMenuTap: () {},
-                      child: SubSamCard(
-                        statistics: [
-                          StatisticItem(
-                            title: 'duration',
-                            content: statText('90 min'),
-                          ),
-                          StatisticItem(
-                            title: 'link',
-                            content: statIcon(
-                              icon: Icons.open_in_new,
-                              onTap: () {
-                                // Open session link
-                              },
-                            ),
-                          ),
-                          StatisticItem(
-                            title: 'date',
-                            content: statText('25 oct'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    MainSamCard(
-                      head: 'Session 1',
-                      onMenuTap: () {},
-                      child: SubSamCard(
-                        statistics: [
-                          StatisticItem(
-                            title: 'duration',
-                            content: statText('90 min'),
-                          ),
-                          StatisticItem(
-                            title: 'link',
-                            content: statIcon(
-                              icon: Icons.open_in_new,
-                              onTap: () {
-                                // Open session link
-                              },
-                            ),
-                          ),
-                          StatisticItem(
-                            title: 'date',
-                            content: statText('25 oct'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
+
             SizedBox(height: 15.h),
             CustomElevatedButton(
               text: AppString.addNewSession,
