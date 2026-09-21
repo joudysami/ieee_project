@@ -8,13 +8,20 @@ import 'package:ieee/core/widgets/custome_elevateBotton.dart';
 import 'package:ieee/core/widgets/custome_textFormField.dart';
 import 'package:ieee/core/widgets/review_container.dart';
 
+import '../../../../core/helpers/cache_help.dart';
+import '../../../auth/data/model/user_model.dart';
+
 class ReviewDetailsScreen extends StatelessWidget {
   const ReviewDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final UserModel? userData = CacheHelp.getUser();
+
     return Scaffold(
+
       body: SingleChildScrollView(
+
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,7 +137,7 @@ class ReviewDetailsScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 6.h),
                   Text(
-                    'Habiba',
+                    userData?.name ?? '',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
