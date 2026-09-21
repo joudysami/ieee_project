@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ieee/app/routes/app_routes.dart';
 import 'package:ieee/core/helpers/cache_help.dart';
+import 'package:ieee/core/network/api_client.dart';
 import 'package:ieee/firebase_options.dart';
 
 void main() async {
@@ -15,6 +16,7 @@ void main() async {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
+        ApiClient.init();
         return const MyApp();
       },
     ),

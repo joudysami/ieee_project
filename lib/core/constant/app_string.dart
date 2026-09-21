@@ -125,4 +125,15 @@ abstract class AppString {
   static const String submitReview ='Submit Review';
   static const String saveDraft ='Save Draft';
   static const String  provideDetails='Provide detailed feedback on code structure, algorithmic approach, and areas for improvement...';
+ // ==================== Server Errors ====================
+  static const String connectionTimeout = "Connection timeout with server";
+  static const String sendTimeout = "Send timeout in connection with server";
+  static const String receiveTimeout = "Receive timeout in connection with server";
+  static const String requestCancelled = "Request to server was cancelled";
+  static const String noInternetConnection = "No Internet connection. Please check your network";
+  static const String unexpectedError = "Unexpected error occurred, please try again later";
+  static const String unauthorizedError = "Unauthorized access or incorrect credentials";
+  static const String notFoundError = "Requested resource not found (404)";
+  static const String internalServerError = "Internal server error (500)";
+  static const String defaultServerError = "Something went wrong, please try again";
 }

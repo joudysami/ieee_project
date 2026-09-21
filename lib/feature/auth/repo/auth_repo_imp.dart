@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ieee/core/constant/app_string.dart';
 import 'package:ieee/feature/auth/data/model/user_model.dart';
 import 'package:ieee/feature/auth/repo/auth_repo.dart';
+import 'dart:developer';
 
 class AuthRepoImp implements AuthRepo {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -20,7 +21,10 @@ class AuthRepoImp implements AuthRepo {
         password: cleanPassword,
       );
       final idToken = await _firebaseAuth.currentUser!.getIdToken();
-
+//final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+log("================ FIREBASE ID TOKEN ================");
+log(idToken ?? "NO TOKEN FOUND");
+log("==================================================");
       final userDoc = await _firestore
           .collection('users')
           .doc(_firebaseAuth.currentUser!.uid)
@@ -58,7 +62,9 @@ class AuthRepoImp implements AuthRepo {
 
       final userId = newUser.user!.uid;
       final idToken = await newUser.user!.getIdToken();
-
+log("================ FIREBASE ID TOKEN ================");
+log(idToken ?? "NO TOKEN FOUND");
+log("==================================================");
       final userData = {
         'uid': userId,
         'name': name.trim(),
@@ -133,7 +139,10 @@ class AuthRepoImp implements AuthRepo {
       final GoogleSignInAccount googleUser = await googleSignIn.authenticate();
 
       final String? idToken = googleUser.authentication.idToken;
-
+ final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+log("================ FIREBASE ID TOKEN ================");
+log(idToken ?? "NO TOKEN FOUND");
+log("==================================================");
       final authorization = await googleUser.authorizationClient
           .authorizeScopes(['email', 'profile']);
       final String accessToken = authorization.accessToken;
@@ -184,6 +193,7 @@ class AuthRepoImp implements AuthRepo {
         throw Exception('User is not logged in');
       }
       final idToken = await user.getIdToken();
+     
       final userData = {
         'uid': user.uid,
         'name': user.displayName ?? '',
