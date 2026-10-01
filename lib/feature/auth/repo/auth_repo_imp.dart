@@ -1,10 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ieee/core/constant/app_string.dart';
+import 'package:ieee/core/network/api_client.dart';
+import 'package:ieee/core/storage/secure_storage.dart';
 import 'package:ieee/feature/auth/data/model/user_model.dart';
 import 'package:ieee/feature/auth/repo/auth_repo.dart';
 import 'dart:developer';
+
+import '../../../core/constant/api_endpoint.dart';
 
 class AuthRepoImp implements AuthRepo {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -20,11 +25,13 @@ class AuthRepoImp implements AuthRepo {
         email: cleanEmail,
         password: cleanPassword,
       );
+      final userId = _firebaseAuth.currentUser!.uid;
+
       final idToken = await _firebaseAuth.currentUser!.getIdToken();
-//final token = await FirebaseAuth.instance.currentUser?.getIdToken();
-log("================ FIREBASE ID TOKEN ================");
-log(idToken ?? "NO TOKEN FOUND");
-log("==================================================");
+      //final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+      log("================ FIREBASE ID TOKEN ================");
+      log(idToken ?? "NO TOKEN FOUND");
+      log("==================================================");
       final userDoc = await _firestore
           .collection('users')
           .doc(_firebaseAuth.currentUser!.uid)
@@ -62,9 +69,10 @@ log("==================================================");
 
       final userId = newUser.user!.uid;
       final idToken = await newUser.user!.getIdToken();
-log("================ FIREBASE ID TOKEN ================");
-log(idToken ?? "NO TOKEN FOUND");
-log("==================================================");
+
+      log("================ FIREBASE ID TOKEN ================");
+      log(idToken ?? "NO TOKEN FOUND");
+      log("==================================================");
       final userData = {
         'uid': userId,
         'name': name.trim(),
@@ -76,6 +84,14 @@ log("==================================================");
       };
 
       await _firestore.collection('users').doc(userId).set(userData);
+
+      final response = await ApiClient.post(
+        path: ApiEndpoint.loginWithUID,
+        queryParameters: {'idToken': idToken},
+      );
+
+      final backendToken = response.data['token'] as String;
+      await SecureStorage.saveBackendToken(backendToken);
 
       return UserModel.fromMap(userData);
     } catch (e) {
@@ -139,10 +155,8 @@ log("==================================================");
       final GoogleSignInAccount googleUser = await googleSignIn.authenticate();
 
       final String? idToken = googleUser.authentication.idToken;
- final token = await FirebaseAuth.instance.currentUser?.getIdToken();
-log("================ FIREBASE ID TOKEN ================");
-log(idToken ?? "NO TOKEN FOUND");
-log("==================================================");
+      final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+
       final authorization = await googleUser.authorizationClient
           .authorizeScopes(['email', 'profile']);
       final String accessToken = authorization.accessToken;
@@ -169,11 +183,21 @@ log("==================================================");
           final data = userDoc.data() as Map<String, dynamic>;
           data['uid'] = user.uid;
           data['idToken'] = idToken;
+
+          final response = await ApiClient.post(
+            path: ApiEndpoint.loginWithUID,
+            queryParameters: {'idToken': idToken},
+          );
+
+          final backendToken = response.data['token'] as String;
+          await SecureStorage.saveBackendToken(backendToken);
+
           return UserModel.fromMap(data);
         } else {
           return null;
         }
       }
+
       return null;
     } catch (e) {
       rethrow;
@@ -193,7 +217,7 @@ log("==================================================");
         throw Exception('User is not logged in');
       }
       final idToken = await user.getIdToken();
-     
+
       final userData = {
         'uid': user.uid,
         'name': user.displayName ?? '',
@@ -206,8 +230,23 @@ log("==================================================");
 
       await _firestore.collection('users').doc(user.uid).set(userData);
 
+      final response = await ApiClient.post(
+        path: ApiEndpoint.loginWithUID,
+        queryParameters: {'idToken': idToken},
+      );
+
+      log('status : ${response.statusCode}');
+      log('data : ${response.data}');
+
       return UserModel.fromMap(userData);
-    } catch (e) {
+    } on DioException catch (e) {
+      log('========== BACKEND ERROR ==========');
+      log('STATUS: ${e.response?.statusCode}');
+      log('DATA: ${e.response?.data}');
+      log('URL: ${e.requestOptions.uri}');
+      log('HEADERS: ${e.requestOptions.headers}');
+      log('===================================');
+
       rethrow;
     }
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ieee/core/theme/app_colors.dart';
+import '../../../../app/theme/app_colors.dart';
 import 'package:ieee/feature/admin/presentation/screens/home_screen.dart';
 import 'package:ieee/feature/student/presentation/screens/assignments_screen.dart';
 import 'package:ieee/feature/student/presentation/screens/home_screen_stu.dart';

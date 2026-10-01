@@ -1,7 +1,6 @@
 class ApiEndpoint {
-ApiEndpoint._();
+  ApiEndpoint._();
 
-static const String baseUrl="https://et5app.runasp.net/index.html";
-
-
+  static const String baseUrl = "https://et5app.runasp.net";
+  static const String loginWithUID = "/api/Auth/firebase-loginWithUID";
 }

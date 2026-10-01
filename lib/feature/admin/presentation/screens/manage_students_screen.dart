@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ieee/core/constant/score_color.dart';
 import '../../../../core/constant/app_string.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../app/theme/app_colors.dart';
 import '../../../../core/widgets/main_sam_card.dart';
 import '../../../../core/widgets/statistic_style.dart';
 import '../../../../core/widgets/sub_sam_card.dart';

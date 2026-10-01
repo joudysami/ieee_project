@@ -7,8 +7,10 @@ import 'package:go_router/go_router.dart';
 import 'package:ieee/core/constant/app_icons.dart';
 import 'package:ieee/core/constant/app_string.dart';
 import 'package:ieee/core/helpers/cache_help.dart';
-import 'package:ieee/core/theme/app_colors.dart';
+import '../../../../app/theme/app_colors.dart';
 import 'package:ieee/feature/auth/data/model/user_model.dart';
+
+import '../../core/storage/secure_storage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -56,6 +58,13 @@ class _SplashScreenState extends State<SplashScreen> {
     if (isRemembered && userData != null && firebaseUser != null) {
       try {
         final freshToken = await firebaseUser.getIdToken(true);
+
+        final backendToken = await SecureStorage.getBackendToken();
+        log("=============================");
+        log("Fresh Token = $freshToken");
+        log("=============================");
+        log("Backend Token = $backendToken");
+        log("=============================");
 
         final updatedUser = UserModel(
           uId: userData.uId,

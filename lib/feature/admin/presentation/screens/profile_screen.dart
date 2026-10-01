@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ieee/core/extensions/extensions.dart';
-import 'package:ieee/core/theme/app_colors.dart';
+import '../../../../app/theme/app_colors.dart';
 import '../../../../core/helpers/cache_help.dart';
 import '../../../../core/widgets/custom_eleveted_button.dart';
 import '../../../../core/widgets/setting_tile.dart';

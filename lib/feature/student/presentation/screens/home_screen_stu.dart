@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ieee/core/theme/app_colors.dart';
+import '../../../../app/theme/app_colors.dart';
 
 import '../../../../core/helpers/cache_help.dart';
 

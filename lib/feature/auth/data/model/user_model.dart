@@ -8,6 +8,7 @@ class UserModel {
   final String? phone;
   final String? institute;
   final String? idToken;
+  final String? idTrack;
 
   UserModel({
     required this.uId,
@@ -17,6 +18,7 @@ class UserModel {
     this.phone,
     this.institute,
     this.idToken,
+    this.idTrack,
   });
 
   Map<String, dynamic> toMap() {

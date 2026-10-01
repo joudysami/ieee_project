@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ieee/core/constant/app_string.dart';
 import 'package:ieee/core/extensions/padding_ext.dart';
-import 'package:ieee/core/theme/app_colors.dart';
+import '../../../../app/theme/app_colors.dart';
 import 'package:ieee/core/widgets/custome_elevateBotton.dart';
 import 'package:ieee/core/widgets/custome_textFormField.dart';
 import 'package:ieee/core/widgets/review_container.dart';

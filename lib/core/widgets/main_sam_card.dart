@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ieee/core/theme/app_colors.dart';
+import '../../app/theme/app_colors.dart';
 
 class MainSamCard extends StatelessWidget {
   final String head;

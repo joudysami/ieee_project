@@ -15,14 +15,12 @@ abstract class AuthRepo {
     required String code,
     required String newPassword,
   });
-
   Future<UserModel?> signInWithGoogle();
   Future<UserModel> completeProfile({
     required String enrollment,
     required String phone,
     required String institute,
   });
-
   Future<String?> getValidIdToken();
 
 }

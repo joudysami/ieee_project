@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ieee/core/constant/app_string.dart';
 import 'package:ieee/core/extensions/validations.dart';
 import 'package:ieee/core/states/app_states.dart';
-import 'package:ieee/core/theme/app_colors.dart';
+import '../../../../app/theme/app_colors.dart';
 import 'package:ieee/core/widgets/custome_elevateBotton.dart';
 import 'package:ieee/core/widgets/custome_textFormField.dart';
 import 'package:ieee/feature/auth/presentation/cubit/auth_cubit.dart';
