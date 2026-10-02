@@ -68,7 +68,7 @@ class AuthRepoImp implements AuthRepo {
       );
 
       final userId = newUser.user!.uid;
-      final idToken = await newUser.user!.getIdToken();
+      final idToken = await newUser.user!.getIdToken(true);
 
       log("================ FIREBASE ID TOKEN ================");
       log(idToken ?? "NO TOKEN FOUND");
@@ -87,12 +87,11 @@ class AuthRepoImp implements AuthRepo {
 
       final response = await ApiClient.post(
         path: ApiEndpoint.loginWithUID,
-        queryParameters: {'idToken': idToken},
+        queryParameters: {'IdToken': idToken},
       );
 
       final backendToken = response.data['token'] as String;
       await SecureStorage.saveBackendToken(backendToken);
-
       return UserModel.fromMap(userData);
     } catch (e) {
       rethrow;
@@ -172,7 +171,7 @@ class AuthRepoImp implements AuthRepo {
       final User? user = userCredential.user;
 
       if (user != null) {
-        final idToken = await user.getIdToken();
+        final idToken = await user.getIdToken(true);
 
         final DocumentSnapshot userDoc = await _firestore
             .collection('users')
@@ -186,7 +185,7 @@ class AuthRepoImp implements AuthRepo {
 
           final response = await ApiClient.post(
             path: ApiEndpoint.loginWithUID,
-            queryParameters: {'idToken': idToken},
+            queryParameters: {'IdToken': idToken},
           );
 
           final backendToken = response.data['token'] as String;
@@ -216,7 +215,7 @@ class AuthRepoImp implements AuthRepo {
       if (user == null) {
         throw Exception('User is not logged in');
       }
-      final idToken = await user.getIdToken();
+      final idToken = await user.getIdToken(true);
 
       final userData = {
         'uid': user.uid,
@@ -232,7 +231,7 @@ class AuthRepoImp implements AuthRepo {
 
       final response = await ApiClient.post(
         path: ApiEndpoint.loginWithUID,
-        queryParameters: {'idToken': idToken},
+        queryParameters: {'IdToken': idToken},
       );
 
       log('status : ${response.statusCode}');
