@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../../app/theme/app_colors.dart';
 
 Future<bool?> showDiscardDialog(BuildContext context) {
+  final colors = context.colors;
   return showDialog<bool>(
     context: context,
     builder: (ctx) => AlertDialog(
@@ -13,11 +14,11 @@ Future<bool?> showDiscardDialog(BuildContext context) {
       actions: [
         TextButton(
           onPressed: () => ctx.pop(false), 
-          child:  Text('Cancel', style: TextStyle(color:context.colors.black)),
+          child:  Text('Cancel', style: TextStyle(color:colors.black)),
         ),
         TextButton(
           onPressed: () => ctx.pop(true), 
-          child:  Text('OK', style: TextStyle(color:context.colors.sky.shade500)),
+          child:  Text('OK', style: TextStyle(color:colors.sky.shade500)),
         ),
       ],
     ),

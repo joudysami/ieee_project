@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 class AssignmentModel {
+  final int sessionId;
   final int assignmentId;
   final String? title;
   final String? deadline;
   final String? status;
-  final int sessionId;
   final String assignmentUrl;
 
   AssignmentModel({

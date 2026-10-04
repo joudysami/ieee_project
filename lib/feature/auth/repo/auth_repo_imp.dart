@@ -13,7 +13,7 @@ import '../../../core/constant/api_endpoint.dart';
 
 class AuthRepoImp implements AuthRepo {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
   @override
   Future<UserModel> login(String email, String password) async {
@@ -25,14 +25,12 @@ class AuthRepoImp implements AuthRepo {
         email: cleanEmail,
         password: cleanPassword,
       );
-      final userId = _firebaseAuth.currentUser!.uid;
 
       final idToken = await _firebaseAuth.currentUser!.getIdToken();
-      //final token = await FirebaseAuth.instance.currentUser?.getIdToken();
       log("================ FIREBASE ID TOKEN ================");
       log(idToken ?? "NO TOKEN FOUND");
       log("==================================================");
-      final userDoc = await _firestore
+      final userDoc = await _fireStore
           .collection('users')
           .doc(_firebaseAuth.currentUser!.uid)
           .get();
@@ -83,10 +81,10 @@ class AuthRepoImp implements AuthRepo {
         'idToken': idToken,
       };
 
-      await _firestore.collection('users').doc(userId).set(userData);
+      await _fireStore.collection('users').doc(userId).set(userData);
 
       final response = await ApiClient.post(
-        path: ApiEndpoint.loginWithUID,
+        path: ApiEndpoint.registerWithToken,
         queryParameters: {'IdToken': idToken},
       );
 
@@ -102,7 +100,7 @@ class AuthRepoImp implements AuthRepo {
   Future<void> forgetPassword(String email) async {
     try {
       final cleanEmail = email.trim();
-      final userQuery = await _firestore
+      final userQuery = await _fireStore
           .collection('users')
           .where('email', isEqualTo: cleanEmail)
           .get();
@@ -154,7 +152,6 @@ class AuthRepoImp implements AuthRepo {
       final GoogleSignInAccount googleUser = await googleSignIn.authenticate();
 
       final String? idToken = googleUser.authentication.idToken;
-      final token = await FirebaseAuth.instance.currentUser?.getIdToken();
 
       final authorization = await googleUser.authorizationClient
           .authorizeScopes(['email', 'profile']);
@@ -173,7 +170,7 @@ class AuthRepoImp implements AuthRepo {
       if (user != null) {
         final idToken = await user.getIdToken(true);
 
-        final DocumentSnapshot userDoc = await _firestore
+        final DocumentSnapshot userDoc = await _fireStore
             .collection('users')
             .doc(user.uid)
             .get();
@@ -184,7 +181,7 @@ class AuthRepoImp implements AuthRepo {
           data['idToken'] = idToken;
 
           final response = await ApiClient.post(
-            path: ApiEndpoint.loginWithUID,
+            path: ApiEndpoint.registerWithToken,
             queryParameters: {'IdToken': idToken},
           );
 
@@ -227,10 +224,10 @@ class AuthRepoImp implements AuthRepo {
         'idToken': idToken,
       };
 
-      await _firestore.collection('users').doc(user.uid).set(userData);
+      await _fireStore.collection('users').doc(user.uid).set(userData);
 
       final response = await ApiClient.post(
-        path: ApiEndpoint.loginWithUID,
+        path: ApiEndpoint.registerWithToken,
         queryParameters: {'IdToken': idToken},
       );
 

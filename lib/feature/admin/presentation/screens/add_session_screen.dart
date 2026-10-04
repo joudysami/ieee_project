@@ -56,10 +56,10 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
     final shouldDiscard = await showDiscardDialog(context);
 
     if (shouldDiscard == true) {
+      if (!mounted) return;
+
+      context.pop();
       _clearFields();
-      if (mounted) {
-        context.pop();
-      }
     }
   }
 
