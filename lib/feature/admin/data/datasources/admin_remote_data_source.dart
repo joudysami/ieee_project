@@ -6,6 +6,7 @@ import '../../../../core/network/api_client.dart';
 
 abstract class AdminRemoteDataSource {
   Future<Map<String, dynamic>> getDashboard(String trackId);
+  Future<List<dynamic>> getSessionByTrackId(String trackId);
 }
 /*-------------------------------------------------------------------------------------------*/
 
@@ -18,6 +19,22 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
         queryParameters: {'trackId': trackId},
       );
       return response.data;
+    } on DioException catch (e) {
+      log('=== BACKEND ERROR MESSAGE ===');
+      log(e.response?.data.toString() ?? 'Unknown error');
+      log('=============================');
+      throw Exception('Failed to load dashboard: ${e.message}');
+    }
+  }
+
+  @override
+  Future<List<dynamic>> getSessionByTrackId(String trackId) async {
+    try {
+      final response = await ApiClient.get(
+        path: ApiEndpoint.sessionsByTrackID,
+        queryParameters: {'trackId': trackId},
+      );
+      return response.data as List<dynamic>;
     } on DioException catch (e) {
       log('=== BACKEND ERROR MESSAGE ===');
       log(e.response?.data.toString() ?? 'Unknown error');

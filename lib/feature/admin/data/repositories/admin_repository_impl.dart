@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ieee/core/models/session_model.dart';
 import 'package:ieee/feature/admin/data/models/admin_dashboard.dart';
 
 import '../../domain/repositories/admin_repository.dart';
@@ -13,6 +14,21 @@ class AdminRepositoryImpl implements AdminRepository {
     try {
       final rawData = await remoteDataSource.getDashboard(trackId);
       return AdminDashboard.fromMap(rawData);
+    } catch (e) {
+      log('=== REPOSITORY ERROR ===');
+      log(e.toString());
+      log('========================');
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<SessionModel>> getSessionByTrackId(String trackId) async {
+    try {
+      final rawData = await remoteDataSource.getSessionByTrackId(trackId);
+      return rawData
+          .map((e) => SessionModel.fromMap(e as Map<String, dynamic>))
+          .toList();
     } catch (e) {
       log('=== REPOSITORY ERROR ===');
       log(e.toString());

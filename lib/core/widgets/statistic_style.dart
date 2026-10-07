@@ -1,8 +1,32 @@
 import 'package:flutter/material.dart';
 
+const _months = [
+  'jan',
+  'feb',
+  'mar',
+  'apr',
+  'may',
+  'jun',
+  'jul',
+  'aug',
+  'sep',
+  'oct',
+  'nov',
+  'dec',
+];
+
+// "2026-10-25" -> "25 oct"
+// If the text can't be parsed (already formatted, empty, etc.), it is returned as is.
+String formatShortDate(String? raw) {
+  if (raw == null || raw.isEmpty) return '-';
+  final d = DateTime.tryParse(raw);
+  if (d == null) return raw;
+  return '${d.day} ${_months[d.month - 1]}';
+}
+
 Widget statDate(String value, {Color? color}) {
   return Text(
-    value,
+    formatShortDate(value), // CHANGED: parsing happens here
     textAlign: TextAlign.center,
     style: TextStyle(
       fontSize: 22,

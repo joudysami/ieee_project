@@ -6,7 +6,7 @@ class SessionModel {
   final int? sessionNumber;
   final String? date;
   final int duration;
-  final String? resources;
+  final String? meetingLink; // NEW
   final String? nextSessionTitle;
   final int trackId;
 
@@ -16,7 +16,7 @@ class SessionModel {
     this.sessionNumber,
     this.date,
     required this.duration,
-    this.resources,
+    this.meetingLink,
     this.nextSessionTitle,
     required this.trackId,
   });
@@ -28,7 +28,7 @@ class SessionModel {
       'sessionNumber': sessionNumber,
       'date': date,
       'duration': duration,
-      'resources': resources,
+      'resources': meetingLink,
       'nextSessionTitle': nextSessionTitle,
       'trackId': trackId,
     };
@@ -41,7 +41,7 @@ class SessionModel {
       sessionNumber: map['sessionNumber']?.toInt(),
       date: map['date'],
       duration: map['duration']?.toInt() ?? 0,
-      resources: map['resources'],
+      meetingLink: map['resources'],
       nextSessionTitle: map['nextSessionTitle'],
       trackId: map['trackId']?.toInt() ?? 0,
     );

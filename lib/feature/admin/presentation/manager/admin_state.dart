@@ -11,6 +11,11 @@ class AdminDashboardLoaded extends AdminState {
   AdminDashboardLoaded(this.dashboard);
 }
 
+class AdminSessionsLoaded extends AdminState {
+  final List<SessionModel> sessions;
+  AdminSessionsLoaded(this.sessions);
+}
+
 class AdminError extends AdminState {
   final String message;
   AdminError(this.message);

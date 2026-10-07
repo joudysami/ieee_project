@@ -153,6 +153,7 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                         ),
                                         SizedBox(width: 2.w),
+                                        /*add pending list*/
                                       ],
                                     ),
                                   ),
