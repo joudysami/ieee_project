@@ -3,7 +3,6 @@ import 'dart:convert';
 class SessionModel {
   final int sessionId;
   final String? title;
-  final int? sessionNumber;
   final String? date;
   final int duration;
   final String? meetingLink; // NEW
@@ -13,7 +12,6 @@ class SessionModel {
   SessionModel({
     required this.sessionId,
     this.title,
-    this.sessionNumber,
     this.date,
     required this.duration,
     this.meetingLink,
@@ -25,10 +23,9 @@ class SessionModel {
     return {
       'sessionId': sessionId,
       'title': title,
-      'sessionNumber': sessionNumber,
       'date': date,
       'duration': duration,
-      'resources': meetingLink,
+      'meetingLink': meetingLink,
       'nextSessionTitle': nextSessionTitle,
       'trackId': trackId,
     };
@@ -38,10 +35,9 @@ class SessionModel {
     return SessionModel(
       sessionId: map['sessionId']?.toInt() ?? 0,
       title: map['title'],
-      sessionNumber: map['sessionNumber']?.toInt(),
       date: map['date'],
       duration: map['duration']?.toInt() ?? 0,
-      meetingLink: map['resources'],
+      meetingLink: map['meetingLink'],
       nextSessionTitle: map['nextSessionTitle'],
       trackId: map['trackId']?.toInt() ?? 0,
     );

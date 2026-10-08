@@ -2,7 +2,7 @@ class ApiEndpoint {
   ApiEndpoint._();
 
   static const String baseUrl = "https://et5app.runasp.net";
-  static const String registerWithToken = "/api/Auth/firebase-loginWithUID";
+  static const String registerWithToken = "/api/Auth/firebase-loginWithToken";
   static const String getAdminDashBoard = '/admindashboard';
   static const String getStudentDashBoard = '/studentdashboard';
   static const String addAssignment = '/AddAssignment';

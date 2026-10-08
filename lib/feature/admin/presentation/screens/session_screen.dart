@@ -1,13 +1,13 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ieee/core/constant/app_string.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../app/theme/app_colors.dart';
 import 'package:ieee/core/widgets/custome_elevateBotton.dart';
 import 'package:ieee/core/widgets/main_sam_card.dart';
-import '../../../../core/helpers/cache_help.dart';
 import '../../../../core/models/session_model.dart';
 import '../../../../core/widgets/statistic_style.dart';
 import '../../../../core/widgets/sub_sam_card.dart';
@@ -18,24 +18,12 @@ import '../manager/admin_cubit.dart';
 class SessionScreen extends StatelessWidget {
   const SessionScreen({super.key});
 
-  Future<void> _openLink(BuildContext context, String? link) async {
-    final uri = link == null ? null : Uri.tryParse(link);
-    final ok =
-        uri != null &&
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-    if (!ok && context.mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Could not open the link')));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
         create: (context) {
-          final String userTrackId = CacheHelp.getUser()?.idTrack ?? '1';
+          final String userTrackId = '2';
 
           final remoteDataSource = AdminRemoteDataSourceImpl();
           final repository = AdminRepositoryImpl(
@@ -82,7 +70,10 @@ class SessionScreen extends StatelessWidget {
 
                     if (state is AdminError) {
                       return Center(
-                        child: Text(state.message, textAlign: TextAlign.center),
+                        child: Text(
+                          "NNNN${state.message}",
+                          textAlign: TextAlign.center,
+                        ),
                       );
                     }
 
@@ -99,7 +90,7 @@ class SessionScreen extends StatelessWidget {
                           final session = sessions[index];
 
                           return MainSamCard(
-                            head: '${session.title} #${session.sessionNumber}',
+                            head: '${session.title} }',
                             onMenuTap: () {},
                             child: SubSamCard(
                               statistics: [
@@ -115,8 +106,12 @@ class SessionScreen extends StatelessWidget {
                                   title: 'link',
                                   content: statIcon(
                                     icon: Icons.open_in_new,
-                                    onTap: () =>
-                                        _openLink(context, session.meetingLink),
+                                    onTap: () {
+                                      launchUrl(
+                                        Uri.parse(session.meetingLink!),
+                                        mode: LaunchMode.inAppBrowserView,
+                                      );
+                                    },
                                   ),
                                 ),
                                 StatisticItem(

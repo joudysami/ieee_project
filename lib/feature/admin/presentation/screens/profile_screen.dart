@@ -148,7 +148,7 @@ class ProfileScreen extends StatelessWidget {
           CustomElevatedButton(
             width: 310.w,
             title: 'Log Out',
-            bgColor:Color(0xFFFEE2E2),
+            bgColor: Color(0xFFFEE2E2),
             titleColor: Color(0xFFEF4444),
             onTab: () async {
               // 1. مسح البيانات المحفوظة في SharedPreferences
