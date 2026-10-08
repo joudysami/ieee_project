@@ -30,6 +30,7 @@ class UserModel {
       'phone': phone,
       'institute': institute,
       'idToken': idToken,
+      'idTrack': idTrack,
     };
   }
 
@@ -42,6 +43,7 @@ class UserModel {
       phone: map['phone'],
       institute: map['institute'],
       idToken: map['idToken'],
+      idTrack: map['idTrack']?.toString(),
     );
   }
 

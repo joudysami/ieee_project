@@ -9,6 +9,7 @@ abstract class AuthRepo {
     String phone,
     String institute,
     String enrollment,
+    String? idTrack,
   );
   Future<void> forgetPassword(String email);
   Future<void> confirmPasswordReset({
@@ -20,7 +21,7 @@ abstract class AuthRepo {
     required String enrollment,
     required String phone,
     required String institute,
+    String? idTrack,
   });
   Future<String?> getValidIdToken();
-
 }

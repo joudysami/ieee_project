@@ -11,6 +11,7 @@ import 'package:ieee/core/widgets/custome_dropDownField.dart';
 import 'package:ieee/core/widgets/custome_elevateBotton.dart';
 import 'package:ieee/core/widgets/custome_textFormField.dart';
 import 'package:ieee/feature/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ieee/core/constant/admin_config.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -26,8 +27,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late final TextEditingController _phoneController;
   late final TextEditingController _passwordController;
   late final TextEditingController _confirmPasswordController;
+  late final TextEditingController _adminCodeController;
+
   late final AuthCubit _authCubit;
 
+  String? _selectedTrack;
   String? _selectedRole;
   String? _selectedInstitute;
 
@@ -39,6 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _phoneController = TextEditingController();
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
+    _adminCodeController = TextEditingController();
     _authCubit = context.read<AuthCubit>();
   }
 
@@ -46,6 +51,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void dispose() {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _adminCodeController.dispose();
+
     super.dispose();
   }
 
@@ -78,10 +85,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           backgroundColor: context.colors.green,
                         ),
                       );
-                    final role = context.read<AuthCubit>().currentUser?.role ?? _selectedRole;
+                      final role =
+                          context.read<AuthCubit>().currentUser?.role ??
+                          _selectedRole;
                       if (role == 'Admin' || role == 'Student') {
-                          context.go('/layoutScreen', extra: role);
-                        }
+                        context.go('/layoutScreen', extra: role);
+                      }
                     } else if (state.isNeededCompleteProfile) {
                       _authCubit.completeProfile(
                         phone: _phoneController.text,
@@ -143,6 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: 16.h),
                       CustomeTextformfield(
+                        isPassword: true,
                         text: AppString.password,
                         hintText: AppString.enterYourPassword,
                         icon: Icon(Icons.lock),
@@ -159,6 +169,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: 16.h),
                       CustomeTextformfield(
+                        isPassword: true,
                         text: AppString.confirmPassword,
                         hintText: AppString.enterYourPassword,
                         icon: Icon(Icons.lock),
@@ -172,7 +183,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(height: 16.h),
                       CustomeTextformfield(
                         text: AppString.phoneNumber,
-
                         icon: Icon(Icons.phone),
                         controller: _phoneController,
                         validator: (value) {
@@ -217,7 +227,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           return null;
                         },
                       ),
-
+                      if (_selectedRole == 'Admin') ...[
+                        SizedBox(height: 20.h),
+                        CustomDropDownField(
+                          value: _selectedTrack,
+                          hint: 'Select track',
+                          label: 'Track',
+                          items: AdminConfig.tracks.keys.toList(),
+                          onChanged: (value) =>
+                              setState(() => _selectedTrack = value),
+                          validator: (value) => (value == null || value.isEmpty)
+                              ? 'Please select a track'
+                              : null,
+                        ),
+                        SizedBox(height: 20.h),
+                        CustomeTextformfield(
+                          text: 'Admin code',
+                          hintText: 'Enter admin code',
+                          icon: Icon(Icons.vpn_key),
+                          controller: _adminCodeController,
+                        ),
+                      ],
                       SizedBox(height: 14.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -246,16 +276,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         // icon: Icon(Icons.person_add, color: context.colors.white),
                         loadingState: AppStates.registerLoading,
                         onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            _authCubit.register(
-                              _emailController.text.trim(),
-                              _passwordController.text.trim(),
-                              _nameController.text.trim(),
-                              _phoneController.text.trim(),
-                              _selectedInstitute ?? '',
-                              _selectedRole ?? '',
+                          if (!_formKey.currentState!.validate()) return;
+
+                          if (_selectedRole == 'Admin' &&
+                              !AdminConfig.isValidCode(
+                                _adminCodeController.text,
+                              )) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Text(
+                                  'Could not complete registration',
+                                ),
+                                backgroundColor: context.colors.error,
+                              ),
                             );
+                            return;
                           }
+
+                          _authCubit.register(
+                            _emailController.text.trim(),
+                            _passwordController.text.trim(),
+                            _nameController.text.trim(),
+                            _phoneController.text.trim(),
+                            _selectedInstitute ?? '',
+                            _selectedRole ?? '',
+                            _selectedRole == 'Admin'
+                                ? AdminConfig.tracks[_selectedTrack]
+                                : null,
+                          );
                         },
                       ),
                       SizedBox(height: 14.h),

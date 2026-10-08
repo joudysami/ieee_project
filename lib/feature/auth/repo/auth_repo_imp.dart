@@ -53,7 +53,8 @@ class AuthRepoImp implements AuthRepo {
     String name,
     String phone,
     String institute,
-    String enrollment, {
+    String enrollment,
+    String? idTrack, {
     bool isRemembered = false,
   }) async {
     try {
@@ -79,6 +80,7 @@ class AuthRepoImp implements AuthRepo {
         'institute': institute,
         'enrollment': enrollment,
         'idToken': idToken,
+        if (idTrack != null) 'idTrack': idTrack,
       };
 
       await _fireStore.collection('users').doc(userId).set(userData);
@@ -128,6 +130,7 @@ class AuthRepoImp implements AuthRepo {
   Future<void> confirmPasswordReset({
     required String code,
     required String newPassword,
+
   }) async {
     try {
       final cleanPassword = newPassword.trim();
@@ -205,6 +208,7 @@ class AuthRepoImp implements AuthRepo {
     required String phone,
     required String institute,
     required String enrollment,
+    String? idTrack,
   }) async {
     try {
       final user = _firebaseAuth.currentUser;
@@ -222,6 +226,8 @@ class AuthRepoImp implements AuthRepo {
         'institute': institute,
         'enrollment': enrollment,
         'idToken': idToken,
+        'idTrack': ?idTrack,
+
       };
 
       await _fireStore.collection('users').doc(user.uid).set(userData);

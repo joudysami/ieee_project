@@ -11,6 +11,7 @@ import 'package:ieee/core/widgets/custome_dropDownField.dart';
 import 'package:ieee/core/widgets/custome_elevateBotton.dart';
 import 'package:ieee/core/widgets/custome_textFormField.dart';
 import 'package:ieee/feature/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ieee/core/constant/admin_config.dart';
 
 class CompleteProfileScreen extends StatefulWidget {
   const CompleteProfileScreen({super.key});
@@ -22,20 +23,27 @@ class CompleteProfileScreen extends StatefulWidget {
 class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final TextEditingController _phoneController;
+  late final TextEditingController _adminCodeController;
+
   late final AuthCubit _authCubit;
 
+  String? _selectedTrack;
   String? _selectedRole;
   String? _selectedInstitute;
   @override
   void initState() {
     super.initState();
     _phoneController = TextEditingController();
+    _adminCodeController = TextEditingController();
+
     _authCubit = context.read<AuthCubit>();
   }
 
   @override
   void dispose() {
     _phoneController.dispose();
+    _adminCodeController.dispose();
+
     super.dispose();
   }
 
@@ -142,6 +150,10 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                         onChanged: (value) {
                           setState(() {
                             _selectedRole = value;
+                            if (value != 'Admin') {
+                              _selectedTrack = null;
+                              _adminCodeController.clear();
+                            }
                           });
                         },
                         validator: (value) {
@@ -151,12 +163,48 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                           return null;
                         },
                       ),
+                      if (_selectedRole == 'Admin') ...[
+                        SizedBox(height: 20.h),
+                        CustomDropDownField(
+                          value: _selectedTrack,
+                          hint: 'Select track',
+                          label: 'Track',
+                          items: AdminConfig.tracks.keys.toList(),
+                          onChanged: (value) =>
+                              setState(() => _selectedTrack = value),
+                          validator: (value) => (value == null || value.isEmpty)
+                              ? 'Please select a track'
+                              : null,
+                        ),
+                        SizedBox(height: 20.h),
+                        CustomeTextformfield(
+                          text: 'Admin code',
+                          hintText: 'Enter admin code',
+                          icon: Icon(Icons.vpn_key),
+                          controller: _adminCodeController,
+                        ),
+                      ],
                       SizedBox(height: 20.h),
                       CustomElevatedButton(
                         text: AppString.save,
                         loadingState: AppStates.loading,
                         onTap: () {
                           if (_formKey.currentState!.validate()) {
+                            if (_selectedRole == 'Admin' &&
+                                !AdminConfig.isValidCode(
+                                  _adminCodeController.text,
+                                )) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text(
+                                    'Could not complete registration',
+                                  ),
+                                  backgroundColor: context.colors.error,
+                                ),
+                              );
+                              return;
+                            }
+
                             _authCubit.completeProfile(
                               enrollment: _selectedRole ?? '',
                               phone: _phoneController.text.trim(),

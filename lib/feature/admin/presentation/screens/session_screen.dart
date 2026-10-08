@@ -99,7 +99,7 @@ class SessionScreen extends StatelessWidget {
                           final session = sessions[index];
 
                           return MainSamCard(
-                            head: '${session.title } #${session.sessionNumber}',
+                            head: '${session.title} #${session.sessionNumber}',
                             onMenuTap: () {},
                             child: SubSamCard(
                               statistics: [
