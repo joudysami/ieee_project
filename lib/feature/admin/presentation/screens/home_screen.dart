@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,14 +24,12 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: BlocProvider(
         create: (context) {
-          final String userTrackId = CacheHelp.getUser()?.idTrack ?? '1';
-
           final remoteDataSource = AdminRemoteDataSourceImpl();
           final repository = AdminRepositoryImpl(
             remoteDataSource: remoteDataSource,
           );
 
-          return AdminCubit(repository: repository)..loadDashboard(userTrackId);
+          return AdminCubit(repository: repository)..loadDashboard(CacheHelp.trackId ?? '');
         },
         child: BlocBuilder<AdminCubit, AdminState>(
           builder: (context, state) {

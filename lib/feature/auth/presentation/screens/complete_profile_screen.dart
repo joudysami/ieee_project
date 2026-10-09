@@ -209,6 +209,9 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                               enrollment: _selectedRole ?? '',
                               phone: _phoneController.text.trim(),
                               institute: _selectedInstitute ?? '',
+                              idTrack: _selectedRole == 'Admin'
+                                  ? AdminConfig.tracks[_selectedTrack]
+                                  : null,
                             );
                           }
                         },

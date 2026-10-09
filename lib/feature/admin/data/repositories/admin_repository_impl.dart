@@ -5,6 +5,7 @@ import 'package:ieee/feature/admin/data/models/admin_dashboard.dart';
 
 import '../../domain/repositories/admin_repository.dart';
 import '../datasources/admin_remote_data_source.dart';
+import '../models/add_assignment_model.dart';
 
 class AdminRepositoryImpl implements AdminRepository {
   final AdminRemoteDataSource remoteDataSource;
@@ -29,6 +30,18 @@ class AdminRepositoryImpl implements AdminRepository {
       return rawData
           .map((e) => SessionModel.fromMap(e as Map<String, dynamic>))
           .toList();
+    } catch (e) {
+      log('=== REPOSITORY ERROR ===');
+      log(e.toString());
+      log('========================');
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<void> addAssignment(AddAssignment assignment) async {
+    try {
+      await remoteDataSource.addAssignment(assignment.toJson());
     } catch (e) {
       log('=== REPOSITORY ERROR ===');
       log(e.toString());

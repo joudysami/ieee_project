@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../app/theme/app_colors.dart';
 import 'package:ieee/core/widgets/custome_elevateBotton.dart';
 import 'package:ieee/core/widgets/main_sam_card.dart';
+import '../../../../core/helpers/cache_help.dart';
 import '../../../../core/models/session_model.dart';
 import '../../../../core/widgets/statistic_style.dart';
 import '../../../../core/widgets/sub_sam_card.dart';
@@ -23,15 +24,13 @@ class SessionScreen extends StatelessWidget {
     return Scaffold(
       body: BlocProvider(
         create: (context) {
-          final String userTrackId = '2';
-
           final remoteDataSource = AdminRemoteDataSourceImpl();
           final repository = AdminRepositoryImpl(
             remoteDataSource: remoteDataSource,
           );
 
           return AdminCubit(repository: repository)
-            ..loadSessionsByTrackId(userTrackId);
+            ..loadSessionsByTrackId(CacheHelp.trackId ?? '');
         },
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 25.h),
@@ -70,10 +69,7 @@ class SessionScreen extends StatelessWidget {
 
                     if (state is AdminError) {
                       return Center(
-                        child: Text(
-                          "NNNN${state.message}",
-                          textAlign: TextAlign.center,
-                        ),
+                        child: Text(state.message, textAlign: TextAlign.center),
                       );
                     }
 
@@ -91,7 +87,39 @@ class SessionScreen extends StatelessWidget {
 
                           return MainSamCard(
                             head: '${session.title} }',
-                            onMenuTap: () {},
+                            menuItems: [
+                              CardMenuItem(
+                                label: 'Edit',
+                                icon: Icons.edit_outlined,
+                                onTap: () {},
+                              ),
+                              CardMenuItem(
+                                label: 'Add assignment',
+                                icon: Icons.assignment_outlined,
+                                onTap: () {
+                                  if (session.sessionId == 0) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Session id is missing from the API',
+                                        ),
+                                      ),
+                                    );
+                                    return;
+                                  }
+                                  context.push(
+                                    '/addAssignment',
+                                    extra: session.sessionId,
+                                  );
+                                },
+                              ),
+                              CardMenuItem(
+                                label: 'Delete',
+                                icon: Icons.delete_outline,
+                                color: Colors.red,
+                                onTap: () {},
+                              ),
+                            ],
                             child: SubSamCard(
                               statistics: [
                                 StatisticItem(
