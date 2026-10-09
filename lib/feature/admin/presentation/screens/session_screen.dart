@@ -65,7 +65,7 @@ class SessionScreen extends StatelessWidget {
                 child: BlocBuilder<AdminCubit, AdminState>(
                   builder: (context, state) {
                     if (state is AdminLoading) {
-                      return const Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator(color: Colors.blue),);
                     }
 
                     if (state is AdminError) {

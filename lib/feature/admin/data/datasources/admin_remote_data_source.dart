@@ -7,6 +7,17 @@ import '../../../../core/network/api_client.dart';
 abstract class AdminRemoteDataSource {
   Future<Map<String, dynamic>> getDashboard(String trackId);
   Future<List<dynamic>> getSessionByTrackId(String trackId);
+  Future<List<dynamic>> getReviewsByTrackId(String trackId);
+  Future<void> addSession(
+    String trackId,
+    String sessionLeaderId,
+    String sessionName,
+    String sessionDescription,
+    String sessionDate,
+    String sessionTime,
+    String duration,
+    String resourse,
+  );
 }
 /*-------------------------------------------------------------------------------------------*/
 
@@ -40,6 +51,55 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
       log(e.response?.data.toString() ?? 'Unknown error');
       log('=============================');
       throw Exception('Failed to load dashboard: ${e.message}');
+    }
+  }
+
+  @override
+  Future<List<dynamic>> getReviewsByTrackId(String trackId) async {
+    try {
+      final response = await ApiClient.get(
+        path: ApiEndpoint.adminSubmissionViewByTrackId,
+        queryParameters: {'trackId': trackId},
+      );
+      return response.data as List<dynamic>;
+    } on DioException catch (e) {
+      log('=== BACKEND ERROR MESSAGE ===');
+      log(e.response?.data.toString() ?? 'Unknown error');
+      log('=============================');
+      throw Exception('Failed to load reviews: ${e.message}');
+    }
+  }
+
+  @override
+  Future<void> addSession(
+    String trackId,
+    String sessionLeaderId,
+    String sessionName,
+    String sessionDescription,
+    String sessionDate,
+    String sessionTime,
+    String duration,
+    String resourse,
+  ) async {
+    try {
+       await ApiClient.post(
+        path: ApiEndpoint.createSession,
+        data: {
+          'trackId': int.parse(trackId),
+          'sessionLeaderID': sessionLeaderId,
+          'title': sessionName,
+          'description': sessionDescription,
+          'date': sessionDate,
+          'time': sessionTime,
+          'duration': int.parse(duration),
+          'resources': resourse,
+        },
+      );
+    } on DioException catch (e) {
+      log('=== BACKEND ERROR MESSAGE ===');
+      log(e.response?.data.toString() ?? 'Unknown error');
+      log('=============================');
+      throw Exception('Failed to add session: ${e.message}');
     }
   }
 }

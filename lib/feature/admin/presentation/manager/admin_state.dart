@@ -16,6 +16,9 @@ class AdminSessionsLoaded extends AdminState {
   AdminSessionsLoaded(this.sessions);
 }
 
+class AdminSessionAdded extends AdminState {
+}
+
 class AdminError extends AdminState {
   final String message;
   AdminError(this.message);

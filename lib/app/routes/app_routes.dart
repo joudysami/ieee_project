@@ -1,6 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ieee/app/routes/app_routes_name.dart';
+import 'package:ieee/feature/admin/data/datasources/admin_remote_data_source.dart';
+import 'package:ieee/feature/admin/data/repositories/admin_repository_impl.dart';
+import 'package:ieee/feature/admin/presentation/manager/admin_cubit.dart';
 import 'package:ieee/feature/admin/presentation/screens/add_assignment_screen.dart';
 import 'package:ieee/feature/admin/presentation/screens/add_session_screen.dart';
 import 'package:ieee/feature/admin/presentation/screens/assignment_screen.dart';
@@ -21,7 +24,11 @@ import '../../feature/student/presentation/screens/home_screen_stu.dart';
 
 class AppRoutes {
   static final AuthCubit _authCubit = AuthCubit();
-
+  static final AdminCubit _adminCubit = AdminCubit(
+    repository: AdminRepositoryImpl(
+      remoteDataSource: AdminRemoteDataSourceImpl(),
+    ),
+  );
   final GoRouter goRouter = GoRouter(
     initialLocation: AppRoutesName.splashScreen,
     routes: [
@@ -132,8 +139,11 @@ class AppRoutes {
       GoRoute(
         path: '/addSession',
         name: AppRoutesName.addSession,
-        builder: (context, state) => BlocProvider.value(
-          value: _authCubit,
+        builder: (context, state) => MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: _authCubit),
+            BlocProvider.value(value: _adminCubit),
+          ],
           child: const AddSessionScreen(),
         ),
       ),
@@ -160,7 +170,7 @@ class AppRoutes {
           value: _authCubit,
           child: const ReviewDetailsScreen(),
         ),
-      )
+      ),
     ],
   );
 }

@@ -5,7 +5,7 @@ import 'package:ieee/app/routes/app_routes.dart';
 import 'package:ieee/core/helpers/cache_help.dart';
 import 'package:ieee/core/network/api_client.dart';
 import 'package:ieee/firebase_options.dart';
-
+ 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

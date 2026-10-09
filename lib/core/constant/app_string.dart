@@ -94,7 +94,8 @@ abstract class AppString {
   static const String sessionTitle ='Session Title';
   static const String assTitle ='Assignment Title';
   static const String description ='Description';
-  static const String scheduledDate ='Scheduled Date';
+  static const String date =' Date';
+  static const String time =' Time';
   static const String duration ='Duration (minutes)';
   static const String externalResourse = 'External Resource URL (Optional)';
   static const String linkToPresentation ='Link to presentation slides or meeting room.';
@@ -102,6 +103,7 @@ abstract class AppString {
   static const String brieflyDescribe='Briefly describe the learning objectives...';
   static const String introToReact='e.g. Introduction to React';
   static const String mdy='mm/dd/yyyy';
+  static const String hm='00:00';
   static const String http='https://...';
   static const String eg90='e.g.90';
   static const String saveAss='Save Assignment';

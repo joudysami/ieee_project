@@ -24,7 +24,36 @@ class AdminCubit extends Cubit<AdminState> {
     emit(AdminLoading());
     try {
       final sessions = await repository.getSessionByTrackId(trackId);
+      print('SESSIONS COUNT: ${sessions.length} for track $trackId');
       emit(AdminSessionsLoaded(sessions));
+    } catch (e) {
+      emit(AdminError(e.toString()));
+    }
+  }
+
+  Future<void> addSession(
+    String trackId,
+    String sessionLeaderId,
+    String sessionName,
+    String sessionDescription,
+    String sessionDate,
+    String sessionTime,
+    String duration,
+    String resourse
+  ) async {
+    emit(AdminLoading());
+    try {
+       await repository.addSession(
+        trackId,
+        sessionLeaderId,
+        sessionName,
+        sessionDescription,
+        sessionDate,
+        sessionTime,
+        duration,
+        resourse
+      );
+      emit(AdminSessionAdded()); // Assuming the first session is the one that was added
     } catch (e) {
       emit(AdminError(e.toString()));
     }
