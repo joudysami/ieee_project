@@ -187,13 +187,13 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                   ),
                   SizedBox(height: 12.h),
                   CustomeTextformfield(
-                    text: AppString.scheduledDate,
+                    text: AppString.date,
                     hintText: AppString.mdy,
                     suffixIcon: Icon(Icons.date_range_outlined),
                     controller: _dateController,
                     validator: (value) => Validations.validateRequired(
                       value,
-                      AppString.scheduledDate,
+                      AppString.date ,
                     ),
                   ),
                   SizedBox(height: 12.h),

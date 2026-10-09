@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ieee/core/constant/app_string.dart';
 import 'package:ieee/core/extensions/padding_ext.dart';
+import 'package:ieee/feature/admin/data/models/review_ass_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../app/theme/app_colors.dart';
 import 'package:ieee/core/widgets/custome_elevateBotton.dart';
 import 'package:ieee/core/widgets/custome_textFormField.dart';
@@ -12,7 +14,8 @@ import '../../../../core/helpers/cache_help.dart';
 import '../../../auth/data/model/user_model.dart';
 
 class ReviewDetailsScreen extends StatelessWidget {
-  const ReviewDetailsScreen({super.key});
+  final ReviewAssignmentModel review;
+  const ReviewDetailsScreen({super.key , required this.review});
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +45,9 @@ class ReviewDetailsScreen extends StatelessWidget {
             ),
 
             ReviewContainer(
-              studentName: 'Ali',
-              assignmentTitle: 'Data Structure',
-              submissionDate: '12 oct',
+              studentName: review.studentName,
+              assignmentTitle: review.assignmentTitle,
+              submissionStatus: review.submissionState,
               actionWidget: Container(
                 decoration: BoxDecoration(
                   color: context.colors.grey.shade500,
@@ -80,7 +83,7 @@ class ReviewDetailsScreen extends StatelessWidget {
                           SizedBox(width: 6.w),
                           Expanded(
                             child: Text(
-                              'github.com/janedoe/ieee-grap',
+                              review.submissionUrl,
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: context.colors.grey.shade800,
@@ -89,7 +92,12 @@ class ReviewDetailsScreen extends StatelessWidget {
                             ),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () { if (review.submissionUrl.isNotEmpty) {
+                                launchUrl(
+                                  Uri.parse(review.submissionUrl),
+                                  mode: LaunchMode.externalApplication,
+                                );
+                              }},
                             icon: Icon(
                               Icons.open_in_new,
                               color: context.colors.grey.shade700,

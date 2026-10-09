@@ -8,7 +8,7 @@ import 'package:ieee/core/widgets/custome_elevateBotton.dart';
 class ReviewContainer extends StatelessWidget {
   final String studentName;
   final String assignmentTitle;
-  final String? submissionDate;
+  final String submissionStatus;
   final VoidCallback? onReviewPressed;
   final Widget? actionWidget;
   const ReviewContainer({
@@ -16,7 +16,7 @@ class ReviewContainer extends StatelessWidget {
     required this.studentName,
     required this.assignmentTitle,
     this.onReviewPressed,
-    this.submissionDate,
+    required this.submissionStatus,
     this.actionWidget,
   });
 
@@ -47,7 +47,11 @@ class ReviewContainer extends StatelessWidget {
           SizedBox(height: 6.h),
           Text(
             studentName,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,color:context.colors.blue.shade500 ),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: context.colors.blue.shade500,
+            ),
           ),
           SizedBox(height: 12.h),
           Text(
@@ -56,40 +60,49 @@ class ReviewContainer extends StatelessWidget {
           ),
           SizedBox(height: 4.h),
           Text(
-           assignmentTitle,
-            style:  TextStyle(fontWeight: FontWeight.w600, fontSize: 18,color:context.colors.blue.shade500),
+            assignmentTitle,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 18,
+              color: context.colors.blue.shade500,
+            ),
           ),
-          if (submissionDate != null) ...[
-            SizedBox(height: 12.h),
-            Text(
-              'Submission Date',
-              style: TextStyle(fontSize: 16.sp, color:context.colors.sky.shade600),
+          SizedBox(height: 12.h),
+          Text(
+            'Submission Status',
+            style: TextStyle(
+              fontSize: 16.sp,
+              color: context.colors.sky.shade600,
             ),
-            SizedBox(height: 4.h),
-            Row(
-              children: [
-                Icon(
-                  Icons.calendar_today_outlined,
-                  size: 16.sp,
-                  color: context.colors.grey.shade600,
+          ),
+          SizedBox(height: 4.h),
+          Row(
+            children: [
+              Icon(
+                Icons.info_outline,
+                size: 16.sp,
+                color: context.colors.grey.shade600,
+              ),
+              SizedBox(width: 6.w),
+              Text(
+                submissionStatus,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16.sp,
+                  color: context.colors.blue.shade500,
                 ),
-                SizedBox(width: 6.w),
-                Text(
-                  submissionDate!,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16.sp,
-                   color:context.colors.blue.shade500,
-                  ),
-                ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
           SizedBox(height: 16.h),
-          actionWidget??
-          CustomElevatedButton(text: AppString.review, onTap:onReviewPressed??(){},height: 40, ),
+          actionWidget ??
+              CustomElevatedButton(
+                text: AppString.review,
+                onTap: onReviewPressed ?? () {},
+                height: 40,
+              ),
         ],
       ).setHorizontalAndVerticalPadding(context, 0.05.h, 0.02.w),
-    ).setVerticalPadding(context,0.01.h);
+    ).setVerticalPadding(context, 0.01.h);
   }
 }

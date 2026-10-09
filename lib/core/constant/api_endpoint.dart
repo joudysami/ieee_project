@@ -25,7 +25,7 @@ class ApiEndpoint {
   static const String studentAddSubmission  = '/api/Submission/StudentAddSubmission';
   static const String updateStudentSubmission  = '/api/Submission/UpdateStudentSubmission';
   static const String adminSubmissionViewByAssignmentId  = '/api/Submission/AdminSubmissionView/{assignmentId}';
-  static const String adminSubmissionViewByTrackId  = '/api/Submission/AdminSubmissionViewById/{TrackId}';
+  static const String adminSubmissionViewByTrackId  = '/api/Submission/AdminSubmissionViewById';
   static const String adminAddScore  = '/api/Submission/AdminAddScore';
   static const String studentAllSubmissionByUserId  = '/api/Submission/StudentAllSubmission/{userId}';
   static const String allTracks  = '/Get all tracks';

@@ -73,10 +73,13 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
   @override
   Future<List<dynamic>> getReviewsByTrackId(String trackId) async {
     try {
+       log('REVIEWS URL: ${ApiEndpoint.adminSubmissionViewByTrackId}');
+    log('REVIEWS trackId: $trackId');
       final response = await ApiClient.get(
         path: ApiEndpoint.adminSubmissionViewByTrackId,
         queryParameters: {'trackId': trackId},
       );
+       log('RAW REVIEWS: ${response.data}');
       return response.data as List<dynamic>;
     } on DioException catch (e) {
       log('=== BACKEND ERROR MESSAGE ===');

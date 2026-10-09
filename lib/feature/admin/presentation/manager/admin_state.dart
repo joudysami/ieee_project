@@ -25,3 +25,8 @@ class AdminError extends AdminState {
   final String message;
   AdminError(this.message);
 }
+
+class AdminReviewAssignmentsLoaded extends AdminState {
+  final List<ReviewAssignmentModel> reviews;
+  AdminReviewAssignmentsLoaded(this.reviews);
+}

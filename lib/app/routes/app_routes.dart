@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ieee/app/routes/app_routes_name.dart';
 import 'package:ieee/feature/admin/data/datasources/admin_remote_data_source.dart';
+import 'package:ieee/feature/admin/data/models/review_ass_model.dart';
 import 'package:ieee/feature/admin/data/repositories/admin_repository_impl.dart';
 import 'package:ieee/feature/admin/presentation/manager/admin_cubit.dart';
 import 'package:ieee/feature/admin/presentation/screens/add_assignment_screen.dart';
@@ -125,9 +126,12 @@ class AppRoutes {
       GoRoute(
         path: '/reviewAssignment',
         name: AppRoutesName.reviewAss,
-        builder: (context, state) => BlocProvider.value(
-          value: _authCubit,
-          child: const ReviewAssignmentScreen(),
+        builder: (context, state) => MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: _authCubit),
+            BlocProvider.value(value: _adminCubit),
+          ],
+          child:  ReviewAssignmentScreen(),
         ),
       ),
       GoRoute(
@@ -166,10 +170,16 @@ class AppRoutes {
       GoRoute(
         path: '/reviewDetails',
         name: AppRoutesName.reviewDetails,
-        builder: (context, state) => BlocProvider.value(
-          value: _authCubit,
-          child: const ReviewDetailsScreen(),
-        ),
+        builder: (context, state){
+    final review = state.extra as ReviewAssignmentModel;
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: _authCubit),
+        BlocProvider.value(value: _adminCubit),
+      ],
+      child: ReviewDetailsScreen(review: review),
+    );
+  },
       ),
     ],
   );

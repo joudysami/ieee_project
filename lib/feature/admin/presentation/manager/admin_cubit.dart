@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:ieee/feature/admin/data/models/admin_dashboard.dart';
+import 'package:ieee/feature/admin/data/models/review_ass_model.dart';
 import 'package:ieee/feature/admin/domain/repositories/admin_repository.dart';
 
 import '../../../../core/models/session_model.dart';
@@ -83,4 +84,16 @@ class AdminCubit extends Cubit<AdminState> {
       emit(AdminError(e.toString()));
     }
   }
+
+  Future<void> loadReviewAssignments(String trackId) async {
+  if (_hasNoTrack(trackId)) return;
+
+  emit(AdminLoading());
+  try {
+    final reviews = await repository.getReviewAssignments(trackId);
+    emit(AdminReviewAssignmentsLoaded(reviews));
+  } catch (e) {
+    emit(AdminError(e.toString()));
+  }
+}
 }

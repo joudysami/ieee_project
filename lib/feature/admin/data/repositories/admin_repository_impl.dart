@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:ieee/core/models/session_model.dart';
 import 'package:ieee/feature/admin/data/models/admin_dashboard.dart';
+import 'package:ieee/feature/admin/data/models/review_ass_model.dart';
 import '../../domain/repositories/admin_repository.dart';
 import '../datasources/admin_remote_data_source.dart';
 import '../models/add_assignment_model.dart';
@@ -70,6 +71,21 @@ class AdminRepositoryImpl implements AdminRepository {
         duration,
         resourse
       );
+    } catch (e) {
+      log('=== REPOSITORY ERROR ===');
+      log(e.toString());
+      log('========================');
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<ReviewAssignmentModel>> getReviewAssignments(String trackId) async {
+    try {
+      final rawData = await remoteDataSource.getReviewsByTrackId(trackId);
+       return rawData
+          .map((e) => ReviewAssignmentModel.fromMap(e as Map<String, dynamic>))
+          .toList();
     } catch (e) {
       log('=== REPOSITORY ERROR ===');
       log(e.toString());

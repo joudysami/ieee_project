@@ -1,3 +1,5 @@
+import 'package:ieee/feature/admin/data/models/review_ass_model.dart';
+
 import '../../../../core/models/session_model.dart';
 import '../../data/models/add_assignment_model.dart';
 import '../../data/models/admin_dashboard.dart';
@@ -16,5 +18,5 @@ abstract class AdminRepository {
    String duration,
    String resourse
  );
-
+ Future<List<ReviewAssignmentModel>> getReviewAssignments(String trackId);
 }
