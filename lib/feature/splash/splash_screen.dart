@@ -74,6 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
           phone: userData.phone,
           institute: userData.institute,
           idToken: freshToken,
+          idTrack: userData.idTrack,
         );
         await CacheHelp.saveUserSession(
           user: updatedUser,

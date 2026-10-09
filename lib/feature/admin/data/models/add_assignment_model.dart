@@ -14,7 +14,7 @@ class AddAssignment {
   Map<String, dynamic> toJson() => {
     'sessionId': sessionId,
     'title': title,
-    'deadline': deadline.toIso8601String(),
+    'deadline': deadline.toUtc().toIso8601String(),
     'assignmentUrl': assignmentUrl,
   };
 }

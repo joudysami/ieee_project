@@ -7,6 +7,7 @@ import '../../../../core/network/api_client.dart';
 abstract class AdminRemoteDataSource {
   Future<Map<String, dynamic>> getDashboard(String trackId);
   Future<List<dynamic>> getSessionByTrackId(String trackId);
+  Future<void> addAssignment(Map<String, dynamic> body);
   Future<List<dynamic>> getReviewsByTrackId(String trackId);
   Future<void> addSession(
     String trackId,
@@ -51,6 +52,21 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
       log(e.response?.data.toString() ?? 'Unknown error');
       log('=============================');
       throw Exception('Failed to load dashboard: ${e.message}');
+    }
+  }
+
+  @override
+  Future<void> addAssignment(Map<String, dynamic> body) async {
+    try {
+      await ApiClient.post(
+        path: ApiEndpoint.addAssignment,
+        data: body,
+      );
+    } on DioException catch (e) {
+      log('=== BACKEND ERROR MESSAGE ===');
+      log(e.response?.data.toString() ?? 'Unknown error');
+      log('=============================');
+      throw Exception('Failed to add assignment: ${e.message}');
     }
   }
 

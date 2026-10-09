@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -64,14 +65,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: BlocListener<AuthCubit, AppStates>(
                     listener: (context, state) async {
                       if (state == AppStates.success) {
-                       final currentUser = context.read<AuthCubit>().currentUser ?? CacheHelp.getUser();
+                        final currentUser =
+                            context.read<AuthCubit>().currentUser ??
+                            CacheHelp.getUser();
                         final role = currentUser?.role;
-                          await CacheHelp.saveUserSession(
-                            user: currentUser!,
-                            isRemembered: isRememberMe,
-                          
-                          );
-                       
+                        await CacheHelp.saveUserSession(
+                          user: currentUser!,
+                          isRemembered: isRememberMe,
+                        );
+
                         if (!context.mounted) return;
 
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -214,7 +216,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           icon: Icon(Icons.login, color: context.colors.white),
                           loadingState: AppStates.googleLoading,
                           onTap: () {
-                            _authCubit.signInWithGoogle(isRemembered: isRememberMe);
+                            _authCubit.signInWithGoogle(
+                              isRemembered: isRememberMe,
+                            );
                           },
                         ),
 

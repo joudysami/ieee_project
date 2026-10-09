@@ -39,6 +39,8 @@ class AuthRepoImp implements AuthRepo {
       data['uid'] = _firebaseAuth.currentUser!.uid;
       data['idToken'] = idToken;
 
+
+
       return UserModel.fromMap(data);
     } catch (e) {
       //throw Exception(e.toString());

@@ -160,7 +160,7 @@ class AppRoutes {
         name: AppRoutesName.addAssignment,
         builder: (context, state) => BlocProvider.value(
           value: _authCubit,
-          child: const AddAssignmentScreen(),
+          child:  AddAssignmentScreen(sessionId: state.extra as int),
         ),
       ),
       GoRoute(

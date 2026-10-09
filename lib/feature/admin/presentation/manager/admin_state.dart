@@ -16,6 +16,8 @@ class AdminSessionsLoaded extends AdminState {
   AdminSessionsLoaded(this.sessions);
 }
 
+class AdminAssignmentAdded extends AdminState {}
+
 class AdminSessionAdded extends AdminState {
 }
 
