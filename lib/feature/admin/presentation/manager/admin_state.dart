@@ -30,3 +30,6 @@ class AdminReviewAssignmentsLoaded extends AdminState {
   final List<ReviewAssignmentModel> reviews;
   AdminReviewAssignmentsLoaded(this.reviews);
 }
+
+class AdminScoreAdded extends AdminState {
+}

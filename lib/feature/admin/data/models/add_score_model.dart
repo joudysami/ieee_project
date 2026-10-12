@@ -3,11 +3,13 @@ class AddScore {
   final String nameOfReviwer;
   final num score;
   final String feedback;
+  final DateTime submissionDate;
 
   AddScore({
     required this.submissionId,
     required this.score,
     required this.feedback,
+    required this.submissionDate,
     required this.nameOfReviwer,
   });
 
@@ -15,5 +17,7 @@ class AddScore {
     'submissionId': submissionId,
     'score': score,
     'feedback': feedback,
+    'createdAt': submissionDate,
+    'senderId': nameOfReviwer,
   };
 }

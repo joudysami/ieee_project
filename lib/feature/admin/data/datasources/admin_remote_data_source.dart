@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import '../../../../core/constant/api_endpoint.dart';
 import '../../../../core/network/api_client.dart';
@@ -10,15 +9,9 @@ abstract class AdminRemoteDataSource {
   Future<void> addAssignment(Map<String, dynamic> body);
   Future<List<dynamic>> getReviewsByTrackId(String trackId);
   Future<void> addSession(
-    String trackId,
-    String sessionLeaderId,
-    String sessionName,
-    String sessionDescription,
-    String sessionDate,
-    String sessionTime,
-    String duration,
-    String resourse,
+    Map<String, dynamic> body
   );
+  Future<void> addFeedback(Map<String, dynamic> body);
 }
 /*-------------------------------------------------------------------------------------------*/
 
@@ -58,10 +51,7 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
   @override
   Future<void> addAssignment(Map<String, dynamic> body) async {
     try {
-      await ApiClient.post(
-        path: ApiEndpoint.addAssignment,
-        data: body,
-      );
+      await ApiClient.post(path: ApiEndpoint.addAssignment, data: body);
     } on DioException catch (e) {
       log('=== BACKEND ERROR MESSAGE ===');
       log(e.response?.data.toString() ?? 'Unknown error');
@@ -73,13 +63,13 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
   @override
   Future<List<dynamic>> getReviewsByTrackId(String trackId) async {
     try {
-       log('REVIEWS URL: ${ApiEndpoint.adminSubmissionViewByTrackId}');
-    log('REVIEWS trackId: $trackId');
+      log('REVIEWS URL: ${ApiEndpoint.adminSubmissionViewByTrackId}');
+      log('REVIEWS trackId: $trackId');
       final response = await ApiClient.get(
         path: ApiEndpoint.adminSubmissionViewByTrackId,
         queryParameters: {'trackId': trackId},
       );
-       log('RAW REVIEWS: ${response.data}');
+      log('RAW REVIEWS: ${response.data}');
       return response.data as List<dynamic>;
     } on DioException catch (e) {
       log('=== BACKEND ERROR MESSAGE ===');
@@ -90,35 +80,26 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
   }
 
   @override
-  Future<void> addSession(
-    String trackId,
-    String sessionLeaderId,
-    String sessionName,
-    String sessionDescription,
-    String sessionDate,
-    String sessionTime,
-    String duration,
-    String resourse,
-  ) async {
+  Future<void> addSession(Map<String, dynamic> body) async {
     try {
-       await ApiClient.post(
-        path: ApiEndpoint.createSession,
-        data: {
-          'trackId': int.parse(trackId),
-          'sessionLeaderID': sessionLeaderId,
-          'title': sessionName,
-          'description': sessionDescription,
-          'date': sessionDate,
-          'time': sessionTime,
-          'duration': int.parse(duration),
-          'resources': resourse,
-        },
-      );
+      await ApiClient.post(path: ApiEndpoint.createSession, data: body);
     } on DioException catch (e) {
       log('=== BACKEND ERROR MESSAGE ===');
       log(e.response?.data.toString() ?? 'Unknown error');
       log('=============================');
       throw Exception('Failed to add session: ${e.message}');
+    }
+  }
+
+  @override
+  Future<void> addFeedback(Map<String, dynamic> body) async {
+    try {
+      await ApiClient.post(path: ApiEndpoint.addFeedback, data: body);
+    } on DioException catch (e) {
+      log('=== BACKEND ERROR MESSAGE ===');
+      log(e.response?.data.toString() ?? 'Unknown error');
+      log('=============================');
+      throw Exception('Failed to add feedback: ${e.message}');
     }
   }
 }

@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
             final UserModel? userData = CacheHelp.getUser();
 
             if (state is AdminLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator(color: Colors.blue));
             } else if (state is AdminError) {
               return Center(
                 child: Text(

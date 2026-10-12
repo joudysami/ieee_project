@@ -4,7 +4,7 @@ class CreateSession {
   final String title;
   final String description;
   final DateTime date;
-  final String time;
+ // final String time;
   final int duration;
   final String resources;
 
@@ -14,7 +14,7 @@ class CreateSession {
     required this.title,
     required this.description,
     required this.date,
-    required this.time,
+    //required this.time,
     required this.duration,
     required this.resources,
   });
@@ -26,7 +26,7 @@ class CreateSession {
       title: map['title'] ?? '',
       description: map['description'] ?? '',
       date: DateTime.parse(map['date']),
-      time: map['time'] ?? '',
+    //  time: map['time'] ?? '',
       duration: map['duration'] ?? 0,
       resources: map['resources'] ?? '',
     );
@@ -38,7 +38,7 @@ class CreateSession {
     'title': title,
     'description': description,
     'date': date.toIso8601String(),
-    'time': time,
+    // 'time': time,
     'duration': duration,
     'resources': resources,
   };

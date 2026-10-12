@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'package:ieee/core/models/session_model.dart';
+import 'package:ieee/feature/admin/data/models/add_score_model.dart';
 import 'package:ieee/feature/admin/data/models/admin_dashboard.dart';
+import 'package:ieee/feature/admin/data/models/create_session_model.dart';
 import 'package:ieee/feature/admin/data/models/review_ass_model.dart';
 import '../../domain/repositories/admin_repository.dart';
 import '../datasources/admin_remote_data_source.dart';
@@ -51,25 +53,11 @@ class AdminRepositoryImpl implements AdminRepository {
 
   @override
   Future<void> addSession(
-    String trackId,
-    String sessionLeaderId,
-    String sessionName,
-    String sessionDescription,
-    String sessionDate,
-    String sessionTime,
-    String duration,
-    String resourse
+    CreateSession session
   ) async {
     try {
        await remoteDataSource.addSession(
-        trackId,
-        sessionLeaderId,
-        sessionName,
-        sessionDescription,
-        sessionDate,
-        sessionTime,
-        duration,
-        resourse
+        session.toJson()
       );
     } catch (e) {
       log('=== REPOSITORY ERROR ===');
@@ -86,6 +74,18 @@ class AdminRepositoryImpl implements AdminRepository {
        return rawData
           .map((e) => ReviewAssignmentModel.fromMap(e as Map<String, dynamic>))
           .toList();
+    } catch (e) {
+      log('=== REPOSITORY ERROR ===');
+      log(e.toString());
+      log('========================');
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<void> addFeedback(AddScore score) async {
+    try {
+      await remoteDataSource.addFeedback(score.toJson());
     } catch (e) {
       log('=== REPOSITORY ERROR ===');
       log(e.toString());

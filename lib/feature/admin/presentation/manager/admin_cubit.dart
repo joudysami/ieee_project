@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:ieee/feature/admin/data/models/add_score_model.dart';
 import 'package:ieee/feature/admin/data/models/admin_dashboard.dart';
+import 'package:ieee/feature/admin/data/models/create_session_model.dart';
 import 'package:ieee/feature/admin/data/models/review_ass_model.dart';
 import 'package:ieee/feature/admin/domain/repositories/admin_repository.dart';
 
@@ -58,42 +60,38 @@ class AdminCubit extends Cubit<AdminState> {
   }
 
   Future<void> addSession(
-    String trackId,
-    String sessionLeaderId,
-    String sessionName,
-    String sessionDescription,
-    String sessionDate,
-    String sessionTime,
-    String duration,
-    String resourse
+    CreateSession session
   ) async {
     emit(AdminLoading());
     try {
-       await repository.addSession(
-        trackId,
-        sessionLeaderId,
-        sessionName,
-        sessionDescription,
-        sessionDate,
-        sessionTime,
-        duration,
-        resourse
-      );
-      emit(AdminSessionAdded()); // Assuming the first session is the one that was added
+      await repository.addSession(session);
+      emit(
+        AdminSessionAdded(),
+      ); // Assuming the first session is the one that was added
     } catch (e) {
       emit(AdminError(e.toString()));
     }
   }
 
   Future<void> loadReviewAssignments(String trackId) async {
-  if (_hasNoTrack(trackId)) return;
+    if (_hasNoTrack(trackId)) return;
 
-  emit(AdminLoading());
-  try {
-    final reviews = await repository.getReviewAssignments(trackId);
-    emit(AdminReviewAssignmentsLoaded(reviews));
-  } catch (e) {
-    emit(AdminError(e.toString()));
+    emit(AdminLoading());
+    try {
+      final reviews = await repository.getReviewAssignments(trackId);
+      emit(AdminReviewAssignmentsLoaded(reviews));
+    } catch (e) {
+      emit(AdminError(e.toString()));
+    }
   }
-}
+
+  Future<void> addFeedback(AddScore score) async {
+    emit(AdminLoading());
+    try {
+      await repository.addFeedback(score);
+      emit(AdminScoreAdded());
+    } catch (e) {
+      emit(AdminError(e.toString()));
+    }
+  }
 }

@@ -68,6 +68,53 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
     _deadline = null;
   }
 
+  Widget _blueTheme(BuildContext context, Widget? child) {
+    const blue = Colors.blue; // أو context.colors.sky.shade700
+
+    return Theme(
+      data: Theme.of(context).copyWith(
+        colorScheme: Theme.of(context).colorScheme.copyWith(
+          primary: blue,
+          onPrimary: Colors.white,
+          surface: Colors.white, // خلفية الـ dialog
+          onSurface: Colors.black,
+          surfaceTint: Colors.transparent, // يشيل الطبقة الموف
+          surfaceContainerHigh: Colors.white, // خلفية الـ time picker
+          surfaceContainerHighest: const Color(
+            0xFFE3F2FD,
+          ), // خلفية خانات الساعة والدقيقة
+          secondary: blue,
+          onSecondary: Colors.white,
+          tertiary: blue,
+        ),
+        dialogTheme: const DialogThemeData(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.transparent,
+        ),
+        datePickerTheme: const DatePickerThemeData(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.transparent,
+          headerBackgroundColor: Colors.blue,
+          headerForegroundColor: Colors.white,
+        ),
+        timePickerTheme: const TimePickerThemeData(
+          backgroundColor: Colors.white,
+          dialBackgroundColor: Color(0xFFE3F2FD),
+          hourMinuteColor: Color(0xFFE3F2FD),
+          hourMinuteTextColor: Colors.blue,
+          dayPeriodColor: Color(0xFFE3F2FD),
+          dayPeriodTextColor: Colors.blue,
+          dialHandColor: Colors.blue,
+          entryModeIconColor: Colors.blue,
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(foregroundColor: blue),
+        ),
+      ),
+      child: child!,
+    );
+  }
+
   Future<void> _pickDeadline() async {
     final now = DateTime.now();
     final date = await showDatePicker(
@@ -75,6 +122,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
       initialDate: _deadline ?? now,
       firstDate: now,
       lastDate: DateTime(now.year + 5),
+      builder: _blueTheme,
     );
     if (date == null || !mounted) return;
 
@@ -191,10 +239,8 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                     hintText: AppString.mdy,
                     suffixIcon: Icon(Icons.date_range_outlined),
                     controller: _dateController,
-                    validator: (value) => Validations.validateRequired(
-                      value,
-                      AppString.date ,
-                    ),
+                    validator: (value) =>
+                        Validations.validateRequired(value, AppString.date),
                   ),
                   SizedBox(height: 12.h),
                   GestureDetector(

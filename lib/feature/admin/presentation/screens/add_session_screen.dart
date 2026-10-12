@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ieee/core/constant/app_string.dart';
 import 'package:ieee/core/extensions/validations.dart';
 import 'package:ieee/core/helpers/cache_help.dart';
+import 'package:ieee/feature/admin/data/models/create_session_model.dart';
 import 'package:ieee/feature/admin/presentation/manager/admin_cubit.dart';
 import 'package:ieee/feature/auth/data/model/user_model.dart';
 import '../../../../app/theme/app_colors.dart';
@@ -24,127 +25,133 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
 
   late final TextEditingController _titleController;
   late final TextEditingController _descriptionController;
-  late final TextEditingController _dateController;
+  // late final TextEditingController _dateController;
   late final TextEditingController _durationController;
   late final TextEditingController _urlController;
-  late final TextEditingController _timeController;
+  // late final TextEditingController _timeController;
 
-  DateTime? _selectedDate;
+//  DateTime? _selectedDate;
   @override
   void initState() {
     super.initState();
     _titleController = TextEditingController();
     _descriptionController = TextEditingController();
-    _dateController = TextEditingController();
+    //  _dateController = TextEditingController();
     _durationController = TextEditingController();
     _urlController = TextEditingController();
-    _timeController = TextEditingController();
+    // _timeController = TextEditingController();
   }
 
   @override
   void dispose() {
     _titleController.dispose();
     _descriptionController.dispose();
-    _dateController.dispose();
+    //  _dateController.dispose();
     _durationController.dispose();
     _urlController.dispose();
-    _timeController.dispose();
+    // _timeController.dispose();
     super.dispose();
   }
 
   void _clearFields() {
     _titleController.clear();
     _descriptionController.clear();
-    _dateController.clear();
+    // _dateController.clear();
     _durationController.clear();
     _urlController.clear();
-    _timeController.clear();
-  }
-Widget _blueTheme(BuildContext context, Widget? child) {
-  const blue = Colors.blue; // أو context.colors.sky.shade700
-
-  return Theme(
-    data: Theme.of(context).copyWith(
-      colorScheme: Theme.of(context).colorScheme.copyWith(
-            primary: blue,
-            onPrimary: Colors.white,
-            surface: Colors.white,              // خلفية الـ dialog
-            onSurface: Colors.black,
-            surfaceTint: Colors.transparent,    // يشيل الطبقة الموف
-            surfaceContainerHigh: Colors.white, // خلفية الـ time picker
-            surfaceContainerHighest: const Color(0xFFE3F2FD), // خلفية خانات الساعة والدقيقة
-            secondary: blue,
-            onSecondary: Colors.white,
-            tertiary: blue,
-          ),
-      dialogTheme: const DialogThemeData(
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.transparent,
-      ),
-      datePickerTheme: const DatePickerThemeData(
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.transparent,
-        headerBackgroundColor: Colors.blue,
-        headerForegroundColor: Colors.white,
-      ),
-      timePickerTheme: const TimePickerThemeData(
-        backgroundColor: Colors.white,
-        dialBackgroundColor: Color(0xFFE3F2FD),
-        hourMinuteColor: Color(0xFFE3F2FD),
-        hourMinuteTextColor: Colors.blue,
-        dayPeriodColor: Color(0xFFE3F2FD),
-        dayPeriodTextColor: Colors.blue,
-        dialHandColor: Colors.blue,
-        entryModeIconColor: Colors.blue,
-      ),
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(foregroundColor: blue),
-      ),
-    ),
-    child: child!,
-  );
-}
-  Future<void> _pickDate() async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2100),
-      builder:_blueTheme,
-    );
-    if (picked != null) {
-      _selectedDate = DateTime.utc(picked.year, picked.month, picked.day);
-      _dateController.text = '${picked.month}/${picked.day}/${picked.year}';
-    }
+    // _timeController.clear();
   }
 
-  Future<void> _pickTime() async {
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-      builder: _blueTheme,
-    );
-    if (picked != null) {
-      final h = picked.hour.toString().padLeft(2, '0');
-      final m = picked.minute.toString().padLeft(2, '0');
-      _timeController.text = '$h:$m';
-    }
-  }
+  // Widget _blueTheme(BuildContext context, Widget? child) {
+  //   const blue = Colors.blue; // أو context.colors.sky.shade700
+
+  //   return Theme(
+  //     data: Theme.of(context).copyWith(
+  //       colorScheme: Theme.of(context).colorScheme.copyWith(
+  //         primary: blue,
+  //         onPrimary: Colors.white,
+  //         surface: Colors.white, // خلفية الـ dialog
+  //         onSurface: Colors.black,
+  //         surfaceTint: Colors.transparent, // يشيل الطبقة الموف
+  //         surfaceContainerHigh: Colors.white, // خلفية الـ time picker
+  //         surfaceContainerHighest: const Color(
+  //           0xFFE3F2FD,
+  //         ), // خلفية خانات الساعة والدقيقة
+  //         secondary: blue,
+  //         onSecondary: Colors.white,
+  //         tertiary: blue,
+  //       ),
+  //       dialogTheme: const DialogThemeData(
+  //         backgroundColor: Colors.white,
+  //         surfaceTintColor: Colors.transparent,
+  //       ),
+  //       datePickerTheme: const DatePickerThemeData(
+  //         backgroundColor: Colors.white,
+  //         surfaceTintColor: Colors.transparent,
+  //         headerBackgroundColor: Colors.blue,
+  //         headerForegroundColor: Colors.white,
+  //       ),
+  //       timePickerTheme: const TimePickerThemeData(
+  //         backgroundColor: Colors.white,
+  //         dialBackgroundColor: Color(0xFFE3F2FD),
+  //         hourMinuteColor: Color(0xFFE3F2FD),
+  //         hourMinuteTextColor: Colors.blue,
+  //         dayPeriodColor: Color(0xFFE3F2FD),
+  //         dayPeriodTextColor: Colors.blue,
+  //         dialHandColor: Colors.blue,
+  //         entryModeIconColor: Colors.blue,
+  //       ),
+  //       textButtonTheme: TextButtonThemeData(
+  //         style: TextButton.styleFrom(foregroundColor: blue),
+  //       ),
+  //     ),
+  //     child: child!,
+  //   );
+  // }
+
+  // Future<void> _pickDate() async {
+  //   final picked = await showDatePicker(
+  //     context: context,
+  //     initialDate: DateTime.now(),
+  //     firstDate: DateTime.now(),
+  //     lastDate: DateTime(2100),
+  //     builder: _blueTheme,
+  //   );
+  //   if (picked != null) {
+  //     //  _selectedDate = DateTime.utc(picked.year, picked.month, picked.day);
+  //     //  _dateController.text = '${picked.month}/${picked.day}/${picked.year}';
+  //   }
+  // }
+
+  // Future<void> _pickTime() async {
+  //   final picked = await showTimePicker(
+  //     context: context,
+  //     initialTime: TimeOfDay.now(),
+  //     builder: _blueTheme,
+  //   );
+  //   if (picked != null) {
+  //     final h = picked.hour.toString().padLeft(2, '0');
+  //     final m = picked.minute.toString().padLeft(2, '0');
+  //     // _timeController.text = '$h:$m';
+  //   }
+  // }
 
   void _saveSession() {
     if (!_formKey.currentState!.validate()) return;
 
     final UserModel? userData = CacheHelp.getUser();
-
+    final sessionDate = DateTime.now();
     context.read<AdminCubit>().addSession(
-      userData?.idTrack ?? '1',
-      userData?.uId ?? '',
-      _titleController.text.trim(),
-      _descriptionController.text.trim(),
-      _selectedDate!.toIso8601String(),
-      _timeController.text,
-      _durationController.text.trim(),
-      _urlController.text.trim(),
+      CreateSession(
+        trackId: int.parse(userData?.idTrack ?? ''),
+        sessionLeaderId: userData?.uId ?? '',
+        title: _titleController.text.trim(),
+        description: _descriptionController.text.trim(),
+        date: sessionDate,
+        // sessionTime: '', // You can set the time here if needed
+        duration: int.parse(_durationController.text.trim()),
+        resources: _urlController.text.trim(),
+      ),
     );
   }
 
@@ -226,48 +233,48 @@ Widget _blueTheme(BuildContext context, Widget? child) {
                     ),
                   ),
                   SizedBox(height: 12.h),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: _pickDate,
-                          child: AbsorbPointer(
-                            child: CustomeTextformfield(
-                              text: AppString.date,
-                              hintText: AppString.mdy,
-                              controller: _dateController,
-                              suffixIcon: Icon(Icons.date_range_outlined),
-                              validator: (value) =>
-                                  Validations.validateRequired(
-                                    value,
-                                    AppString.date,
-                                  ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: _pickTime,
-                          child: AbsorbPointer(
-                            child: CustomeTextformfield(
-                              text: AppString.time,
-                              hintText: AppString.hm,
-                              controller: _timeController,
-                              suffixIcon: Icon(Icons.date_range_outlined),
-                              validator: (value) =>
-                                  Validations.validateRequired(
-                                    value,
-                                    AppString.time,
-                                  ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 12.h),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: GestureDetector(
+                  //         onTap: _pickDate,
+                  //         child: AbsorbPointer(
+                  //           child: CustomeTextformfield(
+                  //             text: AppString.date,
+                  //             hintText: AppString.mdy,
+                  //             controller: _dateController,
+                  //             suffixIcon: Icon(Icons.date_range_outlined),
+                  //             validator: (value) =>
+                  //                 Validations.validateRequired(
+                  //                   value,
+                  //                   AppString.date,
+                  //                 ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     SizedBox(width: 12.w),
+                  //     Expanded(
+                  //       child: GestureDetector(
+                  //         onTap: _pickTime,
+                  //         child: AbsorbPointer(
+                  //           child: CustomeTextformfield(
+                  //             text: AppString.time,
+                  //             hintText: AppString.hm,
+                  //             controller: _timeController,
+                  //             suffixIcon: Icon(Icons.date_range_outlined),
+                  //             validator: (value) =>
+                  //                 Validations.validateRequired(
+                  //                   value,
+                  //                   AppString.time,
+                  //                 ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(height: 12.h),
                   CustomeTextformfield(
                     text: AppString.duration,
                     hintText: AppString.eg90,
