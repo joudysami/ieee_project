@@ -82,11 +82,24 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
   @override
   Future<void> addSession(Map<String, dynamic> body) async {
     try {
-      await ApiClient.post(path: ApiEndpoint.createSession, data: body);
+        log('========== CREATE SESSION REQUEST ==========');
+    log('URL: ${ApiEndpoint.createSession}');
+    log('REQUEST BODY: $body');
+    final response = await ApiClient.post(path: ApiEndpoint.createSession, data: body);
+    log('STATUS CODE: ${response.statusCode}');
+    log('RESPONSE DATA: ${response.data}');
+    log('============================================');
+   
     } on DioException catch (e) {
       log('=== BACKEND ERROR MESSAGE ===');
       log(e.response?.data.toString() ?? 'Unknown error');
       log('=============================');
+       log('========== CREATE SESSION ERROR ==========');
+    log('STATUS CODE: ${e.response?.statusCode}');
+    log('REQUEST BODY: ${e.requestOptions.data}');
+    log('ERROR RESPONSE: ${e.response?.data}');
+    log('DIO MESSAGE: ${e.message}');
+    log('==========================================');
       throw Exception('Failed to add session: ${e.message}');
     }
   }

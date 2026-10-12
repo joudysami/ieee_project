@@ -4,9 +4,9 @@ class CreateSession {
   final String title;
   final String description;
   final DateTime date;
- // final String time;
-  final int duration;
-  final String resources;
+  final String time;
+  final int? duration;
+  final String? resources;
 
   CreateSession({
     required this.trackId,
@@ -14,9 +14,9 @@ class CreateSession {
     required this.title,
     required this.description,
     required this.date,
-    //required this.time,
-    required this.duration,
-    required this.resources,
+    required this.time,
+    this.duration,
+    this.resources,
   });
 
   factory CreateSession.fromMap(Map<String, dynamic> map) {
@@ -26,9 +26,11 @@ class CreateSession {
       title: map['title'] ?? '',
       description: map['description'] ?? '',
       date: DateTime.parse(map['date']),
-    //  time: map['time'] ?? '',
-      duration: map['duration'] ?? 0,
-      resources: map['resources'] ?? '',
+      time: map['time'] ?? '',
+      duration: map['duration'] == null
+          ? null
+          : (map['duration'] as num).toInt(),
+      resources: map['resources'] as String?,
     );
   }
 
@@ -38,8 +40,8 @@ class CreateSession {
     'title': title,
     'description': description,
     'date': date.toIso8601String(),
-    // 'time': time,
-    'duration': duration,
-    'resources': resources,
+    'time': time,
+    if (duration != null) 'duration': duration,
+    if (resources != null && resources!.isNotEmpty) 'resources': resources,
   };
 }

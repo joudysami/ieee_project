@@ -10,7 +10,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await CacheHelp.init();
-  ApiClient.init();
+  ApiClient.init(); 
 
   runApp(
     ScreenUtilInit(
