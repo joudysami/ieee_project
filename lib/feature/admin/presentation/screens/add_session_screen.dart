@@ -216,10 +216,7 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
                     text: AppString.sessionTitle,
                     hintText: AppString.introToReact,
                     controller: _titleController,
-                    validator: (value) => Validations.validateRequired(
-                      value,
-                      AppString.sessionTitle,
-                    ),
+                   
                   ),
                   SizedBox(height: 12.h),
                   CustomeTextformfield(
@@ -228,10 +225,7 @@ class _AddSessionScreenState extends State<AddSessionScreen> {
                     minLines: 4,
                     maxLines: 4,
                     controller: _descriptionController,
-                    validator: (value) => Validations.validateRequired(
-                      value,
-                      AppString.description,
-                    ),
+                   
                   ),
                   SizedBox(height: 12.h),
                   Row(
