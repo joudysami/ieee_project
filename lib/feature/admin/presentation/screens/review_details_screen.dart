@@ -30,6 +30,21 @@ class _ReviewDetailsScreenState extends State<ReviewDetailsScreen> {
   late final TextEditingController _scoreController;
   late final TextEditingController _feedbackController;
 
+@override
+  void initState() {
+    super.initState();
+    // Initialize the controllers here
+    _scoreController = TextEditingController();
+    _feedbackController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // Always dispose controllers to prevent memory leaks
+    _scoreController.dispose();
+    _feedbackController.dispose();
+    super.dispose();
+  }
   void _saveScore() {
     if (!_formKey.currentState!.validate()) return;
     final UserModel? userData = CacheHelp.getUser();
