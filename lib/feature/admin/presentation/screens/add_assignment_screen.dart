@@ -239,8 +239,10 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                     hintText: AppString.mdy,
                     suffixIcon: Icon(Icons.date_range_outlined),
                     controller: _dateController,
-                    validator: (value) =>
-                        Validations.validateRequired(value, AppString.date),
+                    validator: (value) => Validations.validateRequired(
+                      value,
+                      AppString.date,
+                    ),
                   ),
                   SizedBox(height: 12.h),
                   GestureDetector(

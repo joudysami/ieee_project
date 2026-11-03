@@ -16,10 +16,14 @@ class AdminSessionsLoaded extends AdminState {
   AdminSessionsLoaded(this.sessions);
 }
 
+class AdminAssignmentsLoaded extends AdminState {
+  final List<AssignmentModel> assignments;
+  AdminAssignmentsLoaded(this.assignments);
+}
+
 class AdminAssignmentAdded extends AdminState {}
 
-class AdminSessionAdded extends AdminState {
-}
+class AdminSessionAdded extends AdminState {}
 
 class AdminError extends AdminState {
   final String message;
@@ -31,5 +35,9 @@ class AdminReviewAssignmentsLoaded extends AdminState {
   AdminReviewAssignmentsLoaded(this.reviews);
 }
 
-class AdminScoreAdded extends AdminState {
+class AdminScoreAdded extends AdminState {}
+
+class AdminStudentsLoaded extends AdminState {
+  final List<TrackStudent> students;
+  AdminStudentsLoaded(this.students);
 }

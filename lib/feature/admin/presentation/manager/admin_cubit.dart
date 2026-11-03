@@ -1,12 +1,14 @@
+import 'dart:developer';
 import 'package:bloc/bloc.dart';
-import 'package:ieee/feature/admin/data/models/add_score_model.dart';
 import 'package:ieee/feature/admin/data/models/admin_dashboard.dart';
-import 'package:ieee/feature/admin/data/models/create_session_model.dart';
-import 'package:ieee/feature/admin/data/models/review_ass_model.dart';
+import 'package:ieee/feature/admin/data/models/track_student.dart';
 import 'package:ieee/feature/admin/domain/repositories/admin_repository.dart';
-
+import '../../../../core/models/assignment_model.dart';
 import '../../../../core/models/session_model.dart';
 import '../../data/models/add_assignment_model.dart';
+import '../../data/models/add_score_model.dart';
+import '../../data/models/create_session_model.dart';
+import '../../data/models/review_ass_model.dart';
 part 'admin_state.dart';
 
 class AdminCubit extends Cubit<AdminState> {
@@ -59,15 +61,26 @@ class AdminCubit extends Cubit<AdminState> {
     }
   }
 
-  Future<void> addSession(
-    CreateSession session
-  ) async {
+  Future<void> addSession(CreateSession session) async {
     emit(AdminLoading());
     try {
       await repository.addSession(session);
       emit(
         AdminSessionAdded(),
       ); // Assuming the first session is the one that was added
+    } catch (e) {
+      emit(AdminError(e.toString()));
+    }
+  }
+
+  Future<void> loadAssignmentsByTrackId(String trackId) async {
+    if (_hasNoTrack(trackId)) return;
+
+    emit(AdminLoading());
+    try {
+      final assignments = await repository.getAssignmentsByTrackId(trackId);
+      log('Assignments COUNT: ${assignments.length} for track $trackId');
+      emit(AdminAssignmentsLoaded(assignments));
     } catch (e) {
       emit(AdminError(e.toString()));
     }
@@ -90,6 +103,19 @@ class AdminCubit extends Cubit<AdminState> {
     try {
       await repository.addFeedback(score);
       emit(AdminScoreAdded());
+    } catch (e) {
+      emit(AdminError(e.toString()));
+    }
+  }
+
+  Future<void> loadStudentsByTrackId(String trackId) async {
+    if (_hasNoTrack(trackId)) return;
+
+    emit(AdminLoading());
+    try {
+      final students = await repository.getAllStudentsByTrackId(trackId);
+      log('Students COUNT: ${students.length} for track $trackId');
+      emit(AdminStudentsLoaded(students));
     } catch (e) {
       emit(AdminError(e.toString()));
     }

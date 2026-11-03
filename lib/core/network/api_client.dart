@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:ieee/core/constant/api_endpoint.dart';
+import '../../feature/auth/repo/auth_repo_imp.dart';
 import '../storage/secure_storage.dart';
 
 class ApiClient {
@@ -31,9 +32,22 @@ class ApiClient {
           }
           return handler.next(options);
         },
-        onError: (DioException error, handler) {
-          if (error.response?.statusCode == 401) {
-            log("401 UNAUTHORIZED - Token is invalid or expired");
+        onError: (error, handler) async {
+          final req = error.requestOptions;
+          final isAuthCall = req.path.contains(ApiEndpoint.registerWithToken);
+
+          if (error.response?.statusCode == 401 &&
+              !isAuthCall &&
+              req.extra['retried'] != true) {
+            try {
+              await AuthRepoImp().ensureBackendToken(force: true);
+              final t = await SecureStorage.getBackendToken();
+              if (t != null) {
+                req.headers['Authorization'] = 'Bearer $t';
+                req.extra['retried'] = true;
+                return handler.resolve(await _dio.fetch(req));
+              }
+            } catch (_) {}
           }
           return handler.next(error);
         },

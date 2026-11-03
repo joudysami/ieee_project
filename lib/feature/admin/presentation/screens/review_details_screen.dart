@@ -13,7 +13,6 @@ import '../../../../app/theme/app_colors.dart';
 import 'package:ieee/core/widgets/custome_elevateBotton.dart';
 import 'package:ieee/core/widgets/custome_textFormField.dart';
 import 'package:ieee/core/widgets/review_container.dart';
-
 import '../../../../core/helpers/cache_help.dart';
 import '../../../auth/data/model/user_model.dart';
 
@@ -29,6 +28,19 @@ class _ReviewDetailsScreenState extends State<ReviewDetailsScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final TextEditingController _scoreController;
   late final TextEditingController _feedbackController;
+  @override
+  void initState() {
+    super.initState();
+    _scoreController = TextEditingController();
+    _feedbackController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _scoreController.dispose();
+    _feedbackController.dispose();
+    super.dispose();
+  }
 
   void _saveScore() {
     if (!_formKey.currentState!.validate()) return;
@@ -76,7 +88,6 @@ class _ReviewDetailsScreenState extends State<ReviewDetailsScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             ReviewContainer(
               studentName: widget.review.studentName,
               assignmentTitle: widget.review.assignmentTitle,

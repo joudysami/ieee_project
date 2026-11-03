@@ -36,7 +36,7 @@ class SubSamCard extends StatelessWidget {
                     statistics[i].title,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                      fontSize: 12,
+                      fontSize: 16,
                       color: Color(0xFF454951),
                     ),
                   ),

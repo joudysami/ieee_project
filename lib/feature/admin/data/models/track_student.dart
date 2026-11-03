@@ -32,4 +32,13 @@ class TrackStudent {
     'nofSessions': nofSessions,
     'nofAssignments': nofAssignments,
   };
+
+  factory TrackStudent.fromMap(Map<String, dynamic> map) => TrackStudent(
+    userName: map['userName'] ?? '',
+    userScore: map['userScore'] ?? 0,
+    attendHasDone: map['attendHasDone'] ?? 0,
+    assignmentHaseDone: map['assignmentHaseDone'] ?? 0,
+    nofSessions: map['nofSessions'] ?? 0,
+    nofAssignments: map['nofAssignments'] ?? 0,
+  );
 }

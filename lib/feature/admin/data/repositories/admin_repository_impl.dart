@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:ieee/core/models/assignment_model.dart';
 import 'package:ieee/core/models/session_model.dart';
 import 'package:ieee/feature/admin/data/models/add_score_model.dart';
 import 'package:ieee/feature/admin/data/models/admin_dashboard.dart';
@@ -7,6 +8,7 @@ import 'package:ieee/feature/admin/data/models/review_ass_model.dart';
 import '../../domain/repositories/admin_repository.dart';
 import '../datasources/admin_remote_data_source.dart';
 import '../models/add_assignment_model.dart';
+import '../models/track_student.dart';
 
 class AdminRepositoryImpl implements AdminRepository {
   final AdminRemoteDataSource remoteDataSource;
@@ -52,13 +54,9 @@ class AdminRepositoryImpl implements AdminRepository {
   }
 
   @override
-  Future<void> addSession(
-    CreateSession session
-  ) async {
+  Future<void> addSession(CreateSession session) async {
     try {
-       await remoteDataSource.addSession(
-        session.toJson()
-      );
+      await remoteDataSource.addSession(session.toJson());
     } catch (e) {
       log('=== REPOSITORY ERROR ===');
       log(e.toString());
@@ -68,10 +66,10 @@ class AdminRepositoryImpl implements AdminRepository {
   }
 
   @override
-  Future<List<ReviewAssignmentModel>> getReviewAssignments(String trackId) async {
+  Future<List<ReviewAssignmentModel>> getReviewAssignments(String trackId,) async {
     try {
       final rawData = await remoteDataSource.getReviewsByTrackId(trackId);
-       return rawData
+      return rawData
           .map((e) => ReviewAssignmentModel.fromMap(e as Map<String, dynamic>))
           .toList();
     } catch (e) {
@@ -86,6 +84,36 @@ class AdminRepositoryImpl implements AdminRepository {
   Future<void> addFeedback(AddScore score) async {
     try {
       await remoteDataSource.addFeedback(score.toJson());
+    } catch (e) {
+      log('=== REPOSITORY ERROR ===');
+      log(e.toString());
+      log('========================');
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<AssignmentModel>> getAssignmentsByTrackId(String trackId) async {
+    try {
+      final rawData = await remoteDataSource.getAssignmentsByTrackId(trackId);
+      return rawData
+          .map((e) => AssignmentModel.fromMap(e as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      log('=== REPOSITORY ERROR ===');
+      log(e.toString());
+      log('========================');
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<TrackStudent>> getAllStudentsByTrackId(String trackId) async {
+    try {
+      final rawData = await remoteDataSource.getAllStudentsByTrackId(trackId);
+      return rawData
+          .map((e) => TrackStudent.fromMap(e as Map<String, dynamic>))
+          .toList();
     } catch (e) {
       log('=== REPOSITORY ERROR ===');
       log(e.toString());

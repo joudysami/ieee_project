@@ -27,6 +27,7 @@ class AuthRepoImp implements AuthRepo {
       );
 
       final idToken = await _firebaseAuth.currentUser!.getIdToken();
+      await _exchangeBackendToken(idToken!);
       log("================ FIREBASE ID TOKEN ================");
       log(idToken ?? "NO TOKEN FOUND");
       log("==================================================");
@@ -38,8 +39,6 @@ class AuthRepoImp implements AuthRepo {
       final data = userDoc.data() ?? {};
       data['uid'] = _firebaseAuth.currentUser!.uid;
       data['idToken'] = idToken;
-
-
 
       return UserModel.fromMap(data);
     } catch (e) {
@@ -94,6 +93,7 @@ class AuthRepoImp implements AuthRepo {
 
       final backendToken = response.data['token'] as String;
       await SecureStorage.saveBackendToken(backendToken);
+      log("this is the $backendToken");
       return UserModel.fromMap(userData);
     } catch (e) {
       rethrow;
@@ -132,7 +132,6 @@ class AuthRepoImp implements AuthRepo {
   Future<void> confirmPasswordReset({
     required String code,
     required String newPassword,
-
   }) async {
     try {
       final cleanPassword = newPassword.trim();
@@ -192,6 +191,7 @@ class AuthRepoImp implements AuthRepo {
 
           final backendToken = response.data['token'] as String;
           await SecureStorage.saveBackendToken(backendToken);
+          log("this is the $backendToken");
 
           return UserModel.fromMap(data);
         } else {
@@ -229,18 +229,11 @@ class AuthRepoImp implements AuthRepo {
         'enrollment': enrollment,
         'idToken': idToken,
         'idTrack': ?idTrack,
-
       };
 
       await _fireStore.collection('users').doc(user.uid).set(userData);
 
-      final response = await ApiClient.post(
-        path: ApiEndpoint.registerWithToken,
-        queryParameters: {'IdToken': idToken},
-      );
-
-      log('status : ${response.statusCode}');
-      log('data : ${response.data}');
+      await _exchangeBackendToken(idToken!);
 
       return UserModel.fromMap(userData);
     } on DioException catch (e) {
@@ -265,5 +258,26 @@ class AuthRepoImp implements AuthRepo {
     } catch (e) {
       rethrow;
     }
+  }
+
+  Future<String> _exchangeBackendToken(String idToken) async {
+    final response = await ApiClient.post(
+      path: ApiEndpoint.registerWithToken,
+      queryParameters: {'IdToken': idToken},
+    );
+    final token = response.data['token'] as String;
+    await SecureStorage.saveBackendToken(token);
+    return token;
+  }
+
+  @override
+  Future<void> ensureBackendToken({bool force = false}) async {
+    if (!force) {
+      final existing = await SecureStorage.getBackendToken();
+      if (existing != null && existing.isNotEmpty) return;
+    }
+    final idToken = await getValidIdToken();
+    if (idToken == null) return;
+    await _exchangeBackendToken(idToken);
   }
 }

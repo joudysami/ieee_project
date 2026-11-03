@@ -113,7 +113,7 @@ class AuthCubit extends Cubit<AppStates> {
     required String enrollment,
     required String phone,
     required String institute,
-    String? idTrack,
+     String? idTrack,
   }) async {
     emit(AppStates.loading);
     try {
@@ -121,7 +121,7 @@ class AuthCubit extends Cubit<AppStates> {
         enrollment: enrollment,
         phone: phone,
         institute: institute,
-        idTrack: idTrack,
+        idTrack: idTrack!,
       );
 
       currentUser = user;

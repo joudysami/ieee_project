@@ -21,7 +21,8 @@ abstract class AuthRepo {
     required String enrollment,
     required String phone,
     required String institute,
-    String? idTrack,
+     String idTrack,
   });
   Future<String?> getValidIdToken();
+  Future<void> ensureBackendToken({bool force = false});
 }

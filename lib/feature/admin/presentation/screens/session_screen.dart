@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:ieee/core/constant/app_string.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../app/theme/app_colors.dart';
-import 'package:ieee/core/widgets/custome_elevateBotton.dart';
 import 'package:ieee/core/widgets/main_sam_card.dart';
 import '../../../../core/helpers/cache_help.dart';
 import '../../../../core/models/session_model.dart';
@@ -28,7 +26,6 @@ class SessionScreen extends StatelessWidget {
           final repository = AdminRepositoryImpl(
             remoteDataSource: remoteDataSource,
           );
-
           return AdminCubit(repository: repository)
             ..loadSessionsByTrackId(CacheHelp.trackId ?? '');
         },
@@ -86,7 +83,7 @@ class SessionScreen extends StatelessWidget {
                           final session = sessions[index];
 
                           return MainSamCard(
-                            head: '${session.title} }',
+                            head: '${session.title} ',
                             menuItems: [
                               CardMenuItem(
                                 label: 'Edit',
@@ -162,11 +159,6 @@ class SessionScreen extends StatelessWidget {
               ),
 
               SizedBox(height: 15.h),
-              CustomElevatedButton(
-                text: AppString.addNewSession,
-                onTap: () => context.push('/addSession'),
-                borderRadius: 20,
-              ),
             ],
           ),
         ),

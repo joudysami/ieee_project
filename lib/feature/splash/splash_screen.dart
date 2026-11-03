@@ -9,8 +9,7 @@ import 'package:ieee/core/constant/app_string.dart';
 import 'package:ieee/core/helpers/cache_help.dart';
 import '../../../../app/theme/app_colors.dart';
 import 'package:ieee/feature/auth/data/model/user_model.dart';
-
-import '../../core/storage/secure_storage.dart';
+import '../auth/repo/auth_repo_imp.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -59,12 +58,13 @@ class _SplashScreenState extends State<SplashScreen> {
       try {
         final freshToken = await firebaseUser.getIdToken(true);
 
-        final backendToken = await SecureStorage.getBackendToken();
-        log("=============================");
-        log("Fresh Token = $freshToken");
-        log("=============================");
-        log("Backend Token = $backendToken");
-        log("=============================");
+        try {
+          await AuthRepoImp().ensureBackendToken(force: true);
+        } catch (e) {
+          log(
+            "Backend token refresh failed: $e",
+          );
+        }
 
         final updatedUser = UserModel(
           uId: userData.uId,

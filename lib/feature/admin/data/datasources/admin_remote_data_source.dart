@@ -8,10 +8,10 @@ abstract class AdminRemoteDataSource {
   Future<List<dynamic>> getSessionByTrackId(String trackId);
   Future<void> addAssignment(Map<String, dynamic> body);
   Future<List<dynamic>> getReviewsByTrackId(String trackId);
-  Future<void> addSession(
-    Map<String, dynamic> body
-  );
+  Future<void> addSession(Map<String, dynamic> body);
+  Future<List<dynamic>> getAssignmentsByTrackId(String trackId);
   Future<void> addFeedback(Map<String, dynamic> body);
+  Future<List<dynamic>> getAllStudentsByTrackId(String trackId);
 }
 /*-------------------------------------------------------------------------------------------*/
 
@@ -21,7 +21,7 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
     try {
       final response = await ApiClient.get(
         path: ApiEndpoint.getAdminDashBoard,
-        queryParameters: {'trackId': trackId},
+        queryParameters: {'trackId': "1"},
       );
       return response.data;
     } on DioException catch (e) {
@@ -37,7 +37,7 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
     try {
       final response = await ApiClient.get(
         path: ApiEndpoint.sessionsByTrackID,
-        queryParameters: {'trackId': trackId},
+        queryParameters: {'trackId': "1"},
       );
       return response.data as List<dynamic>;
     } on DioException catch (e) {
@@ -82,25 +82,43 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
   @override
   Future<void> addSession(Map<String, dynamic> body) async {
     try {
-        log('========== CREATE SESSION REQUEST ==========');
-    log('URL: ${ApiEndpoint.createSession}');
-    log('REQUEST BODY: $body');
-    final response = await ApiClient.post(path: ApiEndpoint.createSession, data: body);
-    log('STATUS CODE: ${response.statusCode}');
-    log('RESPONSE DATA: ${response.data}');
-    log('============================================');
-   
+      log('========== CREATE SESSION REQUEST ==========');
+      log('URL: ${ApiEndpoint.createSession}');
+      log('REQUEST BODY: $body');
+      final response = await ApiClient.post(
+        path: ApiEndpoint.createSession,
+        data: body,
+      );
+      log('STATUS CODE: ${response.statusCode}');
+      log('RESPONSE DATA: ${response.data}');
+      log('============================================');
     } on DioException catch (e) {
       log('=== BACKEND ERROR MESSAGE ===');
       log(e.response?.data.toString() ?? 'Unknown error');
       log('=============================');
-       log('========== CREATE SESSION ERROR ==========');
-    log('STATUS CODE: ${e.response?.statusCode}');
-    log('REQUEST BODY: ${e.requestOptions.data}');
-    log('ERROR RESPONSE: ${e.response?.data}');
-    log('DIO MESSAGE: ${e.message}');
-    log('==========================================');
+      log('========== CREATE SESSION ERROR ==========');
+      log('STATUS CODE: ${e.response?.statusCode}');
+      log('REQUEST BODY: ${e.requestOptions.data}');
+      log('ERROR RESPONSE: ${e.response?.data}');
+      log('DIO MESSAGE: ${e.message}');
+      log('==========================================');
       throw Exception('Failed to add session: ${e.message}');
+    }
+  }
+
+  @override
+  Future<List<dynamic>> getAssignmentsByTrackId(String trackId) async {
+    try {
+      final response = await ApiClient.get(
+        path: ApiEndpoint.getAllAssignmentsByTrackId,
+        queryParameters: {'trackId': trackId},
+      );
+      return response.data as List<dynamic>;
+    } on DioException catch (e) {
+      log('=== BACKEND ERROR MESSAGE ===');
+      log(e.response?.data.toString() ?? 'Unknown error');
+      log('=============================');
+      throw Exception('Failed to load reviews: ${e.message}');
     }
   }
 
@@ -113,6 +131,22 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
       log(e.response?.data.toString() ?? 'Unknown error');
       log('=============================');
       throw Exception('Failed to add feedback: ${e.message}');
+    }
+  }
+
+  @override
+  Future<List<dynamic>> getAllStudentsByTrackId(String trackId) async {
+    try {
+      final response = await ApiClient.get(
+        path: ApiEndpoint.getAllByTrackID,
+        queryParameters: {'trackId': trackId},
+      );
+      return response.data as List<dynamic>;
+    } on DioException catch (e) {
+      log('=== BACKEND ERROR MESSAGE ===');
+      log(e.response?.data.toString() ?? 'Unknown error');
+      log('=============================');
+      throw Exception('Failed to load dashboard: ${e.message}');
     }
   }
 }
