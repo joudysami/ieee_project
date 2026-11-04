@@ -9,7 +9,6 @@ import 'package:ieee/feature/student/data/models/student_home_data.dart';
 import 'package:ieee/feature/student/data/repositories/student_repository_impl.dart';
 import 'package:ieee/feature/student/presentation/manager/student_cubit.dart';
 import 'package:ieee/feature/student/presentation/widgets/circular_stat.dart';
-import 'package:ieee/feature/student/presentation/widgets/contact_card.dart';
 import 'package:ieee/feature/student/presentation/widgets/recent_update_tile.dart';
 import 'package:ieee/feature/student/presentation/widgets/upcoming_session_card.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -86,7 +85,6 @@ class _StudentHomeBody extends StatelessWidget {
                       state.home.track?.meeting;
                   _openLink(link);
                 },
-                onContact: () => _openLink(state.home.track?.meeting),
               );
             }
 
@@ -101,12 +99,10 @@ class _StudentHomeBody extends StatelessWidget {
 class _HomeContent extends StatelessWidget {
   final StudentHomeData home;
   final VoidCallback onJoin;
-  final VoidCallback onContact;
 
   const _HomeContent({
     required this.home,
     required this.onJoin,
-    required this.onContact,
   });
 
   List<Widget> _recentUpdateTiles(BuildContext context) {
@@ -214,9 +210,7 @@ class _HomeContent extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20.h),
-            ContactCard(onTap: onContact),
-            SizedBox(height: 22.h),
+            SizedBox(height: 24.h),
             Text(
               'Recent Updates',
               style: TextStyle(
