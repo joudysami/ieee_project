@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ieee/app/theme/app_colors.dart';
+import 'package:ieee/core/constant/score_color.dart';
 import 'package:ieee/core/helpers/cache_help.dart';
 import 'package:ieee/core/models/assignment_model.dart';
 import 'package:ieee/core/widgets/statistic_style.dart';
@@ -168,8 +169,8 @@ class _AssignmentsScreenStuState extends State<AssignmentsScreenStu> {
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w600,
                                 color: isSelected
-                                  ? Colors.white
-                                  : context.colors.sky.shade700,
+                                    ? Colors.white
+                                    : context.colors.sky.shade700,
                               ),
                             ),
                           ),
@@ -277,9 +278,11 @@ class _AssignmentCard extends StatelessWidget {
     Color badgeColor;
 
     if (isReviewed) {
+      final scoreVal = submission!.score!;
+      final scoreColor = getScoreColor(scoreVal);
       badgeText = 'Reviewed';
-      badgeBg = context.colors.green.withValues(alpha: 0.12);
-      badgeColor = context.colors.green;
+      badgeBg = scoreColor.withValues(alpha: 0.12);
+      badgeColor = scoreColor;
     } else if (isSubmitted) {
       badgeText = 'Submitted';
       badgeBg = const Color(0xFFFEF3C7);
@@ -388,7 +391,7 @@ class _AssignmentCard extends StatelessWidget {
                 Icon(
                   Icons.check_circle_outline,
                   size: 14.sp,
-                  color: context.colors.green,
+                  color: getScoreColor(submission!.score!),
                 ),
                 SizedBox(width: 4.w),
                 Text(
@@ -396,7 +399,7 @@ class _AssignmentCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w700,
-                    color: context.colors.blue.shade500,
+                    color: getScoreColor(submission!.score!),
                   ),
                 ),
               ],

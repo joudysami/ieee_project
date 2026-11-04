@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ieee/core/constant/app_icons.dart';
+import 'package:ieee/core/constant/score_color.dart';
 import 'package:ieee/core/helpers/cache_help.dart';
 import 'package:ieee/core/widgets/custome_notification.dart';
 import 'package:ieee/feature/student/data/datasources/student_remote_data_source.dart';
@@ -128,11 +129,17 @@ class _HomeContent extends StatelessWidget {
 
     return graded
         .map(
-          (s) => RecentUpdateTile(
-            title: 'Assignment Graded',
-            subtitle: 'Score ${s.score!.toStringAsFixed(0)}/100 · #${s.assignmentId}',
-            icon: Icons.assignment_turned_in_outlined,
-          ),
+          (s) {
+            final scoreColor = getScoreColor(s.score!);
+            return RecentUpdateTile(
+              title: 'Assignment Graded',
+              subtitle:
+                  'Score ${s.score!.toStringAsFixed(0)}/100 · #${s.assignmentId}',
+              icon: Icons.assignment_turned_in_outlined,
+              iconColor: scoreColor,
+              iconBgColor: scoreColor.withValues(alpha: 0.12),
+            );
+          },
         )
         .toList();
   }

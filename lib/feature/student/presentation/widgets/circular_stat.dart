@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../app/theme/app_colors.dart';
+import 'package:ieee/app/theme/app_colors.dart';
+import 'package:ieee/core/constant/score_color.dart';
 
 class CircularStat extends StatelessWidget {
   final String label;
   final int? percent;
   final String? placeholder;
+  final Color? progressColor;
 
   const CircularStat({
     super.key,
     required this.label,
     this.percent,
     this.placeholder,
+    this.progressColor,
   });
 
   @override
   Widget build(BuildContext context) {
     final hasValue = percent != null;
     final value = (percent ?? 0).clamp(0, 100) / 100.0;
+    final effectiveColor = progressColor ??
+        (hasValue
+            ? getScoreColor(percent!.toDouble())
+            : context.colors.sky.shade500);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -31,15 +38,17 @@ class CircularStat extends StatelessWidget {
               CircularProgressIndicator(
                 value: hasValue ? value : 0,
                 strokeWidth: 7,
-                backgroundColor: context.colors.sky.shade100,
-                color: context.colors.sky.shade500,
+                backgroundColor: hasValue
+                    ? effectiveColor.withValues(alpha: 0.15)
+                    : context.colors.sky.shade100,
+                color: effectiveColor,
               ),
               Text(
                 hasValue ? '$percent%' : (placeholder ?? '--'),
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.bold,
-                  color: context.colors.blue.shade500,
+                  color: hasValue ? effectiveColor : context.colors.blue.shade500,
                 ),
               ),
             ],

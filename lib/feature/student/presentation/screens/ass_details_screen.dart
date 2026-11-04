@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ieee/app/theme/app_colors.dart';
+import 'package:ieee/core/constant/score_color.dart';
 import 'package:ieee/core/models/assignment_model.dart';
 import 'package:ieee/core/widgets/statistic_style.dart';
 import 'package:ieee/feature/student/data/models/student_submission_model.dart';
@@ -91,38 +92,46 @@ class AssDetailsScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 16.h),
                     // Score / Submission status banner if present
-                    if (isReviewed)
-                      Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(bottom: 16.h),
-                        padding: EdgeInsets.all(14.w),
-                        decoration: BoxDecoration(
-                          color: context.colors.green.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(12.r),
-                          border: Border.all(color: context.colors.green.withValues(alpha: 0.3)),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.check_circle,
-                              color: context.colors.green,
-                              size: 22.sp,
-                            ),
-                            SizedBox(width: 10.w),
-                            Expanded(
-                              child: Text(
-                                'Reviewed · Grade: ${submission!.score!.toStringAsFixed(0)}/100',
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w700,
-                                  color: context.colors.blue.shade500,
-                                ),
+                    if (isReviewed) ...[
+                      Builder(
+                        builder: (context) {
+                          final scoreVal = submission!.score!;
+                          final scoreColor = getScoreColor(scoreVal);
+                          return Container(
+                            width: double.infinity,
+                            margin: EdgeInsets.only(bottom: 16.h),
+                            padding: EdgeInsets.all(14.w),
+                            decoration: BoxDecoration(
+                              color: scoreColor.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(12.r),
+                              border: Border.all(
+                                color: scoreColor.withValues(alpha: 0.35),
                               ),
                             ),
-                          ],
-                        ),
-                      )
-                    else if (hasSubmission)
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.check_circle,
+                                  color: scoreColor,
+                                  size: 22.sp,
+                                ),
+                                SizedBox(width: 10.w),
+                                Expanded(
+                                  child: Text(
+                                    'Reviewed · Grade: ${scoreVal.toStringAsFixed(0)}/100',
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: scoreColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ] else if (hasSubmission)
                       Container(
                         width: double.infinity,
                         margin: EdgeInsets.only(bottom: 16.h),

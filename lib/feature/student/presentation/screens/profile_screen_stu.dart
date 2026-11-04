@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ieee/app/theme/app_colors.dart';
 import 'package:ieee/core/constant/admin_config.dart';
 import 'package:ieee/core/constant/app_icons.dart';
+import 'package:ieee/core/constant/score_color.dart';
 import 'package:ieee/core/helpers/cache_help.dart';
 import 'package:ieee/core/models/assignment_model.dart';
 import 'package:ieee/core/storage/secure_storage.dart';
@@ -32,7 +33,6 @@ class _ProfileScreenStuState extends State<ProfileScreenStu> {
   int _totalAssignments = 0;
   int _submittedCount = 0;
   double _averageScore = 0;
-  bool _isLoading = true;
 
   @override
   void initState() {
@@ -80,7 +80,6 @@ class _ProfileScreenStuState extends State<ProfileScreenStu> {
         _totalAssignments = assignments.isEmpty ? 10 : assignments.length;
         _submittedCount = submissions.length;
         _averageScore = gradedCount > 0 ? (totalScore / gradedCount) : 92.0;
-        _isLoading = false;
       });
     } catch (_) {
       if (!mounted) return;
@@ -88,7 +87,6 @@ class _ProfileScreenStuState extends State<ProfileScreenStu> {
         _totalAssignments = 10;
         _submittedCount = 7;
         _averageScore = 92.0;
-        _isLoading = false;
       });
     }
   }
@@ -232,69 +230,79 @@ class _ProfileScreenStuState extends State<ProfileScreenStu> {
               ),
               SizedBox(height: 22.h),
               // Total Score Card
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 16.w),
-                decoration: BoxDecoration(
-                  color: context.colors.white,
-                  borderRadius: BorderRadius.circular(16.r),
-                  border: Border.all(color: context.colors.sky.shade100),
-                  boxShadow: [
-                    BoxShadow(
-                      color: context.colors.shadow.withValues(alpha: 0.08),
-                      blurRadius: 10,
-                      offset: const Offset(0, 3),
+              Builder(
+                builder: (context) {
+                  final scoreColor = getScoreColor(_averageScore);
+                  return Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                      vertical: 18.h,
+                      horizontal: 16.w,
                     ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      width: 44.w,
-                      height: 44.w,
-                      decoration: BoxDecoration(
-                        color: context.colors.sky.shade50,
-                        shape: BoxShape.circle,
+                    decoration: BoxDecoration(
+                      color: context.colors.white,
+                      borderRadius: BorderRadius.circular(16.r),
+                      border: Border.all(
+                        color: scoreColor.withValues(alpha: 0.25),
                       ),
-                      child: Icon(
-                        Icons.shield_outlined,
-                        color: context.colors.sky.shade600,
-                        size: 22.sp,
-                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: context.colors.shadow.withValues(alpha: 0.08),
+                          blurRadius: 10,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 8.h),
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: _averageScore.toStringAsFixed(0),
-                            style: TextStyle(
-                              fontSize: 28.sp,
-                              fontWeight: FontWeight.bold,
-                              color: context.colors.blue.shade500,
-                            ),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 44.w,
+                          height: 44.w,
+                          decoration: BoxDecoration(
+                            color: scoreColor.withValues(alpha: 0.12),
+                            shape: BoxShape.circle,
                           ),
-                          TextSpan(
-                            text: ' / 100',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: context.colors.sky.shade600,
-                            ),
+                          child: Icon(
+                            Icons.shield_outlined,
+                            color: scoreColor,
+                            size: 22.sp,
                           ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(height: 8.h),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: _averageScore.toStringAsFixed(0),
+                                style: TextStyle(
+                                  fontSize: 28.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: scoreColor,
+                                ),
+                              ),
+                              TextSpan(
+                                text: ' / 100',
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: context.colors.sky.shade600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                        Text(
+                          'Total Score',
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: context.colors.sky.shade600,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      'Total Score',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: context.colors.sky.shade600,
-                      ),
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
               SizedBox(height: 16.h),
               // Attendance Record Card
